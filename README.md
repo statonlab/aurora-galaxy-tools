@@ -5,7 +5,7 @@ programming languages into a single tool and generate an R markdown document in 
 Technically, all Galaxy tools can be wrapped in the R Markdown framework to provide well-organized HTML outputs with better
 data visualization.
 
-## [Example Outputs from Galaxy R Markdown Tools](https://github.com/statonlab/galaxy-r-markdown-tools.git)
+## [Example Outputs from Galaxy R Markdown Tools](https://statonlab.github.io/galaxy-r-markdown-tools/)
 
 
 ## View Tool Outputs on Galaxy
@@ -56,7 +56,7 @@ defined in this file.
 ![fastqc_report_schema](docs/images/fastqc_report_schema.png)
 
 See an example tool from Galaxy tool shed: [rmarkdown_fastqc_report](https://toolshed.g2.bx.psu.edu/repository?repository_id=fd6e5068c69788da&changeset_revision=8c79e5b7cfc0)
-and an [example output](https://mingchen0919.github.io/galaxy-r-markdown-tools/index.html#rmarkdown_fastqc_report) from this tool. 
+and an [example output](https://statonlab.github.io/galaxy-r-markdown-tools//index.html#rmarkdown_fastqc_report) from this tool. 
 
 
 ### Output static website
@@ -66,7 +66,7 @@ create Galaxy R Markdown tools that output a static website. The figure below sh
 which output a static website.
 
 See an example tool from Galaxy tool shed: [rmarkdown_fastqc_report](https://toolshed.g2.bx.psu.edu/repository?repository_id=b88fddb3425cab4e&changeset_revision=a6f8382f852c)
-and an [example output](https://mingchen0919.github.io/galaxy-r-markdown-tools/index.html#rmarkdown_fastqc_site) from this tool. 
+and an [example output](https://statonlab.github.io/galaxy-r-markdown-tools//index.html#rmarkdown_fastqc_site) from this tool. 
 
 
 ![fastqc_site_schema](docs/images/fastqc_site_schema.png)
