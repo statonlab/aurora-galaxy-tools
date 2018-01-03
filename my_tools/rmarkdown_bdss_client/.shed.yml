@@ -1,0 +1,9 @@
+categories:
+  - Data Source
+  - Fastq Manipulation
+description: R Markdown based bdss_client wrapper
+long_description: Download and extract reads in fastq/fasta format from NCBI SRA with the Big Data Smmrt Socket (BDSS) client and output a list or list:paired dataset collection.
+name: rmarkdown_bdss_client
+owner: mingchen0919
+remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/my_tools/rmarkdown_bdss_client_main
+type: unrestricted

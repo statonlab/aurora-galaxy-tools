@@ -1,0 +1,65 @@
+---
+title: 'Build collection: a list of paired datasets'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+# Command line arguments
+
+```{r 'command line arguments'}
+str(opt)
+```
+
+# Rename files
+
+## Forward inputs
+
+```{r 'create inputs directory'}
+# create directory to store both forward and reverse inputs
+# this is the directory where datasets will be discovered.
+dir.create('./files_directory')
+```
+
+```{r 'rename forward files'}
+# create directory
+dir.create('./forward_files_directory')
+# get full paths of original files
+from_files = strsplit("FORWARD_FILE_LIST", ',')[[1]]
+# copy files to forward_files_directory.
+file.copy(from_files, './forward_files_directory')
+# get original file names
+original_files = list.files('./forward_files_directory')
+# create new files names from original file names
+new_files = paste0('input', 1:length(original_files), '_forward.FORMAT')
+# rename files
+file.copy(paste0('./forward_files_directory/', original_files),
+          paste0('./files_directory/', new_files))
+```
+
+## Reverse inputs
+
+```{r 'rename reverse files'}
+# create directory
+dir.create('./reverse_files_directory')
+# get full paths of original files
+from_files = strsplit("REVERSE_FILE_LIST", ',')[[1]]
+# copy files to reverse_files_directory.
+file.copy(from_files, './reverse_files_directory')
+# get original file names
+original_files = list.files('./reverse_files_directory')
+# create new files names from original file names
+new_files = paste0('input', 1:length(original_files), '_reverse.FORMAT')
+# rename files
+file.copy(paste0('./reverse_files_directory/', original_files),
+          paste0('./files_directory/', new_files))
+```

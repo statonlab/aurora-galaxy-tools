@@ -1,0 +1,40 @@
+---
+title: 'Build collection: a list of datasets'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+# Command line arguments
+
+```{r 'command line arguments'}
+str(opt)
+```
+
+# Rename files
+
+```{r 'rename files'}
+# create directory
+dir.create('./files_directory')
+# get full paths of original files
+from_files = strsplit("FILE_LIST", ',')[[1]]
+# copy files to the created directory.
+file.copy(from_files, './files_directory')
+# get original file names
+original_files = list.files('./files_directory')
+# create new files names from original file names
+new_files = gsub('\\.dat', '\\.FORMAT', original_files)
+# rename files
+file.copy(paste0('./files_directory/', original_files),
+          paste0('./files_directory/', new_files))
+```
+

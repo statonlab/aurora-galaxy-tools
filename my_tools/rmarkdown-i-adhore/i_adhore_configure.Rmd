@@ -1,0 +1,93 @@
+---
+title: 'i-ADHoRe: detect genomic homology'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = ECHO)
+```
+
+```{r echo=FALSE}
+# Genomes and analysis files
+g_analysis_files_set = strsplit(opt$g_analysis_file, ';')[[1]]
+g_analysis_files_list = list()
+for(i in g_analysis_files_set) {
+  genome = strsplit(i, ':')[[1]][1]
+  analysis_files = strsplit(i, ':')[[1]][2] %>% 
+                      strsplit(',') %>% `[[`(1) %>% 
+                      laply(.fun = function(x){
+                        file_name = strsplit(x, '/')[[1]] %>% tail(1)
+                        file_name = strsplit(file_name, '\\.')[[1]][1]
+                        paste0(file_name, ' ', x)
+                      })
+  g_analysis_files_list[[genome]] = c(
+    'name' = paste0('genome=', strsplit(i, ':')[[1]][1]),
+    'analysis_files' = analysis_files
+  )
+  #print(paste0('genome=', strsplit(i, ':')[[1]][1]))
+  #print(analysis_files)
+}
+```
+
+# Tool parameters
+
+```{r}
+output_dir = tail(strsplit(opt$i_adhore_configure_dir, '/')[[1]], 1)
+output_path = gsub('dataset_.*dat', output_dir, opt$blast_table)
+                  
+params = c(
+  'blast_table' = opt$blast_table,
+  'output_path' = output_path,
+  'gap_size' = opt$gap_size,
+  'cluster_gap' = opt$cluster_gap,
+  'q_value' = opt$q_value,
+  'prob_cutoff' = opt$prob_cutoff,
+  'anchor_points' = opt$anchor_points,
+  'alignment_method' = opt$alignment_method,
+  'level_2_only' = tolower(opt$level2only),
+  'table_type' = opt$table_type,
+  'multiple_hypothesis_correction' = opt$multi_hypothesis_correction
+)
+
+df = data.frame(name = names(params),
+                value = params)
+knitr::kable(df)
+```
+
+
+```{r echo=FALSE}
+# generate i_adhore_configure.txt file
+lines = c(unlist(g_analysis_files_list), 
+          ' ', 
+          paste0(df$name, '=', df$value), 
+          'compareAligners')
+fileConn = file('I_ADHORE_CONFIGURE_TXT')
+writeLines(lines, con = fileConn)
+```
+
+
+# I-ADHoRe analysis results
+
+```{bash}
+# run i-adhore analysis
+i-adhore I_ADHORE_CONFIGURE_TXT > /dev/null 2>&1
+```
+
+Links to outputs
+
+```{r}
+outputs_list = list()
+i_adhore_outputs = list.files(output_path)
+for (i in i_adhore_outputs) {
+  outputs_list[[i]] = tags$li(tags$a(href=i, i))
+}
+tags$ul(outputs_list)
+```
+
+
+

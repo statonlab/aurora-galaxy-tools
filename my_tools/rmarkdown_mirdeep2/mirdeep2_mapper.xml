@@ -1,0 +1,134 @@
+<tool id="mirdeep2_mapper_site" name="mirdeep2_mapper" version="1.0.0">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="2.0.0.8">mirdeep2</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="1.8.4">r-plyr</requirement>
+        <requirement type="package" version="0.5.0">r-dplyr</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+    </requirements>
+    <description>
+        Mapping reads to genome
+    </description>
+    <stdio>
+        <regex match="Execution halted"
+               source="both"
+               level="fatal"
+               description="Execution halted." />
+        <regex match="Error in"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+        <regex match="Fatal error"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+    </stdio>
+    <command>
+        <![CDATA[
+
+        Rscript '${__tool_directory__}/mirdeep2_mapper_render.R'
+
+            ## 1. input data
+            -r $reads
+            -g $reference_genome
+            -e $echo
+
+            ## 2. output report and report site directory
+		    -o $mirdeep2_mapper_site
+		    -d $mirdeep2_mapper_site.files_path
+		    -m $reads_collapsed
+		    -n $reads_collapsed_vs_genome
+		    -t $report_log
+
+		    ## other parameters
+		    -b $parse_to_fasta
+		    -c $clean_entries
+		    -f $clip_3_adapter
+		    -h $discard_shorter_reads
+		    -j $collapse_reads_or_not
+		    -k $map_with_one_mismatch
+		    -l $map_up_to_position
+
+
+		    ## 3. Rmd templates sitting in the tool directory
+
+                ## other Rmd body template files
+		        -p '${__tool_directory__}/mirdeep2_mapper.Rmd'
+
+
+
+        ]]>
+    </command>
+    <inputs>
+        <param name="reads" type="data" format="fastq,fasta" multiple="False" optional="False"
+               label="Read input file" help="Reads in fastq or fasta format"/>
+        <param name="reference_genome" type="data" format="fasta" multiple="false" optional="False" argument="-p"
+               label="Reference genome from history" />
+
+        <param name="parse_to_fasta" type="boolean" truevalue="TRUE" falsevalue="FALSE" checked="true" argument="-h"
+               optional="True" label="Parse to fasta format" />
+        <param name="clean_entries" type="boolean" truevalue="TRUE" falsevalue="FALSE" checked="true" argument="-j"
+               optional="True" label="Remove reads with non-canonical letters"
+               help="remove all entries that have a sequence that contains letters other than a,c,g,t,u,n,A,C,G,T,U,N" />
+        <param name="clip_3_adapter" type="text" argument="-k" value="" optional="true" label="Clip 3' adapter sequence (optional)"
+               help="Enter an adapter sequence"/>
+        <param name="discard_shorter_reads" type="integer" min="0" value="18" argument="-l"
+               label="Discard reads shorter than int nts" />
+        <param name="collapse_reads_or_not" type="boolean" truevalue="TRUE" falsevalue="FALSE" checked="true" argument="-m"
+               label="Collapse reads" />
+        <param name="map_with_one_mismatch" type="boolean" truevalue="TRUE" falsevalue="FALSE" argument="-q"
+               label="Map with one mismatch"
+               help="map with one mismatch in the seed (mapping takes longer)"/>
+        <param name="map_up_to_position" type="integer" min="1" value="5" label="Map up to int nts" argument="-r"
+               help="A read is allowed to map up to this number of positions in the genome. Default is 5"/>
+
+        <param name="echo" type="boolean" truevalue="TRUE" falsevalue="FALSE" checked="false" label="Display analysis code in report?" />
+    </inputs>
+    <outputs>
+        <data name="mirdeep2_mapper_site" format="html" label="mirdeep2_mapper site" />
+        <data name="reads_collapsed" format="fasta" label="reads_collapsed" />
+        <data name="reads_collapsed_vs_genome" format="tabular" label="reads_collapsed_vs_ref_genome" />
+        <data name="report_log" format="txt" label="report log"/>
+    </outputs>
+    <citations>
+        @article{friedlander2011mirdeep2,
+        title={miRDeep2 accurately identifies known and hundreds of novel microRNA genes in seven animal clades},
+        author={Friedl{\"a}nder, Marc R and Mackowiak, Sebastian D and Li, Na and Chen, Wei and Rajewsky, Nikolaus},
+        journal={Nucleic acids research},
+        volume={40},
+        number={1},
+        pages={37--52},
+        year={2011},
+        publisher={Oxford University Press}
+        }
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        </citation>
+    </citations>
+</tool>

@@ -1,0 +1,31 @@
+---
+title: 'Kmer Content'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+### Kmer Content {.tabset}
+
+#### Before
+
+```{r 'Kmer Content (before)', fig.width=10}
+kc_1 = extract_data_module('REPORT_DIR/reads_1_fastqc_data.txt', 'Kmer Content')
+knitr::kable(kc_1)
+```
+
+#### After
+```{r 'Kmer Content (after)', fig.width=10}
+kc_2 = extract_data_module('REPORT_DIR/reads_2_fastqc_data.txt', 'Kmer Content')
+knitr::kable(kc_2)
+```

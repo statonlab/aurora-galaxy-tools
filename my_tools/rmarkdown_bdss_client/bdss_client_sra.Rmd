@@ -1,0 +1,105 @@
+---
+title: 'Download and extract single end fastq/fasta data with BDSS client from SRA accessions'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error=TRUE
+)
+```
+
+# Command line arguments
+
+```{r 'command line arguments'}
+str(opt)
+```
+
+# BDSS configuration file
+
+First, we create a bdss configuration file `bdss.cfg` in the current directory.
+
+```{r}
+system('echo "[metadata_repository]" > bdss.cfg')
+system('echo url=http://bdss.bioinfo.wsu.edu/ >> bdss.cfg')
+```
+
+# Download and extract reads
+
+```{r 'download and extract reads'}
+# create two directories, one for single end and the other for paired end SRA reads.
+dir.create('se_read_files_directory')
+dir.create('pe_read_files_directory')
+# download and extract reads (single end)
+sra_ids_se = strsplit(gsub(',', ' ', 'SRA_IDS_SE'), ' ')[[1]]
+sra_ids_se = sra_ids_se[sra_ids_se != '']
+# loop through SRA accessions to download and extract reads.
+for(id in sra_ids_se) {
+    # build URL from SRA id
+    url = paste0('ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/',
+                 substr(id, 1, 3), '/',
+                 substr(id, 1, 6), '/', id, '/', id, '.sra')
+    # download sra file with bdss
+    bdss_command = paste0('/tool_deps/_conda/bin/bdss transfer -u ', url)
+    system(bdss_command, intern = TRUE)
+    # convert .sra to .fastq/.fasta
+    if('FORMAT' == 'fasta') {
+      command = paste0('fastq-dump --fasta -O se_read_files_directory ', id, '.sra')
+    } else {
+      command = paste0('fastq-dump -O se_read_files_directory ', id, '.sra')
+    }
+    cat('----convert SRA to fastq/fasta------\n')
+    print(system(command, intern = TRUE))
+}
+
+# download and extract reads (paired end)
+sra_ids_pe = strsplit(gsub(',', ' ', 'SRA_IDS_PE'), ' ')[[1]]
+sra_ids_pe = sra_ids_pe[sra_ids_pe != '']
+# loop through SRA accessions to download and extract reads.
+for(id in sra_ids_pe) {
+    # build URL from SRA id
+    url = paste0('ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/',
+                 substr(id, 1, 3), '/',
+                 substr(id, 1, 6), '/', id, '/', id, '.sra')
+    # download sra file with bdss
+    bdss_command = paste0('/tool_deps/_conda/bin/bdss transfer -u ', url)
+    system(bdss_command, intern = TRUE)
+    # convert .sra to .fastq/.fasta
+    if('FORMAT' == 'fasta') {
+      command = paste0('fastq-dump --fasta --split-files -O pe_read_files_directory ', id, '.sra')
+    } else {
+      command = paste0('fastq-dump --split-files -O pe_read_files_directory ', id, '.sra')
+    }
+    cat('----convert SRA to fastq/fasta------\n')
+    command_stdout = system(command, intern = TRUE)
+    print(command_stdout)
+    if(!(paste0(id, '_2.FORMAT') %in% list.files('pe_read_files_directory'))) {
+      # this is not a paired end SRA file. The corresponding file will be deleted.
+      cat(paste0(id, ' is not paired end SRA, the corresponding fastq/fasta file will deleted.'))
+      system(paste0('rm pe_read_files_directory/', id, '_1.*'), intern = TRUE)
+    }
+    
+}
+
+cat('-----single end files----\n')
+list.files('./se_read_files_directory')
+cat('-----paired end files----\n')
+list.files('./pe_read_files_directory')
+
+cat('-----Renaming files------\n')
+# rename files for paired end reads
+old_files = paste0('./pe_read_files_directory/', list.files('./pe_read_files_directory'))
+print(old_files)
+new_files = gsub('_1', '_forward', old_files)
+new_files = gsub('_2', '_reverse', new_files)
+print(new_files)
+file.rename(old_files, new_files)
+```
+
+

@@ -1,0 +1,109 @@
+---
+title: 'DESeq2: Results'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+
+```{r eval=TRUE}
+# Import workspace
+fcp = file.copy("DESEQ_WORKSPACE", "deseq.RData")
+load("deseq.RData")
+```
+
+# Results {.tabset}
+
+## Result table
+
+```{r}
+cat('--- View the top 100 rows of the result table ---')
+res <- results(dds, contrast = c('CONTRAST_FACTOR', 'TREATMENT_LEVEL', 'CONDITION_LEVEL'))
+write.csv(as.data.frame(res), file = 'deseq_results.csv')
+res_df = as.data.frame(res)[1:100, ]
+datatable(res_df, style="bootstrap", filter = 'top',
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+## Result summary
+
+```{r}
+summary(res)
+```
+
+
+# MA-plot {.tabset}
+
+
+
+```{r}
+cat('--- Shrinked with Bayesian procedure ---')
+plotMA(res)
+```
+
+
+# Histogram of p values
+
+```{r}
+hist(res$pvalue[res$baseMean > 1], breaks = 0:20/20,
+     col = "grey50", border = "white", main = "",
+     xlab = "Mean normalized count larger than 1")
+```
+
+
+# Visualization {.tabset}
+## Gene clustering
+
+```{r}
+clustering_groups = strsplit("CLUSTERING_FACTORS", ',')[[1]]
+
+topVarGenes <- head(order(rowVars(assay(rld)), decreasing = TRUE), 20)
+mat  <- assay(rld)[ topVarGenes, ]
+mat  <- mat - rowMeans(mat)
+annotation_col <- as.data.frame(colData(rld)[, clustering_groups])
+colnames(annotation_col) = clustering_groups
+rownames(annotation_col) = colnames(mat)
+pheatmap(mat, annotation_col = annotation_col)
+```
+
+## Sample-to-sample distance
+
+```{r}
+sampleDistMatrix <- as.matrix( sampleDists )
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+pheatmap(sampleDistMatrix,
+         clustering_distance_cols = sampleDists,
+         col = colors)
+```
+
+## PCA plot 
+
+```{r}
+plotPCA(rld, intgroup = clustering_groups)
+```
+
+## MDS plot {.tabset}
+
+### Data table
+```{r}
+mds <- as.data.frame(colData(rld))  %>%
+         cbind(cmdscale(sampleDistMatrix))
+knitr::kable(mds)
+```
+
+### Plot
+```{r}
+ggplot(mds, aes(x = `1`, y = `2`, col = time)) +
+  geom_point(size = 3) + coord_fixed()
+```
+

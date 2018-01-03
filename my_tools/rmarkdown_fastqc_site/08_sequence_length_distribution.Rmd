@@ -1,0 +1,42 @@
+---
+title: 'Sequence Length Distribution'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+### Sequence Length Distribution
+
+```{r 'Sequence Length Distribution', fig.width=10}
+## reads 1
+sld_1 = extract_data_module('REPORT_DIR/reads_1_fastqc_data.txt', 'Sequence Length Distribution')
+sld_1$id = 1:length(sld_1$X.Length)
+sld_1$trim = 'before'
+
+## reads 2
+sld_2 = extract_data_module('REPORT_DIR/reads_2_fastqc_data.txt', 'Sequence Length Distribution')
+sld_2$id = 1:length(sld_2$X.Length)
+sld_2$trim = 'after'
+
+comb_sld = rbind(sld_1, sld_2)
+comb_sld$trim = factor(levels = c('before', 'after'), comb_sld$trim)
+
+p = ggplot(data = comb_sld, aes(x = id, y = Count)) +
+  geom_line(color = 'red') +
+  scale_x_continuous(breaks = sld_2$id, labels = sld_2$X.Length) + 
+  facet_grid(. ~ trim) +
+  xlab('Sequence Length (bp)') +
+  ylab('') + 
+  theme(axis.text.x = element_text(angle=45))
+ggplotly(p)
+```

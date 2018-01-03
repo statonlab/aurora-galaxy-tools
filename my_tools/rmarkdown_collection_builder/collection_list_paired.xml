@@ -1,0 +1,53 @@
+<tool id="rmarkdown_collection_list_paired" name="Collection type (list:paired)" version="1.0.0">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="0.5.0">r-dplyr</requirement>
+    </requirements>
+    <description>
+        Create a list of paired dataset collection from files in history.
+    </description>
+    <stdio>
+        <regex match="Execution halted"
+               source="both"
+               level="fatal"
+               description="Execution halted." />
+        <regex match="Error in"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+        <regex match="Fatal error"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+    </stdio>
+    <command>
+        <![CDATA[
+            Rscript '${__tool_directory__}/collection_list_paired_render.R'
+                -L $forward_file_list
+                -R $reverse_file_list
+                -e $echo
+                -f $format
+
+                -r $report
+                -d $report.files_path
+
+                -t '${__tool_directory__}/collection_list_paired.Rmd'
+        ]]>
+    </command>
+    <inputs>
+        <param type="data" name="forward_file_list" multiple="true" label="forward inputs"/>
+        <param type="data" name="reverse_file_list" multiple="true" label="reverse inputs"/>
+        <param type="text" name="format" label="the format (extension) of input files (e.g., fastq, fastqsanger, fasta)"/>
+
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false" label="Display analysis code in report?" />
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="Collection builder (list:paired collection)" />
+        <collection type="list:paired" name="list_collection">
+            <discover_datasets pattern="(?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)\.(?P&lt;ext&gt;[^\._]+)?" directory="files_directory"/>
+        </collection>
+    </outputs>
+</tool>

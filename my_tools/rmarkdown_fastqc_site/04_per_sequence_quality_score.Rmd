@@ -1,0 +1,39 @@
+---
+title: 'Per sequence quality score'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+### Per sequence quality score
+
+```{r 'Per sequence quality score', fig.width=10}
+## reads 1
+psqs_1 = extract_data_module('REPORT_DIR/reads_1_fastqc_data.txt', 'Per sequence quality scores')
+psqs_1$trim = 'before'
+
+## reads 2
+psqs_2 = extract_data_module('REPORT_DIR/reads_2_fastqc_data.txt', 'Per sequence quality scores')
+psqs_2$trim = 'after'
+
+comb_psqs = rbind(psqs_1, psqs_2)
+comb_psqs$trim = factor(levels = c('before', 'after'), comb_psqs$trim)
+
+p = ggplot(data = comb_psqs, aes(x = X.Quality, y = Count)) + 
+  geom_line(color = 'red') + 
+  facet_grid(. ~ trim) + 
+  xlim(min(comb_psqs$X.Quality), max(comb_psqs$X.Quality)) + 
+  xlab('Mean Sequence Qaulity (Phred Score)') + 
+  ylab('')
+ggplotly(p)
+```

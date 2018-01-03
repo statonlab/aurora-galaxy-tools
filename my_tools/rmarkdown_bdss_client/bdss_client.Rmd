@@ -1,0 +1,52 @@
+---
+title: 'Download with BDSS client'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error=TRUE
+)
+```
+
+# Command line arguments
+
+```{r 'command line arguments'}
+str(opt)
+```
+
+# BDSS configuration file
+
+First, we create a bdss configuration file `bdss.cfg` in the current directory.
+
+```{r}
+system('echo "[metadata_repository]" > bdss.cfg')
+system('echo url=http://bdss.bioinfo.wsu.edu/ >> bdss.cfg')
+```
+
+# Download data
+
+```{r 'download and extract reads'}
+# create a directory to store read files
+dir.create('read_files_directory')
+# download and extract reads
+urls = strsplit(gsub(',', ' ', 'URLS'), ' ')[[1]]
+urls = urls[urls != '']
+# loop through SRA accessions to download and extract reads.
+for(url in urls) {
+    print(url)
+    bdss_command = paste0('/tool_deps/_conda/bin/bdss transfer --destination read_files_directory -u ', url)
+    print(bdss_command)
+    print(system(bdss_command, intern = TRUE))
+}
+# all files that need to be saved should be moved to REPORT_DIR directory
+# print(system('mv read_files_directory REPORT_DIR', intern = TRUE))
+```
+
+

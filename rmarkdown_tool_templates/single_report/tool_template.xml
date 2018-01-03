@@ -1,0 +1,59 @@
+<tool id="tool_id" name="tool name" version="1.0.0">
+    <requirements>
+        <!--TODO: Add more conda packages here-->
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.3">r-rmarkdown</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="0.5.0">r-dplyr</requirement>
+    </requirements>
+    <!--TODO: add tool description-->
+    <description>
+        some descriptions about the tool.
+    </description>
+    <stdio>
+        <!--redirecting stderr to a file. "XXX" is used to match with nothing so that tool running won't be interrupted during testing-->
+        <regex match="XXX"
+               source="stderr"
+               level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <!--TODO: the command line application will always be the render R script-->
+    <!--TODO: param $echo (required) whether to display analysis code in tool report
+        TODO: param $report (required) this is the tool report output in galaxy history
+        TODO: param $report.files_path (required) this param creates a directory associated with tool report output to handle multiple outputs.
+        TODO: param $sink_message (recommended) create output for warning and error messages during tool running.
+    -->
+    <!--TODO: .Rmd in command section.  All .Rmd files should be defined in the command section as templates for the R render script-->
+    <!--TODO: one xml file corresponds to one R render script, but can have multiple .Rmd templates-->
+    <command>
+        <![CDATA[
+            Rscript '${__tool_directory__}/tool_template_render.R'
+                -e $echo
+
+                -r $report
+                -d $report.files_path
+                -s $sink_message
+
+                -t '${__tool_directory__}/tool_template.Rmd'
+        ]]>
+    </command>
+    <inputs>
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false"
+               label="Display analysis code in report?"/>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="tool name report"/>
+        <data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/>
+    </outputs>
+    <!--TODO: add help documentation-->
+    <help>
+
+    </help>
+    <!--TODO: add citations-->
+    <citations>
+        <citation>
+
+        </citation>
+    </citations>
+</tool>

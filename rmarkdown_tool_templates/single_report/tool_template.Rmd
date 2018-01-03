@@ -1,0 +1,28 @@
+---
+title: 'HTML report title'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+
+# Code for computational analysis
+
+```{r 'step 1'}
+
+```
+
+```{r 'ste[ 2'}
+
+```
+
+

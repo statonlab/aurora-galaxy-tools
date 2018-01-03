@@ -1,0 +1,64 @@
+<tool id="rmarkdown_bdss_client_sra" name="BDSS client SRA" version="1.0.3">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="3.3.2">r-base</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="0.5.0">r-dplyr</requirement>
+        <requirement type="package" version="0.5.4">parallel-fastq-dump</requirement>
+        <requirement type="package" version="1.95_4.8">r-rcurl</requirement>
+    </requirements>
+    <description>
+        Download data with BDSS client and generate list (single end SRA data) and list:paired dataset collection
+        (paired end SRA data).
+    </description>
+    <stdio>
+        <!--All stderr are redirected to a file. "XXX" is used to match with nothing-->
+        <regex match="XXX"
+               source="stderr"
+               level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command>
+        <![CDATA[
+            Rscript '${__tool_directory__}/bdss_client_sra_render.R'
+                -i '$sra_ids_se'
+                -p '$sra_ids_pe'
+                -f $format
+                -e $echo
+
+                -r $report
+                -d $report.files_path
+                -s $sink_message
+
+                -t '${__tool_directory__}/bdss_client_sra.Rmd'
+        ]]>
+    </command>
+    <inputs>
+        <param type="text" name="sra_ids_se" area="true" size="5x25" label="SRR/DRR/ERR accessions of single end SRA"
+               help="A list of SRR/DRR/ERR accessions separated by comma or space. e.g. SRR039885"/>
+        <param type="text" name="sra_ids_pe" area="true" size="5x25" label="SRR/DRR/ERR accessions of paired end SRA"
+               help="A list of SRR/DRR/ERR accessions separated by comma or space. e.g. ERR1748507"/>
+        <param type="select" name="format" label="Output format">
+            <option value="fastq" selected="true">fastq</option>
+            <option value="fasta">fasta</option>
+        </param>
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false"
+               label="Display analysis code in report?"/>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="BDSS client report"/>
+        <!--list dataset collection for single end SRA data-->
+        <collection type="list" name="list_collection" label="BDSS download data (single end reads)">
+            <discover_datasets pattern="__name_and_ext__" directory="se_read_files_directory"/>
+        </collection>
+        <!--list:paired dataset collection for paired end SRA data-->
+        <collection type="list:paired" name="list:paired_collection" label="BDSS download data (paired end reads)">
+            <discover_datasets
+                    pattern="(?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)\.(?P&lt;ext&gt;[^\._]+)?"
+                    directory="pe_read_files_directory"/>
+        </collection>
+        <data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/>
+    </outputs>
+</tool>

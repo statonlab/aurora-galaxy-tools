@@ -1,0 +1,120 @@
+<tool id="DESeq" name="DESeq2: DESeq" version="2.0.0">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="1.8.4">r-plyr</requirement>
+        <requirement type="package" version="1.14.1">bioconductor-deseq2</requirement>
+        <requirement type="package" version="1.1.0">r-stringr</requirement>
+        <requirement type="package" version="0.4.0">r-highcharter</requirement>
+        <requirement type="package" version="0.2">r-dt</requirement>
+        <requirement type="package" version="1.4.2">r-reshape2</requirement>
+        <requirement type="package" version="4.5.6">r-plotly</requirement>
+        <requirement type="package" version="0.2.0.1">r-formattable</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="1.0.8">r-pheatmap</requirement>
+    </requirements>
+    <description>
+        An R Markdown tool to perform DESeq analysis.
+    </description>
+    <stdio>
+        <!--redirecting stderr to a file. "XXX" is used to match with nothing so that tool running won't be interrupted during testing-->
+        <regex match="XXX"
+               source="stderr"
+               level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command>
+        <![CDATA[
+
+        Rscript '${__tool_directory__}/DESeq_render.R'
+
+
+            ## 1. input data
+            -e $echo
+            ##----- code chunk to get file paths and raw file names for a multiple inputs data field ----
+            #set $sep = ''
+            #set $count_file_paths = ''
+            #set $count_file_names = ''
+            #for $count_file in $count_files:
+                #set $count_file_paths += $sep + str($count_file)
+                #set $count_file_names += $sep + str($count_file.name)
+                #set $sep = ','
+            #end for
+            ##----------------- end for getting file names and file paths ------------------------------
+            -P '$count_file_paths'
+            -N '$count_file_names'
+            -S $sample_table
+            -p '$design_formula'
+
+            ## 2. output report and report site directory
+		    -r $report
+		    -d $report.files_path
+		    -s $sink_message
+		    -w $deseq_workspace
+
+		    ## 3. Rmd templates from the tool directory
+            -t '${__tool_directory__}/DESeq.Rmd'
+
+
+
+        ]]>
+    </command>
+    <inputs>
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false"
+               label="Display analysis code in report?"/>
+        <param type="data" name="count_files" format="txt" multiple="true" label="Count files from htseq-count"/>
+        <param type="data" name="sample_table" format="txt" multiple="false" label="sample table file"
+               help="The sample table file contains a table. The first column is the sample name, the second column is
+                    the count file name and the rest of columns are treatment columns. The file names in this table have
+                    to be in the same order as the count files uploaded in the previous step. "/>
+        <param type="text" name="design_formula" value="~ condition_1 + condition_2" label="Design formula"
+               help="The simplest design formula for differential expression would be ~ condition, where condition
+                     is a column in colData(dds) that specifies which of two (or more groups) the samples belong to">
+            <sanitizer>
+                <valid initial="default">
+                    <add preset="string.printable"/>
+                    <add value="~"/>
+                </valid>
+            </sanitizer>
+        </param>
+    </inputs>
+    <outputs>
+        <data name="report" format="html" label="DESeq Analysis on ${on_string}"/>
+        <data format="txt" name="sink_message" label="Warnings and Errors on ${on_string}" from_work_dir="warnings_and_errors.txt"/>
+        <data name="deseq_workspace" format="rdata" label="R workspace: DESeq analysis on ${on_string}"/>
+    </outputs>
+    <citations>
+        <citation type="bibtex">
+            @article{love2014moderated,
+            title={Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2},
+            author={Love, Michael I and Huber, Wolfgang and Anders, Simon},
+            journal={Genome biology},
+            volume={15},
+            number={12},
+            pages={550},
+            year={2014},
+            publisher={BioMed Central}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        </citation>
+    </citations>
+</tool>

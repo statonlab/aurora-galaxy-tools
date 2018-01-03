@@ -1,0 +1,8 @@
+categories:
+  - Text Manipulation
+description: R Markdown based dataset collection builder
+long_description: Create different types of dataset collection from files in Galaxy history
+name: rmarkdown_collection_builder
+owner: mingchen0919
+remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/my_tools/rmarkdown_collection_builder
+type: unrestricted

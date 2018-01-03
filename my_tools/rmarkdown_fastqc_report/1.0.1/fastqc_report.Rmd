@@ -1,0 +1,383 @@
+---
+title: "Fastqc report: short reads quality evaluation"
+author: "Ming Chen"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=ECHO, warning=FALSE, message=FALSE)
+library(plyr)
+library(stringr)
+library(dplyr)
+library(highcharter)
+library(DT)
+library(reshape2)
+library(plotly)
+library(formattable)
+library(htmltools)
+```
+
+
+```{bash 'create output directory', echo=FALSE}
+# create extra files directory. very important!
+mkdir REPORT_OUTPUT_DIR
+```
+
+# Fastqc analysis
+```{bash 'copy data to working directory', echo=FALSE}
+# Copy uploaded data to the working directory
+for f in $(echo READS | sed "s/,/ /g")
+do
+    cp $f ./
+done
+```
+
+
+```{bash 'run fastqc', echo=FALSE}
+for r in $(ls *.dat)
+do
+    fastqc -o REPORT_OUTPUT_DIR $r > /dev/null 2>&1
+done
+```
+
+## Fastqc html reports
+
+Below are links to ***Fastqc*** original html reports.
+```{r 'html report links'}
+html_report_list = list()
+html_files = list.files('REPORT_OUTPUT_DIR', pattern = '.*html')
+for (i in html_files) {
+  html_report_list[[i]] = tags$li(tags$a(href=i, i))
+}
+tags$ul(html_report_list)
+```
+
+
+## Parsing fastqc data
+
+```{bash echo=FALSE}
+##==== copy fastqc generated zip files from report output directory to job work directory ==
+cp -r REPORT_OUTPUT_DIR/*zip ./
+
+# create a file to store data file paths
+echo "sample_id,file_path" > PWF_file_paths.txt # Pass, Warning, Fail
+echo "sample_id,file_path" > PBQS_file_paths.txt # Per Base Quality Score
+echo "sample_id,file_path" > PSQS_file_paths.txt # Per Sequence Quality Score
+echo "sample_id,file_path" > PSGC_file_paths.txt # Per Sequence GC Content
+echo "sample_id,file_path" > PBSC_file_paths.txt # Per Base Sequence Content
+echo "sample_id,file_path" > PBNC_file_paths.txt # Per Base N Content
+echo "sample_id,file_path" > SDL_file_paths.txt # Sequence Duplication Level
+echo "sample_id,file_path" > SLD_file_paths.txt # Sequence Length Distribution
+echo "sample_id,file_path" > KMC_file_paths.txt # Kmer Content
+
+for i in $(ls *.zip)
+do
+    BASE=$(echo $i | sed 's/\(.*\)\.zip/\1/g')
+    echo $BASE
+    unzip ${BASE}.zip > /dev/null 2>&1
+    
+    ##====== pass,warning,fail (WSF) =============
+    awk '/^>>/ {print}' "$BASE"/fastqc_data.txt | grep -v 'END_MODULE' | sed 's/>>//' > "$BASE"-PWF.txt
+    echo "${BASE},${BASE}-PWF.txt" >> PWF_file_paths.txt
+
+    ##====== per base quality scores (PBQS) ======
+    awk '/^>>Per base sequence quality/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-PBQS.txt
+    echo "${BASE},${BASE}-PBQS.txt" >> PBQS_file_paths.txt
+
+    ##====== per sequence quality scores (PSQS)
+    awk '/^>>Per sequence quality scores/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-PSQS.txt
+    echo "${BASE},${BASE}-PSQS.txt" >> PSQS_file_paths.txt
+
+    ##====== Per sequence GC content (PSGC)
+    awk '/^>>Per sequence GC content/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-PSGC.txt
+    echo "${BASE},${BASE}-PSGC.txt" >> PSGC_file_paths.txt
+    
+    ##====== Per Base Sequence Content (PBSC)
+    awk '/^>>Per base sequence content/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-PBSC.txt
+    echo "${BASE},${BASE}-PBSC.txt" >> PBSC_file_paths.txt
+    
+    ##====== Per Base N Content (PBNC)
+    awk '/^>>Per base N content/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-PBNC.txt
+    echo "${BASE},${BASE}-PBNC.txt" >> PBNC_file_paths.txt
+    
+    ##====== Sequence Duplication Level (SDL)
+    awk '/^>>Sequence Duplication Levels/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-SDL.txt
+    echo "${BASE},${BASE}-SDL.txt" >> SDL_file_paths.txt
+    
+    ##====== Sequence Length Distribution (SLD)
+    awk '/^>>Sequence Length Distribution/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-SLD.txt
+    echo "${BASE},${BASE}-SLD.txt" >> SLD_file_paths.txt
+    
+    ##====== Kmer Content ============
+    awk '/^>>Kmer Content/ {flag=1; next} /END_MODULE/ {flag=0} flag' "$BASE"/fastqc_data.txt >"$BASE"-KMC.txt
+    echo "${BASE},${BASE}-KMC.txt" >> KMC_file_paths.txt
+    
+done
+```
+
+
+## Evaluation Overview
+
+```{r 'overview'}
+PWF_file_paths = read.csv('PWF_file_paths.txt',
+                           header = TRUE, stringsAsFactors = FALSE)
+rm('PWF_df')
+for(i in 1:nrow(PWF_file_paths)) {
+  file_path = PWF_file_paths[i,2]
+  pwf_df = read.csv(file_path,
+                     sep='\t', header=FALSE, stringsAsFactors = FALSE)
+  colnames(pwf_df) = c('item', PWF_file_paths[i,1])
+  if (!exists('PWF_df')) {
+    PWF_df = pwf_df
+  } else {
+    PWF_df = cbind(PWF_df, pwf_df[,2,drop=FALSE])
+  }
+}
+```
+
+```{r}
+my_icon = c('ok', 'remove', 'star')
+names(my_icon) = c('pass', 'fail', 'warn')
+evaluate_list = list()
+for (i in colnames(PWF_df)[-1]) {
+  evaluate_list[[i]] = formatter(
+      "span", 
+      style = x ~ style("background-color" = ifelse(x =='pass', '#9CD027', ifelse(x == 'fail', '#CC0000', '#FF4E00')), 
+                        "color" = "white",
+                        "width" = "50px",
+                        "float" = "left",
+                        "padding-right" = "5px")
+    )
+}
+
+formattable(PWF_df, evaluate_list)
+```
+
+
+## Per Base Quality Scores
+
+```{r}
+PBQS_df = data.frame()
+PBQS_file_paths = read.csv('PBQS_file_paths.txt',
+                           header = TRUE, stringsAsFactors = FALSE)
+for(i in 1:nrow(PBQS_file_paths)) {
+  # file_path = paste0('REPORT_OUTPUT_DIR/', PBQS_file_paths[i,2])
+  file_path = PBQS_file_paths[i,2]
+  pbqs_df = read.csv(file_path,
+                     sep='\t', header=TRUE, stringsAsFactors = FALSE) %>%
+    mutate(Base1=as.numeric(str_split_fixed(X.Base, '-', 2)[,1]),
+           Base2=as.numeric(str_split_fixed(X.Base, '-', 2)[,2])) %>%
+  (function (df) {
+    df1 = select(df, -Base2)
+    df2 = select(df, -Base1) %>% filter(Base2 != '')
+    colnames(df1) = c(colnames(df1)[1:7], 'Base')
+    colnames(df2) = c(colnames(df2)[1:7], 'Base')
+    res = rbind(df1, df2) %>% arrange(Base)
+    return(res)
+  })
+  pbqs_df$sample_id = rep(PBQS_file_paths[i,1], nrow(pbqs_df))
+  PBQS_df = rbind(PBQS_df, pbqs_df)
+}
+```
+
+
+```{r}
+# datatable(PBQS_df)
+max_phred = max(PBQS_df$Mean) + 10
+hchart(PBQS_df, "line", hcaes(x = Base, y = Mean, group = sample_id)) %>%
+  hc_title(
+    text = "Per Base Quality Score"
+  ) %>%
+  hc_yAxis(
+    title = list(text = "Mean Base Quality Score"),
+    min = 0,
+    max = max_phred,
+    plotLines = list(
+      list(label = list(text = "Phred Score = 27"),
+           width = 2,
+           dashStyle = "dash",
+           color = "green",
+           value = 27),
+      list(label = list(text = "Phred Score = 20"),
+           width = 2,
+           color = "red",
+           value = 20)
+    )
+  ) %>% 
+  hc_exporting(enabled = TRUE)
+```
+
+
+## Per Base N Content
+
+```{r}
+PBNC_df = data.frame()
+PBNC_file_paths = read.csv('PBNC_file_paths.txt',
+                           header = TRUE, stringsAsFactors = FALSE)
+for(i in 1:nrow(PBNC_file_paths)) {
+  # file_path = paste0('REPORT_OUTPUT_DIR/', PBNC_file_paths[i,2])
+  file_path = PBNC_file_paths[i,2]
+  pbnc_df = read.csv(file_path,
+                     sep='\t', header=TRUE, stringsAsFactors = FALSE) %>%
+    mutate(Base1=as.numeric(str_split_fixed(X.Base, '-', 2)[,1]),
+           Base2=as.numeric(str_split_fixed(X.Base, '-', 2)[,2])) %>%
+  (function (df) {
+    df1 = select(df, -Base2)
+    df2 = select(df, -Base1) %>% filter(Base2 != '')
+    colnames(df1) = c(colnames(df1)[1:2], 'Base')
+    colnames(df2) = c(colnames(df2)[1:2], 'Base')
+    res = rbind(df1, df2) %>% arrange(Base)
+    return(res)
+  })
+  pbnc_df$sample_id = rep(PBNC_file_paths[i,1], nrow(pbnc_df))
+  PBNC_df = rbind(PBNC_df, pbnc_df)
+}
+```
+
+
+```{r}
+PBNC_df$N.Count = PBNC_df$N.Count * 100
+max_phred = max(PBNC_df$N.Count) + 5
+hchart(PBNC_df, "line", hcaes(x = as.character(Base), y = N.Count, group = sample_id)) %>%
+  hc_title(
+    text = "Per Base N Content"
+  ) %>%
+  hc_xAxis(
+    title = list(text = "Base Position")
+  ) %>%
+  hc_yAxis(
+    title = list(text = "N %"),
+    plotLines = list(
+      list(label = list(text = "N = 5%"),
+           width = 2,
+           dashStyle = "dash",
+           color = "red",
+           value = 5)
+    )
+  ) %>% 
+  hc_exporting(enabled = TRUE)
+```
+
+
+
+
+## Per Sequence Quality Scores
+
+```{r}
+PSQS_df = data.frame()
+PSQS_file_paths = read.csv('PSQS_file_paths.txt', 
+                           header = TRUE, stringsAsFactors = FALSE)
+for(i in 1:nrow(PSQS_file_paths)) {
+  # file_path = paste0('REPORT_OUTPUT_DIR/', PSQS_file_paths[i,2])
+  file_path = PSQS_file_paths[i,2]
+  psqs_df = read.csv(file_path,
+                     sep='\t', header=TRUE, stringsAsFactors = FALSE) 
+  psqs_df$sample_id = rep(PSQS_file_paths[i,1], nrow(psqs_df))
+  PSQS_df = rbind(PSQS_df, psqs_df)
+}
+```
+
+
+```{r}
+max_phred = max(PSQS_df$X.Quality) + 5
+hchart(PSQS_df, "line", hcaes(x = X.Quality, y = Count, group = sample_id)) %>%
+  hc_title(
+    text = "Per Sequence Quality Score"
+  ) %>%
+  hc_xAxis(
+    title = list(text = "Mean Sequence Quality Score"),
+    min = 0,
+    max = max_phred,
+    plotLines = list(
+      list(label = list(text = "Phred Score = 27"),
+           width = 2,
+           dashStyle = "dash",
+           color = "green",
+           value = 27),
+      list(label = list(text = "Phred Score = 20"),
+           width = 2,
+           color = "red",
+           value = 20)
+    )
+  ) %>% 
+  hc_exporting(enabled = TRUE)
+```
+
+
+## Per Sequence GC Content
+
+
+```{r}
+PSGC_df = data.frame()
+PSGC_file_paths = read.csv('PSGC_file_paths.txt', 
+                           header = TRUE, stringsAsFactors = FALSE)
+for(i in 1:nrow(PSGC_file_paths)) {
+  # file_path = paste0('REPORT_OUTPUT_DIR/', PSGC_file_paths[i,2])
+  file_path = PSGC_file_paths[i,2]
+  psgc_df = read.csv(file_path,
+                     sep='\t', header=TRUE, stringsAsFactors = FALSE) 
+  psgc_df$sample_id = rep(PSGC_file_paths[i,1], nrow(psgc_df))
+  PSGC_df = rbind(PSGC_df, psgc_df)
+}
+```
+
+
+```{r}
+max_phred = max(PSGC_df$Count) + 5
+hchart(PSGC_df, "line", hcaes(x = X.GC.Content, y = Count, group = sample_id)) %>%
+  hc_title(
+    text = "Per Sequence GC Content"
+  ) %>%
+  hc_xAxis(
+    title = list(text = "% GC")
+  ) %>%
+  hc_exporting(enabled = TRUE)
+```
+
+
+## Per Base Sequence Content
+
+```{r}
+PBSC_df = data.frame()
+PBSC_file_paths = read.csv('PBSC_file_paths.txt',
+                           header = TRUE, stringsAsFactors = FALSE)
+for(i in 1:nrow(PBSC_file_paths)) {
+  # file_path = paste0('REPORT_OUTPUT_DIR/', PBSC_file_paths[i,2])
+  file_path = PBSC_file_paths[i,2]
+  pbsc_df = read.csv(file_path,
+                     sep='\t', header=TRUE, stringsAsFactors = FALSE) %>%
+    mutate(Base1=as.numeric(str_split_fixed(X.Base, '-', 2)[,1]),
+           Base2=as.numeric(str_split_fixed(X.Base, '-', 2)[,2])) %>%
+  (function (df) {
+    df1 = select(df, -Base2)
+    df2 = select(df, -Base1) %>% filter(Base2 != '')
+    colnames(df1) = c(colnames(df1)[1:5], 'Base')
+    colnames(df2) = c(colnames(df2)[1:5], 'Base')
+    res = rbind(df1, df2) %>% arrange(Base)
+    return(res)
+  })
+  pbsc_df$sample_id = rep(PBSC_file_paths[i,1], nrow(pbsc_df))
+  PBSC_df = rbind(PBSC_df, pbsc_df)
+}
+```
+
+
+```{r out.width="100%"}
+PBSC_df_2 = select(PBSC_df, -X.Base) %>%
+  melt(id = c('Base', 'sample_id'), value.name = 'base_percentage')
+p = ggplot(data = PBSC_df_2, aes(x = Base, y = base_percentage, group = variable, color = variable)) +
+  geom_line() +
+  facet_wrap(~ sample_id)
+ggplotly(p)
+```
+
+
+## References
+
+* Andrews, Simon. "FastQC: a quality control tool for high throughput sequence data." (2010): 175-176.
+* Goecks, Jeremy, Anton Nekrutenko, and James Taylor. "Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences." Genome biology 11.8 (2010): R86.
+* Afgan, Enis, et al. "The Galaxy platform for accessible, reproducible and collaborative biomedical analyses: 2016 update." Nucleic acids research (2016): gkw343.
+* Highcharts. https://www.highcharts.com/. (access by May 26, 2017).
+* R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+* Joshua Kunst (2017). highcharter: A Wrapper for the 'Highcharts' Library. R package version 0.5.0. https://CRAN.R-project.org/package=highcharter
+* Carson Sievert, Chris Parmer, Toby Hocking, Scott Chamberlain, Karthik Ram, Marianne Corvellec and Pedro Despouy (2017). plotly: Create Interactive Web Graphics via 'plotly.js'. R package version 4.6.0. https://CRAN.R-project.org/package=plotly

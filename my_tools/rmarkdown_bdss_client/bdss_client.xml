@@ -1,0 +1,47 @@
+<tool id="rmarkdown_bdss_client" name="BDSS client" version="1.0.3">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="3.3.2">r-base</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="0.5.0">r-dplyr</requirement>
+        <requirement type="package" version="0.5.4">parallel-fastq-dump</requirement>
+        <requirement type="package" version="1.95_4.8">r-rcurl</requirement>
+    </requirements>
+    <description>
+        Download data with BDSS client.
+    </description>
+    <stdio>
+        <!--All stderr are redirected to a file. "XXX" is used to match with nothing-->
+        <regex match="XXX"
+               source="stderr"
+               level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command>
+        <![CDATA[
+            Rscript '${__tool_directory__}/bdss_client_render.R'
+                -i '$urls'
+                -e $echo
+
+                -r $report
+                -d $report.files_path
+                -s $sink_message
+
+                -t '${__tool_directory__}/bdss_client.Rmd'
+        ]]>
+    </command>
+    <inputs>
+        <param type="text" name="urls" area="true" size="5x25" label="URLs to data files" />
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false"
+               label="Display analysis code in report?"/>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="BDSS client report"/>
+        <data name="output" label="BDSS downloaded data">
+            <discover_datasets pattern="__name_and_ext__" directory="read_files_directory" visible="true"/>
+        </data>
+        <data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/>
+    </outputs>
+</tool>

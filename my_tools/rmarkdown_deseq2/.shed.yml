@@ -1,0 +1,10 @@
+categories:
+  - Transcriptomics
+  - RNA
+  - Statistics
+description: R Markdown based DESeq2 wrapper
+long_description: Implements DESeq2 analysis and display results in R Markdown html.
+name: rmarkdown_deseq2
+owner: mingchen0919
+remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/my_tools/rmarkdown_deseq2
+type: unrestricted

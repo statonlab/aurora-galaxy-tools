@@ -1,0 +1,8 @@
+.DS_Store
+.idea
+.Rhistory
+.Rproj.user
+docker-GRReport.Rproj
+my_tools/.idea
+my_tools/.DS_Store
+install-r-packages.R

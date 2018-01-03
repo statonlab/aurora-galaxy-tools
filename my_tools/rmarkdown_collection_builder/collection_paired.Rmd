@@ -1,0 +1,30 @@
+---
+title: 'Build collection: a paired datasets'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+# Command line arguments
+
+```{r 'command line arguments'}
+str(opt)
+```
+
+# Rename files
+
+```{r}
+dir.create('files_directory')
+file.copy("FORWARD_INPUT", './files_directory/forward.FORMAT')
+file.copy("REVERSE_INPUT", './files_directory/reverse.FORMAT')
+```
+

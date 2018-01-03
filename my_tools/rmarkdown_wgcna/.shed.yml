@@ -1,0 +1,8 @@
+categories:
+  - RNA
+description: R Markdown based WGNCA wrapper
+long_description: Implements WGNCA analysis and display results in R Markdown html.
+name: rmarkdown_wgcna
+owner: mingchen0919
+remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/my_tools/rmarkdown_wgcna
+type: unrestricted

@@ -1,0 +1,96 @@
+---
+title: 'DESeq2: Perform DESeq analysis'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+# `DESeqDataSet` object
+
+```{r 'DESeqDataSet object'}
+count_file_paths = strsplit(opt$count_file_paths, ',')[[1]]
+count_file_names = strsplit(opt$count_file_names, ',')[[1]]
+sample_table = read.table(opt$sample_table, header = TRUE)
+row.names(sample_table) = sample_table[,2]
+sample_table = sample_table[count_file_names, ]
+
+## copy count files into working directory
+file_copy = file.copy(count_file_paths, count_file_names, overwrite = TRUE)
+
+## DESeqDataSet object
+dds = DESeqDataSetFromHTSeqCount(sampleTable = sample_table,
+                                 directory = './',
+                                 design = DESIGN_FORMULA)
+dds
+```
+
+# Pre-filtering the dataset.
+
+We can remove the rows that have 0 or 1 count to reduce object size and increase the calculation speed.
+
+* Number of rows before pre-filtering
+```{r}
+nrow(dds)
+```
+
+* Number of rows after pre-filtering
+```{r}
+dds = dds[rowSums(counts(dds)) > 1, ]
+nrow(dds)
+```
+
+# Peek at data {.tabset}
+
+## Count Data
+
+```{r 'count data'}
+datatable(head(counts(dds), 100), style="bootstrap", 
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+## Sample Table 
+
+```{r 'sample table'}
+datatable(sample_table, style="bootstrap",
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+# Sample distance on variance stabilized data {.tabset}
+
+## `rlog` Stabilizing transformation
+
+```{r}
+rld = rlog(dds, blind = FALSE)
+datatable(head(assay(rld), 100), style="bootstrap", 
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+## Sample distance
+
+```{r}
+sampleDists <- dist(t(assay(rld)))
+sampleDists
+```
+
+# Differential expression analysis
+
+```{r}
+dds <- DESeq(dds)
+```
+
+```{r}
+rm("opt")
+save(list=ls(all.names = TRUE), file='DESEQ_WORKSPACE')
+```
+
+

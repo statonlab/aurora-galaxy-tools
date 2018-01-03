@@ -1,0 +1,51 @@
+---
+title: 'Fastq-dump: download and extract single end reads into FASTQ/FASTA file'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+# Command line arguments
+
+```{r 'command line arguments'}
+str(opt)
+```
+
+# Download and extract reads
+
+```{r 'download and extract reads'}
+# create a directory to store read files
+dir.create('read_files_directory')
+# download and extract reads
+sra_accessions = strsplit(gsub(',', ' ', 'SRA_ACCESSION'), ' ')[[1]]
+sra_accessions = sra_accessions[sra_accessions != '']
+# loop through SRA accessions to download and extract reads.
+for(id in sra_accessions) {
+  if('FORMAT' == 'fasta') {
+    command = paste0('fastq-dump --fasta ', '-O read_files_directory ', id)
+  } else {
+    command = paste0('fastq-dump ', '-O read_files_directory ', id)
+  }
+}
+```
+
+* `fastq-dump` command
+```{r}
+print(command)
+```
+
+* `command line stdout`
+
+```{r}
+system(command = command, intern = TRUE)
+```
+

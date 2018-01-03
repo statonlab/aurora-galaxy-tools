@@ -1,0 +1,122 @@
+<tool id="fastqc_report" name="Fastqc report" version="1.0.1">
+    <description>
+        Implements FastQC analysis and display results in R Markdown html.
+    </description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.14.1">bioconductor-deseq2</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="1.8.4">r-plyr</requirement>
+        <requirement type="package" version="1.1.0">r-stringr</requirement>
+        <requirement type="package" version="0.5.0">r-highcharter</requirement>
+        <requirement type="package" version="0.2">r-dt</requirement>
+        <requirement type="package" version="1.4.2">r-reshape2</requirement>
+        <requirement type="package" version="4.5.6">r-plotly</requirement>
+        <requirement type="package" version="0.2.0.1">r-formattable</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="0.11.5">fastqc</requirement>
+    </requirements>
+    <stdio>
+        <regex match="Execution halted"
+               source="both"
+               level="fatal"
+               description="Execution halted." />
+        <regex match="Error in"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+        <regex match="Fatal error"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+    </stdio>
+    <command>
+        <![CDATA[
+
+        Rscript '${__tool_directory__}/fastqc_report_render.R'
+            -r $reads
+            -p '${__tool_directory__}/fastqc_report.Rmd'
+		    -o $report
+		    -d $report.files_path
+
+		    -e $echo
+
+        ]]>
+    </command>
+    <inputs>
+        <param format="fastq,fastq.gz,fastq.bz2,bam,sam" name="reads" type="data" label="Short reads data from history" />
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false" label="Display analysis code in report?" />
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="fastqc report" />
+    </outputs>
+    <citations>
+        <citation type="bibtex">
+            @misc{bioinformatics2014fastqc,
+            title={FastQC},
+            author={Bioinformatics, Babraham},
+            year={2014}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        </citation>
+        <citation type="bibtex">
+            @misc{plotly2017,
+            title = {plotly: Create Interactive Web Graphics via 'plotly.js'},
+            author = {Carson Sievert and Chris Parmer and Toby Hocking and Scott Chamberlain and Karthik Ram and Marianne Corvellec and Pedro Despouy},
+            year = {2017},
+            note = {R package version 4.6.0},
+            url = {https://CRAN.R-project.org/package=plotly},
+            }
+        </citation>
+        <citation type="bibtex">
+            @misc{highcharter2017,
+            title = {highcharter: A Wrapper for the 'Highcharts' Library},
+            author = {Joshua Kunst},
+            year = {2017},
+            note = {R package version 0.5.0},
+            url = {https://CRAN.R-project.org/package=highcharter},
+            }
+        </citation>
+        <citation type="bibtex">
+            @misc{formattable2016,
+            title = {formattable: Create 'Formattable' Data Structures},
+            author = {Kun Ren and Kenton Russell},
+            year = {2016},
+            note = {R package version 0.2.0.1},
+            url = {https://CRAN.R-project.org/package=formattable},
+            }
+        </citation>
+        <citation>
+            @article{ewels2016multiqc,
+            title={MultiQC: summarize analysis results for multiple tools and samples in a single report},
+            author={Ewels, Philip and Magnusson, M{\aa}ns and Lundin, Sverker and K{\"a}ller, Max},
+            journal={Bioinformatics},
+            volume={32},
+            number={19},
+            pages={3047--3048},
+            year={2016},
+            publisher={Oxford University Press}
+            }
+        </citation>
+    </citations>
+</tool>
+
+

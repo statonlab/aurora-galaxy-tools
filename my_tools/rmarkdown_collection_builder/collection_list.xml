@@ -1,0 +1,51 @@
+<tool id="rmarkdown_collection_list" name="Collection type (list)" version="1.0.0">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="0.5.0">r-dplyr</requirement>
+    </requirements>
+    <description>
+        Create a list of datasets collection from files in history.
+    </description>
+    <stdio>
+        <regex match="Execution halted"
+               source="both"
+               level="fatal"
+               description="Execution halted." />
+        <regex match="Error in"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+        <regex match="Fatal error"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+    </stdio>
+    <command>
+        <![CDATA[
+            Rscript '${__tool_directory__}/collection_list_render.R'
+                -l $file_list
+                -e $echo
+                -f $format
+
+                -r $report
+                -d $report.files_path
+
+                -t '${__tool_directory__}/collection_list.Rmd'
+        ]]>
+    </command>
+    <inputs>
+        <param type="data" name="file_list" multiple="true" />
+        <param type="text" name="format" label="the format of input files (e.g., fastq, fastqsanger, fasta)"/>
+
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false" label="Display analysis code in report?" />
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="Collection builder (list collection)" />
+        <collection type="list" name="list_collection">
+            <discover_datasets pattern="__name_and_ext__" directory="files_directory" />
+        </collection>
+    </outputs>
+</tool>

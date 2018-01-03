@@ -1,0 +1,53 @@
+---
+title: 'Per base sequence quality'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+### Per base sequence quality
+
+```{r 'per base sequence quality', fig.width=10}
+## reads 1
+pbsq_1 = extract_data_module('REPORT_DIR/reads_1_fastqc_data.txt', 'Per base sequence quality')
+pbsq_1$id = 1:length(pbsq_1$X.Base)
+pbsq_1$trim = 'before'
+
+## reads 2
+pbsq_2 = extract_data_module('REPORT_DIR/reads_2_fastqc_data.txt', 'Per base sequence quality')
+pbsq_2$id = 1:length(pbsq_2$X.Base)
+pbsq_2$trim = 'after'
+
+comb_pbsq = rbind(pbsq_1, pbsq_2)
+comb_pbsq$trim = factor(levels = c('before', 'after'), comb_pbsq$trim)
+
+p = ggplot(data = comb_pbsq) +
+  geom_boxplot(mapping = aes(x = id, 
+                             lower = Lower.Quartile, 
+                             upper = Upper.Quartile, 
+                             middle = Median, 
+                             ymin = X10th.Percentile, 
+                             ymax = X90th.Percentile,
+                             fill = "yellow"),
+               stat = 'identity') +
+  geom_line(mapping = aes(x = id, y = Mean, color = "red")) +
+  scale_x_continuous(breaks = pbsq_2$id, labels = pbsq_2$X.Base) +
+  scale_fill_identity() +
+  scale_color_identity() + 
+  ylim(0, max(comb_pbsq$Upper.Quartile) + 5) +
+  xlab('Position in read (bp)') +
+  facet_grid(. ~ trim) +
+  theme(axis.text.x = element_text(angle=45))
+p
+
+```

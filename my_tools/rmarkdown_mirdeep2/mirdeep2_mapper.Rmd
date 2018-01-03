@@ -1,0 +1,96 @@
+---
+title: 'Mirdeep2 Mapper'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+    echo = ECHO
+)
+```
+
+# Job command line
+
+## View arguments from command line.
+
+```{r 'view arguments'}
+str(opt)
+```
+
+```{r 'build PATH', echo=FALSE}
+# set PATH environment.
+PATH = system('pwd', intern = TRUE) %>% 
+  (function(x) {
+    paste0('/home/galaxy/mirdeep2/bin:', x)
+  }) %>%
+  paste0(':$PATH')
+```
+
+
+## Build job command line.
+
+```{r 'build command line'}
+command_line = paste0('export PATH=', PATH, ' && ') %>%
+  # index reference genome
+  paste0(' bowtie-build REFERENCE_GENOME ref_genome &&') %>%
+  paste0(' mapper.pl ') %>%
+  # reads
+  (function(x) {
+    paste0(x, 'FASTQ_READS -c ')
+  }) %>%
+  # reference genome
+  (function(x) {
+    paste0(x, '-p ref_genome ')
+  }) %>%
+  # # parse to fasta
+  # (function(x) {
+  #   ifelse(PARSE_TO_FASTA, paste0(x, '-h '), x)
+  # }) %>%
+  # clean entries
+  (function(x) {
+    ifelse(CLEAN_ENTRIES, paste0(x, '-j '), x)
+  }) %>%
+  # clip 3 adapter
+  (function(x) {
+    ifelse('CLIP_3_ADAPTER' == '', x, paste0(x, '-k CLIP_3_ADAPTER '))
+  }) %>%
+  # discard shorter reads
+  (function(x) {
+    paste0(x, '-l DISCARD_SHORTER_READS ')
+  }) %>%
+  # collapse reads
+  (function(x) {
+    # ifelse(COLLAPSE_READS, paste0(x, '-m '), x)
+    paste0(x, '-m ')
+  }) %>%
+  # map with one mismatch
+  (function(x) {
+    ifelse(MAP_WITH_ONE_MISMATCH, paste0(x, '-q '), x)
+  }) %>%
+  # map up to position
+  (function(x) {
+    paste0(x, '-r MAP_UP_TO_POSITION ')
+  }) %>%
+  # overwrite existing files(-n), outputs
+  (function(x) {
+    paste0(x, '-s reads_collapsed.fa -t reads_collapsed_vs_genome.arf -v -n ')
+  }) %>%
+  # write stdout to reprot.log
+  (function(x) {
+    paste0(x, ' 2>report.log')
+  })
+command_line
+```
+
+## Run command line
+
+```{r}
+system(command_line)
+```
+
+

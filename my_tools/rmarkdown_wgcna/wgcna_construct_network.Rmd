@@ -1,0 +1,178 @@
+---
+title: 'WGCNA: construct network'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+# Import workspace 
+
+This step imports workspace from the **WGCNA: preprocessing** step.
+
+```{r}
+fcp = file.copy("PREPROCESSING_WORKSPACE", "deseq.RData")
+load("deseq.RData")
+```
+
+
+# Processing outliers {.tabset}
+
+## Before removing outliers
+
+```{r}
+plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="", cex.lab = 1.5,
+     cex.axis = 1, cex.main = 1, cex = 0.5)
+if(!is.na(HEIGHT_CUT)) {
+  # plot a line to show the cut
+  abline(h = HEIGHT_CUT, col = "red")
+  # determine cluster under the line
+  clust = cutreeStatic(sampleTree, cutHeight = HEIGHT_CUT, minSize = 10)
+  keepSamples = (clust==1)
+  expression_data = expression_data[keepSamples, ]
+}
+```
+
+## After removing outliers
+
+```{r}
+sampleTree = hclust(dist(expression_data), method = "average");
+plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="",
+     cex.axis = 1, cex.main = 1, cex = 0.5)
+```
+
+
+# Trait data {.tabeset}
+
+If trait data is provided, the first 100 rows from the data will be displayed here. A plot consisting of sample cluster dendrogram and trait heatmap will also be gerenated.
+
+## Trait data table
+
+```{r}
+trait_data = data.frame()
+if ("TRAIT_DATA" != 'None') {
+  trait_data = read.csv("TRAIT_DATA", header = TRUE, row.names = 1)
+  # form a data frame analogous to expression data that will hold the traits.
+  sample_names = rownames(expression_data)
+  trait_rows = match(sample_names, rownames(trait_data))
+  trait_data = trait_data[trait_rows, ]
+  datatable(head(trait_data, 100), style="bootstrap", filter = 'top',
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+}
+```
+
+## Dendrogram and heatmap
+
+```{r fig.align='center', fig.width=8, fig.height=9}
+if (nrow(trait_data) != 0) {
+  traitColors = numbers2colors(trait_data, signed = FALSE)
+  plotDendroAndColors(sampleTree, traitColors,
+                      groupLabels = names(trait_data),
+                      main = "Sample dendrogram and trait heatmap",
+                      cex.dendroLabels = 0.5)
+}
+```
+
+
+# The thresholding power
+
+```{r}
+powers = c(1:10, seq(12, 20, 2))
+soft_threshold = pickSoftThreshold(expression_data, powerVector = powers, verbose = 5)
+```
+
+```{r fig.align='center'}
+par(mfrow=c(1,2))
+plot(soft_threshold$fitIndices[,1], -sign(soft_threshold$fitIndices[,3])*soft_threshold$fitIndices[,2],
+     xlab="Soft Threshold (power)",
+     ylab="Scale Free Topology Model Fit,signed R^2",type="n",
+     main = paste("Scale independence"),
+     cex.lab = 0.5);
+text(soft_threshold$fitIndices[,1], -sign(soft_threshold$fitIndices[,3])*soft_threshold$fitIndices[,2],
+     labels=powers,cex=0.5,col="red");
+
+# calculate soft threshold power
+y = -sign(soft_threshold$fitIndices[,3])*soft_threshold$fitIndices[,2]
+r2_cutoff = 0.9
+for(i in 1:length(powers)) {
+  if(y[i] > r2_cutoff) {
+    soft_threshold_power = soft_threshold$fitIndices[,1][i]
+    r2_cutoff_new = y[i]
+    break
+  } 
+  soft_threshold_power = soft_threshold$fitIndices[,1][length(powers)]
+}
+abline(h=r2_cutoff, col="red")
+abline(v=soft_threshold_power, col="blue")
+text(soft_threshold_power+1, r2_cutoff-0.1, 
+     paste0('R^2 cutoff = ', round(r2_cutoff_new,2)),
+     cex = 0.5, col = "red")
+
+plot(soft_threshold$fitIndices[,1], soft_threshold$fitIndices[,5],
+     xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",
+     main = paste("Mean connectivity"),
+     cex.lab = 0.5)
+text(soft_threshold$fitIndices[,1], soft_threshold$fitIndices[,5], labels=powers, cex=0.5,col="red")
+par(mfrow=c(1,1))
+```
+
+
+# Construct network 
+
+The gene network is constructed based on **soft threshold power = `r soft_threshold_power`**
+
+```{r}
+gene_network = blockwiseModules(expression_data, power = soft_threshold_power,
+                                TOMType = "unsigned", minModuleSize = 30,
+                                reassignThreshold = 0, mergeCutHeight = 0.25,
+                                numericLabels = TRUE, pamRespectsDendro = FALSE,
+                                verbose = 3)
+```
+
+
+# Gene modules {.tabset}
+
+## Idenfity gene modules 
+
+```{r}
+modules = table(gene_network$colors)
+n_modules = length(modules) - 1
+module_size_upper = modules[2]
+module_size_lower = modules[length(modules)]
+
+module_table = data.frame(model_label = c(0, 1:n_modules),
+                          gene_size = as.vector(modules))
+datatable(t(module_table))
+```
+
+The results above indicates that there are **`r n_modules` gene modules**, labeled 1 through `r length(n_modules)` in order of descending size. The largest module has **`r module_size_upper` genes**, and the smallest module has **`r module_size_lower` genes**. The label 0 is reserved for genes outside of all modules. 
+
+
+## Dendrogram and module plot
+
+```{r}
+# Convert labels to colors for plotting
+module_colors = labels2colors(gene_network$colors)
+# Plot the dendrogram and the module colors underneath
+plotDendroAndColors(gene_network$dendrograms[[1]], module_colors[gene_network$blockGenes[[1]]],
+                    "Module colors",
+                    dendroLabels = FALSE, hang = 0.03,
+                    addGuide = TRUE, guideHang = 0.05)
+```
+
+
+```{r echo=FALSE}
+# save workspace
+rm("opt")
+save(list=ls(all.names = TRUE), file='CONSTRUCT_NETWORK_WORKSPACE')
+```
+
+

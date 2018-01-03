@@ -1,0 +1,146 @@
+---
+title: 'Mirdeep2'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+# Job command line
+
+```{r 'build PATH', echo=FALSE}
+# set PATH environment.
+PATH = system('pwd', intern = TRUE) %>% 
+  (function(x) {
+    paste0('/home/galaxy/mirdeep2/bin:', x)
+  }) %>%
+    (function(x) {
+    paste0('/home/galaxy/mirdeep2_patch:', x)
+  }) %>%
+  paste0(':$PATH') 
+```
+
+## Build job command line.
+
+```{r 'build command line'}
+# change directory to OUTPUT DIR
+command_line = paste0('cd OUTPUT_DIR &&') %>%
+  # PATH and other environment variables
+  paste0('export PATH=', PATH, ' && ') %>%
+  (function(x) {
+    paste0(x, 'export PERL_MB_OPT="--install_base /home/galaxy/perl5" &&
+           export PERL_MM_OPT="INSTALL_BASE=/home/galaxy/perl5" &&
+           export PERL5LIB=/home/galaxy/mirdeep2/lib/perl5 && ')
+  }) %>%
+  # link collapsed reads and reads mapping files
+  (function(x) {
+    paste0(x, 'ln -s COLLAPSED_READS reads_collapsed.fa && ')
+  }) %>%
+  (function(x) {
+    paste0(x, 'ln -s READS_MAPPING reads_collapsed_vs_genome.arf && ')
+  }) %>%
+  paste0(' miRDeep2.pl ') %>%
+  # collapsed reads
+  (function(x) {
+    paste0(x, ' reads_collapsed.fa ')
+  }) %>%
+  # reference genome
+  (function(x) {
+    paste0(x, ' REFERENCE_GENOME ')
+  }) %>%
+  # reads mapping
+  (function(x) {
+    paste0(x, ' reads_collapsed_vs_genome.arf ')
+  }) %>%
+  # mature miRNA for this species
+  (function(x) {
+    if('SPECIES_MATURE_MIRNA' == 'None') {
+      paste0(x, tolower('SPECIES_MATURE_MIRNA'), ' ')
+    } else {
+      paste0(x, ' SPECIES_MATURE_MIRNA ')
+    }
+  }) %>%
+  # mature miRNA from related species
+  (function(x) {
+    if('SPECIES_RELATED_MATURE_MIRNA' == 'None') {
+      paste0(x, tolower('SPECIES_RELATED_MATURE_MIRNA'), ' ')
+    } else {
+      paste0(x, 'SPECIES_RELATED_MATURE_MIRNA ')
+    }
+  }) %>%
+  # precursor sequences
+  (function(x) {
+    if('PRECURSOR_SEQUENCES' == 'None') {
+      paste0(x, tolower('PRECURSOR_SEQUENCES'), ' ')
+    } else {
+      paste0(x, 'PRECURSOR_SEQUENCES ')
+    }
+  }) %>%
+  # min read stack height
+  (function(x) {
+    ifelse('MIN_READ_STACK_HEIGHT' == 'TRUE', x, paste0(x, ' -a MIN_READ_STACK_HEIGHT '))
+  }) %>%
+  # min score cutoff
+  (function(x) {
+    paste0(x, '-b MIN_SCORE_CUTOFF ')
+  }) %>%
+  # disable randfold analysis
+  (function(x) {
+    ifelse(RANDFOLD_ANALYSIS, paste0(x, '-c '), x)
+  }) %>%
+  # max precursors number
+  (function(x) {
+    paste0(x, ' -g MAX_PRECURSOR_NUMBER ')
+  }) %>%
+  # species
+  (function(x) {
+    ifelse('SPECIES' == 'all', x, paste0(x, ' -t SPECIES '))
+  }) %>%
+  # switch
+  (function(x) {
+    ifelse(SWITCH, x, paste0(x, ' -P '))
+  }) %>%
+  # write stdout to reprot.log
+  (function(x) {
+    paste0(x, ' >report.log 2>&1 ')
+  })
+  
+command_line
+
+## run job
+system(command_line)
+```
+
+## Results
+
+```{r echo=TRUE}
+system('cp OUTPUT_DIR/result*.html result.html')
+system('cp OUTPUT_DIR/result*.csv result.csv')
+system('cp OUTPUT_DIR/report.log report.log')
+system('mv OUTPUT_DIR/pdfs_* OUTPUT_DIR/pdfs')
+
+## check if OUTPUT DIR has results that we want.
+system('ls OUTPUT_DIR', intern = TRUE)
+```
+
+### PDF files
+
+```{r echo=TRUE}
+pdf_report_list = list()
+pdf_files = list.files('OUTPUT_DIR/pdfs', pattern = '.*pdf')
+pdf_files
+for (i in pdf_files) {
+  # note that the root directory is OUTPUT_DIR, all the file links should be a relative path to the root directory!
+  pdf_report_list[[i]] = tags$li(tags$a(href=paste0('pdfs/', i), i))
+}
+tags$ul(pdf_report_list)
+```
+

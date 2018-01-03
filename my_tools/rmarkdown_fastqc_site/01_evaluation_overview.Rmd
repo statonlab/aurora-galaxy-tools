@@ -1,0 +1,124 @@
+---
+title: 'Short reads evaluation with [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+
+# Fastqc Evaluation
+
+## Evaluation of reads before trimming
+
+```{r}
+if ('READS_1' == 'None') {
+  stop("No pre-trimming reads provided!")
+} else {
+  ## run fastqc evaluation
+  fastqc_command = paste0('fastqc ') %>% 
+  (function(x) {
+    ifelse('CONTAMINANTS' != 'None', paste0(x, '-c CONTAMINANTS '), x)
+  }) %>% 
+  (function(x) {
+    ifelse('LIMITS' != 'None', paste0(x, '-l LIMITS '), x)
+  }) %>% 
+  (function(x) {
+    paste0(x, '-o REPORT_DIR ')
+  })
+  fastqc_command_reads_1 = paste0(fastqc_command, 'READS_1 > /dev/null 2>&1')
+  system(fastqc_command_reads_1, intern = TRUE)
+  
+  # Original html report
+  reads_1_base = tail(strsplit('READS_1', '/')[[1]], 1)
+  original_html = tags$a(href=paste0(reads_1_base, '_fastqc.html'), paste0('HTML report: ', opt$name_1))
+  
+  unzip(paste0('REPORT_DIR/', reads_1_base, '_fastqc.zip'), exdir = 'REPORT_DIR')
+  reads_1_unzip = paste0('REPORT_DIR/', reads_1_base, '_fastqc/')
+  # fastqc_data.txt
+  file.copy(paste0(reads_1_unzip, 'fastqc_data.txt'), 'REPORT_DIR/reads_1_fastqc_data.txt')
+  fastqc_data = tags$a(href='reads_1_fastqc_data.txt', paste0('fastqc_data.txt: ', opt$name_1))
+  # summary.txt
+  file.copy(paste0(reads_1_unzip, 'summary.txt'), 'REPORT_DIR/reads_1_summary.txt')
+  summary_data = tags$a(href='reads_1_summary.txt', paste0('summary.txt: ', opt$name_1))
+  
+  tags$ul(
+    tags$li(original_html),
+    tags$li(fastqc_data),
+    tags$li(summary_data)
+  )
+}
+```
+
+
+## Evaluation of reads after trimming
+
+```{r}
+if ('READS_2' == 'None') {
+  stop("No pre-trimming reads provided!")
+} else {
+  ## run fastqc evaluation
+  fastqc_command = paste0('fastqc ') %>% 
+  (function(x) {
+    ifelse('CONTAMINANTS' != 'None', paste0(x, '-c CONTAMINANTS '), x)
+  }) %>% 
+  (function(x) {
+    ifelse('LIMITS' != 'None', paste0(x, '-l LIMITS '), x)
+  }) %>% 
+  (function(x) {
+    paste0(x, '-o REPORT_DIR ')
+  })
+  fastqc_command_reads_2 = paste0(fastqc_command, 'READS_2 > /dev/null 2>&1')
+  system(fastqc_command_reads_2, intern = TRUE)
+  
+  # Original html report
+  reads_2_base = tail(strsplit('READS_2', '/')[[1]], 1)
+  original_html = tags$a(href=paste0(reads_2_base, '_fastqc.html'), paste0('HTML report: ', opt$name_2))
+  
+  unzip(paste0('REPORT_DIR/', reads_2_base, '_fastqc.zip'), exdir = 'REPORT_DIR')
+  reads_2_unzip = paste0('REPORT_DIR/', reads_2_base, '_fastqc/')
+  # fastqc_data.txt
+  file.copy(paste0(reads_2_unzip, 'fastqc_data.txt'), 'REPORT_DIR/reads_2_fastqc_data.txt')
+  fastqc_data = tags$a(href='reads_2_fastqc_data.txt', paste0('fastqc_data.txt: ', opt$name_2))
+  # summary.txt
+  file.copy(paste0(reads_2_unzip, 'summary.txt'), 'REPORT_DIR/reads_2_summary.txt')
+  summary_data = tags$a(href='reads_2_summary.txt', paste0('summary.txt: ', opt$name_2))
+  
+  tags$ul(
+    tags$li(original_html),
+    tags$li(fastqc_data),
+    tags$li(summary_data)
+  )
+}
+```
+
+
+
+# Fastqc output visualization
+
+## Overview
+
+```{r}
+reads_1_summary = read.csv('REPORT_DIR/reads_1_summary.txt', header = FALSE, sep = '\t')[, 2:1]
+reads_2_summary = read.csv('REPORT_DIR/reads_2_summary.txt', header = FALSE, sep = '\t')[, 1]
+combined_summary = cbind(reads_1_summary, reads_2_summary)
+names(combined_summary) = c('MODULE', paste0(opt$name_1, '(before)'), paste0(opt$name_2, '(after)'))
+combined_summary[combined_summary == 'FAIL'] = 'FAIL (X)'
+combined_summary[combined_summary == 'WARN'] = 'WARN (!)'
+knitr::kable(combined_summary)
+```
+
+# Session Info
+
+```{r 'session info'}
+sessionInfo()
+```

@@ -1,0 +1,119 @@
+<tool id="i_adhore" name="i-adhore" version="0.1">
+	<requirements>
+		<requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+		<requirement type="package" version="1.20.0">r-getopt</requirement>
+		<requirement type="package" version="1.2">r-rmarkdown</requirement>
+		<requirement type="package" version="1.8.4">r-plyr</requirement>
+		<requirement type="package" version="0.5.0">r-dplyr</requirement>
+		<requirement type="package" version="0.3.5">r-htmltools</requirement>
+	</requirements>
+	<description>Detect genomic homology</description>
+    <stdio>
+        <exit_code range="1:" />
+        <exit_code range=":-1" />
+        <regex match="Error:" />
+        <regex match="Exception:" />
+    </stdio>
+    <command><![CDATA[
+
+    	Rscript '${__tool_directory__}/i_adhore_configure_render.R'
+
+    		## 1. input data
+    		-e $echo
+
+			#set $g_analysis_files = ''
+			#for $g in $genomes
+				#if str($g.genome_name)
+					#set $analysis_files = []
+					#for $file in $g.analysis_files.to_dataset_instances($g.analysis_files)
+						#set $analysis_files += [$file.__str__]
+					#end for
+					#set g_analysis_files += str($g.genome_name) + ':' + ','.join($analysis_files) + ';'
+				#end if
+			#end for
+			-G '$g_analysis_files'
+
+    		-b $blast_table
+    		-g $gap_size
+    		-c $cluster_gap
+    		-q $q_value
+    		-p $prob_cutoff
+    		-a $anchor_points
+    		-m $alignment_method
+    		-l $level2only
+    		-T $table_type
+    		-h $multi_hypothesis_correction
+
+    		## 2. output report and file directory
+    		-x $i_adhore_configure_txt
+    		-o $i_adhore_configure
+    		-d $i_adhore_configure.files_path
+
+    		## 3. Rmd templates in the tool directory
+    		-t '${__tool_directory__}/i_adhore_configure.Rmd'
+
+
+    ]]></command>
+	<inputs>
+		<repeat name="genomes" title="genome" min="1">
+			<param name="genome_name" type="text" value="" label="Specify genome name" />
+			<param name="analysis_files" type="data" format="txt" multiple="true" label="analysis files (.lst or .txt files)" />
+		</repeat>
+		<param name="blast_table" type="data" format="csv" multiple="false" label="blast table (.csv file)" />
+		<param name="gap_size" type="text" value="30" label="gap size" />
+		<param name="cluster_gap" type="text" value="35" label="cluster gap" />
+		<param name="q_value" type="text" value="0.75" label="q value" />
+		<param name="prob_cutoff" type="text" value="0.01" label="probability cutoff" />
+		<param name="anchor_points" type="text" value="3" label="anchor_points" />
+		<param name="alignment_method" type="text" value="gg4" label="alignment method" />
+		<param name="level2only" type="boolean" truevalue="TRUE" falsevalue="FALSE" checked="false" label="level 2 only" />
+		<param name="table_type" type="text" value="family" label="table type" />
+		<param name="multi_hypothesis_correction" type="text" value="FDR" label="multiple hypothesis correction" />
+
+		<param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false" label="Display analysis code in report?" />
+	</inputs>
+	<outputs>
+		<data name="i_adhore_configure" format="html" label="i-adhore configure report" />
+		<data name="i_adhore_configure_txt" format="txt" label="i-adhore configure file" />
+	</outputs>
+	<help>
+		This tool is a wrapper of the i-ADHoRe sofeware. To use this tool, you will need to have i-ADHoRe installed.
+		This tool automatically detects genomic regions with statistically significant conserved gene content and order.
+		Therefore, this tool can be used for analyses within one genome (to look for paralogous regions with duplicated
+		genes) or for comparisons between genomes of different organisms (to look for colinearity). The algorithm was
+		especially designed to cope with micro-rearrangements (events frequently observed within different plant
+		lineages), since these greatly complicate the search for colinear regions.
+	</help>
+	<citations>
+		<citation type="bibtex">
+			@article{proost2011adhore,
+			title={i-ADHoRe 3.0—fast and sensitive detection of genomic homology in extremely large data sets},
+			author={Proost, Sebastian and Fostier, Jan and De Witte, Dieter and Dhoedt, Bart and Demeester, Piet and Van de Peer, Yves and Vandepoele, Klaas},
+			journal={Nucleic acids research},
+			volume={40},
+			number={2},
+			pages={e11--e11},
+			year={2011},
+			publisher={Oxford University Press}
+			}
+		</citation>
+		<citation type="bibtex">
+			@article{allaire2016rmarkdown,
+			title={rmarkdown: Dynamic Documents for R, 2016},
+			author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+			journal={R package version 0.9},
+			volume={6},
+			year={2016}
+			}
+		</citation>
+		<citation type="bibtex">
+			@book{xie2015dynamic,
+			title={Dynamic Documents with R and knitr},
+			author={Xie, Yihui},
+			volume={29},
+			year={2015},
+			publisher={CRC Press}
+			}
+		</citation>
+	</citations>
+</tool>

@@ -1,0 +1,49 @@
+---
+title: 'Sequence Duplication Levels'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+### Sequence Duplication Levels
+
+```{r 'Sequence Duplication Levels', fig.width=10}
+## reads 1
+sdl_1 = extract_data_module('REPORT_DIR/reads_1_fastqc_data.txt', 'Sequence Duplication Levels', header = FALSE, comment.char = '#')
+names(sdl_1) = c('Duplication_Level', 'Percentage_of_deduplicated', 'Percentage_of_total')
+sdl_1$id = 1:length(sdl_1$Duplication_Level)
+
+melt_sdl_1 = melt(sdl_1, id=c('Duplication_Level', 'id'))
+melt_sdl_1$trim = 'before'
+
+
+## reads 2
+sdl_2 = extract_data_module('REPORT_DIR/reads_2_fastqc_data.txt', 'Sequence Duplication Levels', header = FALSE, comment.char = '#')
+names(sdl_2) = c('Duplication_Level', 'Percentage_of_deduplicated', 'Percentage_of_total')
+sdl_2$id = 1:length(sdl_2$Duplication_Level)
+
+melt_sdl_2 = melt(sdl_2, id=c('Duplication_Level', 'id'))
+melt_sdl_2$trim = 'after'
+
+comb_sdl = rbind(melt_sdl_1, melt_sdl_2)
+comb_sdl$trim = factor(levels = c('before', 'after'), comb_sdl$trim)
+
+p = ggplot(data = comb_sdl, aes(x = id, y = value, color = variable)) +
+  geom_line() +
+  scale_x_continuous(breaks = sdl_2$id, labels = sdl_2$Duplication_Level) +
+  facet_grid(. ~ trim) +
+  xlab('Sequence Duplication Level') +
+  ylab('') + 
+  theme(axis.text.x = element_text(angle=45))
+ggplotly(p)
+```

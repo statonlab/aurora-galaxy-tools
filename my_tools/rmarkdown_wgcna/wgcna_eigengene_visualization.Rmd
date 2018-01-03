@@ -1,0 +1,121 @@
+---
+title: 'WGCNA: eigengene visualization'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+# Import workspace 
+
+This step imports workspace from the **WGCNA: construct network** step.
+
+```{r}
+fcp = file.copy("CONSTRUCT_NETWORK_WORKSPACE", "deseq.RData")
+load("deseq.RData")
+```
+
+
+# Gene modules {.tabset}
+
+```{r}
+if(!is.na(SOFT_THRESHOLD_POWER)) soft_threshold_power = SOFT_THRESHOLD_POWER
+```
+
+## Identify gene modules
+
+The gene network is constructed based on **soft threshold power = `r soft_threshold_power`**
+
+```{r}
+gene_network = blockwiseModules(expression_data, power = soft_threshold_power,
+                                TOMType = "unsigned", minModuleSize = 30,
+                                reassignThreshold = 0, mergeCutHeight = 0.25,
+                                numericLabels = TRUE, pamRespectsDendro = FALSE,
+                                verbose = 3)
+```
+
+
+```{r}
+modules = table(gene_network$colors)
+n_modules = length(modules) - 1
+module_size_upper = modules[2]
+module_size_lower = modules[length(modules)]
+
+module_table = data.frame(model_label = c(0, 1:n_modules),
+                          gene_size = as.vector(modules))
+datatable(t(module_table))
+```
+
+The results above indicates that there are **`r n_modules` gene modules**, labeled 1 through `r length(n_modules)` in order of descending size. The largest module has **`r module_size_upper` genes**, and the smallest module has **`r module_size_lower` genes**. The label 0 is reserved for genes outside of all modules. 
+
+
+## Dendrogram and module plot
+
+```{r}
+# Convert labels to colors for plotting
+module_colors = labels2colors(gene_network$colors)
+# Plot the dendrogram and the module colors underneath
+plotDendroAndColors(gene_network$dendrograms[[1]], module_colors[gene_network$blockGenes[[1]]],
+                    "Module colors",
+                    dendroLabels = FALSE, hang = 0.03,
+                    addGuide = TRUE, guideHang = 0.05)
+```
+
+
+# Gene module correlation
+
+We can calculate eigengenes and use them as representative profiles to quantify similarity of found gene modules.
+
+```{r}
+n_genes = ncol(expression_data)
+n_samples = nrow(expression_data)
+```
+
+```{r}
+diss_tom = 1-TOMsimilarityFromExpr(expression_data, power = soft_threshold_power)
+set.seed(123)
+select_genes = sample(n_genes, size = PLOT_GENES)
+select_diss_tom = diss_tom[select_genes, select_genes]
+
+# calculate gene tree on selected genes
+select_gene_tree = hclust(as.dist(select_diss_tom), method = 'average')
+select_module_colors = module_colors[select_genes]
+
+# transform diss_tom with a power to make moderately strong connections more visiable in the heatmap.
+plot_diss_tom = select_diss_tom^7
+# set diagonal to NA for a nicer plot
+diag(plot_diss_tom) = NA
+```
+
+
+```{r fig.align='center'}
+TOMplot(plot_diss_tom, select_gene_tree, select_module_colors, main = "Network heatmap")
+```
+
+
+# Eigengene visualization {.tabset}
+
+## Eigengene dendrogram
+
+```{r fig.align='center'}
+module_eigengenes = moduleEigengenes(expression_data, module_colors)$eigengenes
+plotEigengeneNetworks(module_eigengenes, "Eigengene dendrogram", 
+                      plotHeatmaps = FALSE)
+```
+
+## Eigengene adjacency heatmap
+
+```{r fig.align='center'}
+plotEigengeneNetworks(module_eigengenes, "Eigengene adjacency heatmap", 
+                      marHeatmap = c(2, 3, 2, 2),
+                      plotDendrograms = FALSE, xLabelsAngle = 90)
+```
+

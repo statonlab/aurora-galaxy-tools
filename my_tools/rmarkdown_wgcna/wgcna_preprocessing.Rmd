@@ -1,0 +1,76 @@
+---
+title: 'WGCNA: data preprocessing'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO
+)
+```
+
+```{r}
+str(opt)
+```
+
+# Import data
+
+Each row represents a gene and each column represents a sample.
+
+```{r}
+expression_data = read.csv('EXPRESSION_DATA', header = TRUE, row.names = 1)
+```
+
+Display the first 100 genes.
+
+```{r}
+datatable(head(expression_data, 100), style="bootstrap", filter = 'top',
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+Transpose expression data matrix so that each row represents a sample and each column represents a gene.
+
+```{r}
+expression_data = as.data.frame(t(expression_data))
+```
+
+# Checking data
+
+Checking data for excessive missing values and identification of outlier microarray samples.
+
+```{r}
+gsg = goodSamplesGenes(expression_data, verbose = 3)
+if (!gsg$allOK) {
+  # Optionally, print the gene and sample names that were removed:
+  if (sum(!gsg$goodGenes)>0)
+    printFlush(paste("Removing genes:", paste(names(expression_data)[!gsg$goodGenes], collapse = ", ")));
+  if (sum(!gsg$goodSamples)>0)
+    printFlush(paste("Removing samples:", paste(rownames(expression_data)[!gsg$goodSamples], collapse = ", ")));
+  # Remove the offending genes and samples from the data:
+  expression_data = expression_data[gsg$goodSamples, gsg$goodGenes]
+} else {
+  print('all genes are OK!')
+}
+```
+
+# Clustering samples
+
+If there are any outliers, choose a height cut that will remove the offending sample. Remember this number since you will need this number in further analysis.
+
+```{r fig.align='center'}
+sampleTree = hclust(dist(expression_data), method = "average");
+plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="",
+     cex.axis = 1, cex.main = 1, cex = 0.5)
+```
+
+
+```{r echo=FALSE}
+rm("opt")
+save(list=ls(all.names = TRUE), file='PREPROCESSING_WORKSPACE')
+```
+

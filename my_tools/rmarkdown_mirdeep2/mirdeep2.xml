@@ -1,0 +1,180 @@
+<tool id="mirdeep2" name="mirdeep2" version="1.0.0">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="2.0.0.8">mirdeep2</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.2">r-rmarkdown</requirement>
+        <requirement type="package" version="1.8.4">r-plyr</requirement>
+        <requirement type="package" version="0.5.0">r-dplyr</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+    </requirements>
+    <description>
+        miRNA identification
+    </description>
+    <stdio>
+        <regex match="Execution halted"
+               source="both"
+               level="fatal"
+               description="Execution halted." />
+        <regex match="Error in"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+        <regex match="Fatal error"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+    </stdio>
+    <command>
+        <![CDATA[
+
+        Rscript '${__tool_directory__}/mirdeep2_render.R'
+
+            ## 1. input data
+            -e $echo
+            -a $collapsed_reads
+		    -b $reference_genome
+		    -c $reads_mapping
+
+            ## 2. output report and report site directory
+		    -o $mirdeep2_site
+		    -d $mirdeep2_site.files_path
+		    -r $csv_result
+		    -t $html_result
+		    -u $report_log
+
+		    ## other paramters
+
+		    -f $species_mature_mirna
+		    -g $related_species_mature_mirna
+		    -h $precursor_sequences
+		    -j $min_read_stack_height
+		    -k $min_score_cutoff
+		    -l $randfold_analysis
+		    -m $max_precursor_number
+		    -n $species
+		    -q $switch
+
+		    ## 3. Rmd templates sitting in the tool directory
+
+                ## other Rmd body template files
+		        -p  '${__tool_directory__}/mirdeep2.Rmd'
+
+
+        ]]>
+    </command>
+    <inputs>
+        <param name="collapsed_reads" type="data" format="fasta" multiple="False" optional="False"
+               label="Read input file" help="Reads in fastq or fasta format"/>
+        <param name="reference_genome" type="data" format="fasta" multiple="False" optional="False"
+               label="Reference genome from history"
+               help="Reference genome in fasta format"/>
+        <param name="reads_mapping" type="data" format="tabular" multiple="False" optional="False"
+               label="reads mappings" help="reads mappings in arf format"/>
+        <param name="species_mature_mirna" type="data" format="fasta" multiple="False" optional="True"
+               label="miRBase mature miRNA for this species"
+               help="mature miRNA in fasta format"/>
+        <param name="related_species_mature_mirna" type="data" format="fasta" multiple="False" optional="TRUE"
+               label="miRBase mature miRNA from related species"
+               help="mature miRNA in fasta format"/>
+        <param name="precursor_sequences" type="data" format="fasta" multiple="False" optional="TRUE"
+               label="precursor sequences" help="miRBase miRNA precursor sequences in fasta format"/>
+        <param name="min_read_stack_height" type="integer" argument="-a" optional="True"
+               label="minimum read stack height"
+               help="minimum read stack height that triggers analysis. Using this option disables
+               automatic estimation of the optimal value."/>
+        <param name="min_score_cutoff" type="integer" value="0" argument="-b" label="minimum score cut-off"
+               help="minimum score cut-off for predicted novel miRNAs to be displayed in the overview
+              table. This score cut-off is by default 0."/>
+        <param name="randfold_analysis" type="boolean" truevalue="TRUE" falsevalue="FALSE" argument="-c" checked="False"
+               label="randfold analysis" help="disable randfold analysis"/>
+        <param name="max_precursor_number" type="integer" value="50000" argument="-g" label="maximum number of precursors"
+               help="maximum number of precursors to analyze when automatic excision gearing is used.
+              default=50000, if set to -1 all precursors will be analyzed"/>
+        <param name="species" type="select" label="Search in species">
+            <option value="all">All species</option>
+            <option value="tni">tetraodon</option>
+            <option value="dps">d.pseudoobscura</option>
+            <option value="dya">d.yakuba</option>
+            <option value="ame">a.mellifera</option>
+            <option value="dmo">d.mojavensis</option>
+            <option value="cel">worm</option>
+            <option value="aga">a.gambiae</option>
+            <option value="cbr">c.briggsae</option>
+            <option value="cin">c.intestinalis</option>
+            <option value="mmu">mouse</option>
+            <option value="xtr">x.tropicalis</option>
+            <option value="eca">horse</option>
+            <option value="cfa">dog</option>
+            <option value="fru">fugu</option>
+            <option value="bta">cow</option>
+            <option value="der">d.erecta</option>
+            <option value="dgr">d.grimshawi</option>
+            <option value="gga">chicken</option>
+            <option value="spu">s.purpuratus</option>
+            <option value="bfl">lancelet</option>
+            <option value="ptr">chimp</option>
+            <option value="dse">d.sechellia</option>
+            <option value="dpe">d.persimilis</option>
+            <option value="dvi">d.virilis</option>
+            <option value="rno">rat</option>
+            <option value="dme">d.melanogaster</option>
+            <option value="lca">cat</option>
+            <option value="sja">c.japonica</option>
+            <option value="dan">d.ananassae</option>
+            <option value="hsa">human</option>
+            <option value="dsi">d.simulans</option>
+        </param>
+        <param name="switch" type="boolean" truevalue="TRUE" falsevalue="FALSE"
+               label="mature_ref_miRNAs contain miRBase v18 identifiers?"
+               help="use this switch if mature_ref_miRNAs contain miRBase v18 identifiers (5p and 3p) instead of previous ids from v17"/>
+
+
+        <param name="echo" type="boolean" truevalue="TRUE" falsevalue="FALSE" checked="false" label="Display analysis code in report?" />
+    </inputs>
+    <outputs>
+        <data format="html" name="mirdeep2_site" label="mirdeep2 miRNA identification" />
+        <data name="csv_result" format="csv" label="miRNA in csv format" />
+        <data name="html_result" format="html" label="miRNA in html format" from_work_dir="result.html"/>
+        <data name="report_log" format="txt" label="report log" from_work_dir="result.csv"/>
+    </outputs>
+    <citations>
+        @article{friedlander2011mirdeep2,
+        title={miRDeep2 accurately identifies known and hundreds of novel microRNA genes in seven animal clades},
+        author={Friedl{\"a}nder, Marc R and Mackowiak, Sebastian D and Li, Na and Chen, Wei and Rajewsky, Nikolaus},
+        journal={Nucleic acids research},
+        volume={40},
+        number={1},
+        pages={37--52},
+        year={2011},
+        publisher={Oxford University Press}
+        }
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        </citation>
+    </citations>
+</tool>
