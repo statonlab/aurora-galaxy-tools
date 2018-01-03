@@ -1,14 +1,16 @@
-library(getopt)
-library(rmarkdown)
-library(htmltools)
-library(dplyr)
-
 ##============ Sink warnings and errors to a file ==============
 ## use the sink() function to wrap all code within it.
 ##==============================================================
 zz = file('warnings_and_errors.txt')
 sink(zz)
 sink(zz, type = 'message')
+
+  ## load common libraries
+  library(getopt)
+  library(rmarkdown)
+  library(htmltools)
+  library(dplyr)
+
   ##---------below is the code for rendering .Rmd templates-----
   
   ##=============STEP 1: handle command line arguments==========

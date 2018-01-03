@@ -10,7 +10,7 @@ output:
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(
-  echo = ECHO
+  echo = opt$echo, error = TRUE
 )
 ```
 
