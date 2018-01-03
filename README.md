@@ -17,6 +17,9 @@ defined in this file.
 
 ![fastqc_report_schema](docs/images/fastqc_report_schema.png)
 
+See an example tool from Galaxy tool shed: [rmarkdown_fastqc_report](https://toolshed.g2.bx.psu.edu/repository?repository_id=b88fddb3425cab4e&changeset_revision=a6f8382f852c)
+and an [example output](https://mingchen0919.github.io/galaxy-r-markdown-tools/fastqc_report/fastqc_report_html.html#fastqc_report_html) from this tool. 
+
 Galaxy allows creating an extra files directory that is associated with a specific output. With this advantage, we can 
 create Galaxy R Markdown tools that output a static website. The figure below show the structure of an R Markdown tool
 which output a static website.

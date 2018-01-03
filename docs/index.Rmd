@@ -1,7 +1,9 @@
 ---
 weight: 1
 title: "R Markdown Output Examples"
-output: html_document
+output: 
+  html_document:
+    toc: true
 ---
 
 <style>
