@@ -21,6 +21,9 @@ docker run --rm -d --name=galaxy-r-markdown-tools \
     mingchen0919/galaxy-rmarkdown
 ```
 
+Please refer to [this page](https://github.com/bgruening/docker-galaxy-stable/blob/master/README.md) for more details
+about how to use the Docker image.
+
 ## Structure of the Galaxy R Markdown tool repository
 
 
