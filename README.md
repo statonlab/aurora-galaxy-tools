@@ -7,5 +7,12 @@ data visualization.
 
 ## [See the Example outputs](https://mingchen0919.github.io/galaxy-r-markdown-tools/)
 
+## Structure of the Galaxy R Markdown tool repository
 
+To develop an R Markdown Galaxy tool, three types of files are required : 1) an XML tool config file 
+(Figure 1.A) which defines the web interface of the Galaxy tool and deals with tool dependencies, 2) R scripts 
+(Figure 1.B) that function as a command line application, 3) R markdown files (Figure 1.C) which are template 
+files for generating the final HTML report and perform the real data analysis process. All the data analysis are 
+defined in this file.
 
+![fastqc_report_schema](docs/images/fastqc_report_schema.png)
