@@ -5,7 +5,7 @@ programming languages into a single tool and generate an R markdown document in 
 Technically, all Galaxy tools can be wrapped in the R Markdown framework to provide well-organized HTML outputs with better
 data visualization.
 
-## [Example Outputs from Galaxy R Markdown Tools](https://mingchen0919.github.io/galaxy-r-markdown-tools/)
+## [Example Outputs from Galaxy R Markdown Tools](https://github.com/statonlab/galaxy-r-markdown-tools.git)
 
 
 ## View Tool Outputs on Galaxy
