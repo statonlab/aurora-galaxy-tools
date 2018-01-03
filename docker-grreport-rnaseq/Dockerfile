@@ -2,7 +2,7 @@
 #
 # VERSION 0.1
 
-FROM quay.io/bgruening/galaxy:17.09
+FROM quay.io/bgruening/galaxy:17.01
 
 MAINTAINER Ming Chen, ming.chen0919@gmail.com
 
