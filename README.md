@@ -16,3 +16,11 @@ files for generating the final HTML report and perform the real data analysis pr
 defined in this file.
 
 ![fastqc_report_schema](docs/images/fastqc_report_schema.png)
+
+Galaxy allows creating an extra files directory that is associated with a specific output. With this advantage, we can 
+create Galaxy R Markdown tools that output a static website. The figure below show the structure of an R Markdown tool
+which output a static website.
+
+![fastqc_report_schema](docs/images/fastqc_site_schema.png)
+
+
