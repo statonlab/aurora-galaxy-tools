@@ -1,0 +1,27 @@
+---
+weight: 1
+title: "R Markdown Output Examples"
+output: html_document
+---
+
+<style>
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+* [rmarkdown_fastqc_report](fastqc_report/fastqc_report_html.html)
+
+    ```{r}
+    knitr::include_graphics('images/rmarkdown_fastqc_report.png')
+    ```
+
+* [rmarkdown_fastqc_site](fastqc_site/index.html)
