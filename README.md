@@ -21,7 +21,8 @@ docker run --rm -d --name=galaxy-r-markdown-tools \
     mingchen0919/galaxy-rmarkdown:tool-outputs-demo
 ```
 
-The Galaxy instance will be available at http://127.0.0.1:8080/. Login with email `admin@galaxy.org` and password `admin`.
+The Galaxy instance will be available at http://127.0.0.1:8080/. After logging in with email `admin@galaxy.org` and password `admin`,
+you will be able to see the tool outputs on the job history panel.
 
 ## Try Galaxy R Markdown Tools
 
