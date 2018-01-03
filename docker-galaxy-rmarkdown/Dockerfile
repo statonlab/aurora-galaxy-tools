@@ -35,12 +35,6 @@ RUN install-tools $GALAXY_ROOT/tool_yml_files/rmarkdown_fastqc_report.yml
 ADD tool_yml_files/rmarkdown_fastqc_site.yml $GALAXY_ROOT/tool_yml_files/rmarkdown_fastqc_site.yml
 RUN install-tools $GALAXY_ROOT/tool_yml_files/rmarkdown_fastqc_site.yml
 
-ADD tool_yml_files/trimmomatic.yml $GALAXY_ROOT/tool_yml_files/trimmomatic.yml
-RUN install-tools $GALAXY_ROOT/tool_yml_files/trimmomatic.yml
-
-ADD tool_yml_files/hisat2.yml $GALAXY_ROOT/tool_yml_files/hisat2.yml
-RUN install-tools $GALAXY_ROOT/tool_yml_files/hisat2.yml
-
 ADD tool_yml_files/rmarkdown_samtools_flagstat.yml $GALAXY_ROOT/tool_yml_files/rmarkdown_samtools_flagstat.yml
 RUN install-tools $GALAXY_ROOT/tool_yml_files/rmarkdown_samtools_flagstat.yml
 

@@ -7,6 +7,20 @@ data visualization.
 
 ## [Example Outputs from Galaxy R Markdown Tools](https://mingchen0919.github.io/galaxy-r-markdown-tools/)
 
+## Try Galaxy R Markdown Tools
+
+Thanks to [Björn Grüning](https://github.com/bgruening) for developing this excellent 
+[Galaxy Docker image](https://github.com/bgruening/docker-galaxy-stable). We used his image (`bgruening/galaxy-stable` on Docker hub) 
+as a base image and developed a Galaxy Docker image which has all Galaxy R Markdown tools installed. To try out our Galaxy
+R Markdown tools, a Galaxy instance can be launched with the following command:
+
+```bash 
+docker run --rm -d --name=galaxy-r-markdown-tools \
+    -p 80:80 -p 8021:21 -p 8022:22 \
+    -e "ENABLE_TTS_INSTALL=True" \
+    mingchen0919/galaxy-rmarkdown
+```
+
 ## Structure of the Galaxy R Markdown tool repository
 
 
