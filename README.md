@@ -16,13 +16,15 @@ R Markdown tools, a Galaxy instance can be launched with the following command:
 
 ```bash 
 docker run --rm -d --name=galaxy-r-markdown-tools \
-    -p 80:80 -p 8021:21 -p 8022:22 \
+    -p 8080:80 -p 8021:21 -p 8022:22 \
     -e "ENABLE_TTS_INSTALL=True" \
     mingchen0919/galaxy-rmarkdown
 ```
 
-Please refer to [this page](https://github.com/bgruening/docker-galaxy-stable/blob/master/README.md) for more details
+The Galaxy instance will be available at http://127.0.0.1:8080/. Please refer to [this page](https://github.com/bgruening/docker-galaxy-stable/blob/master/README.md) for more details
 about how to use the Docker image.
+
+![all-galaxy-r-markdown-tools](docs/images/all-galaxy-r-markdown-tools.png)
 
 ## Structure of the Galaxy R Markdown tool repository
 
