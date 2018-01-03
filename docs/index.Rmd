@@ -29,3 +29,34 @@ knitr::include_graphics('images/rmarkdown_fastqc_report.png')
 ```{r}
 knitr::include_graphics('images/rmarkdown_fastqc_site.png')
 ```
+
+## [rmarkdown_wgcna:construct_network](wgcna/WGCNA__construct_network_html.html)
+
+```{r}
+knitr::include_graphics('images/rmarkdown_wgcna_construct_network.png')
+```
+
+## [rmarkdown_wgcna:eigengene_visualization](wgcna/WGCNA__eigengene_visualization_html.html)
+
+```{r}
+knitr::include_graphics('images/rmarkdown_wgcna_eigengene_visualization.png')
+```
+
+## [rmarkdown_deseq2:analysis](deseq2/DESeq_Analysis_html.html)
+
+```{r}
+knitr::include_graphics('images/rmarkdown_deseq2_analysis.png')
+```
+
+## [rmarkdown_deseq2:results](deseq2/DESeq_results_report_html.html)
+
+```{r}
+knitr::include_graphics('images/rmarkdown_deseq2_results.png')
+```
+
+## [rmarkdown_samtools_flagstat](samtools_flagstat/samtools_flagstat_report_html.html)
+
+```{r}
+knitr::include_graphics('images/rmarkdown_samtools_flagstat.png')
+```
+
