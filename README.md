@@ -1,5 +1,7 @@
-## Docker GRReport
-A Galaxy docker container with R markdown based Galaxy tools installed. This Docker image is used as a demonstration to show how R markdown can be used as a framework for Galaxy tool development.
+## GRReport
+
+This repository contains Galaxy tools that are wrapped in the framework of R Markdown. Galaxy Rmarkdown tools output one
+or more Rmarkdown HTML reports. 
 
 ## Examples of R Markdown tool outputs
 
