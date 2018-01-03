@@ -16,7 +16,7 @@ Thank you to [Björn Grüning](https://github.com/bgruening) for the excellent w
 docker run --rm -i -t -p 8080:80 -p 8021:21 -p 8022:22  \
     -e "GALAXY_CONFIG_ADMIN_USERS=admin@galaxy.org" \
     -e "ENABLE_TTS_INSTALL=True" \
-    mingchen0919/docker-grreport-rnaseq /bin/bash  
+    mingchen0919/docker-grreport-rnaseq:17.01 /bin/bash  
 ```
 
 ## Start Galaxy

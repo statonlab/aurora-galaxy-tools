@@ -1,0 +1,12 @@
+PASS	Basic Statistics	dataset_1.dat
+PASS	Per base sequence quality	dataset_1.dat
+PASS	Per tile sequence quality	dataset_1.dat
+PASS	Per sequence quality scores	dataset_1.dat
+WARN	Per base sequence content	dataset_1.dat
+FAIL	Per sequence GC content	dataset_1.dat
+PASS	Per base N content	dataset_1.dat
+WARN	Sequence Length Distribution	dataset_1.dat
+PASS	Sequence Duplication Levels	dataset_1.dat
+WARN	Overrepresented sequences	dataset_1.dat
+PASS	Adapter Content	dataset_1.dat
+FAIL	Kmer Content	dataset_1.dat

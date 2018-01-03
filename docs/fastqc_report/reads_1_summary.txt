@@ -1,0 +1,12 @@
+PASS	Basic Statistics	dataset_2.dat
+PASS	Per base sequence quality	dataset_2.dat
+PASS	Per tile sequence quality	dataset_2.dat
+PASS	Per sequence quality scores	dataset_2.dat
+WARN	Per base sequence content	dataset_2.dat
+PASS	Per sequence GC content	dataset_2.dat
+PASS	Per base N content	dataset_2.dat
+WARN	Sequence Length Distribution	dataset_2.dat
+PASS	Sequence Duplication Levels	dataset_2.dat
+WARN	Overrepresented sequences	dataset_2.dat
+PASS	Adapter Content	dataset_2.dat
+FAIL	Kmer Content	dataset_2.dat
