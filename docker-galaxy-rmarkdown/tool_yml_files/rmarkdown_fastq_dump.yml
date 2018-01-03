@@ -1,0 +1,8 @@
+api_key: admin
+galaxy_instance: http://localhost:8080
+tools:
+- name: rmarkdown_fastq_dump
+  owner: mingchen0919
+  tool_panel_section_label: "RMarkdown Tools"
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
+  install_resolver_dependencies: True
