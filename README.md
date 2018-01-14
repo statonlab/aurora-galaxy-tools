@@ -25,7 +25,7 @@ docker run --rm -d --name=galaxy-r-markdown-tools \
 The Galaxy instance will be available at http://127.0.0.1:8080/. After logging in with email `admin@galaxy.org` and password `admin`,
 you will be able to see the tool outputs on the job history panel.
 
-## Try Aurora Tools
+## Try Aurora Galaxy Tools
 
 Thanks to [Björn Grüning](https://github.com/bgruening) for developing this excellent 
 [Galaxy Docker image](https://github.com/bgruening/docker-galaxy-stable). We used his image (`bgruening/galaxy-stable` on Docker hub) 
