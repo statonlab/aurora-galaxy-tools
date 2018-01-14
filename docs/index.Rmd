@@ -1,6 +1,6 @@
 ---
 weight: 1
-title: "Aurora tool Examples"
+title: "Aurora Galaxy Tool Examples"
 output: 
   html_document:
     toc: true
