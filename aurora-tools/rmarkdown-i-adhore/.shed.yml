@@ -4,5 +4,5 @@ description: Generate i-adhore configure file.
 long_description: R Markdown based tool wrapper for generating i-adhore configure file.
 name: rmarkdown_i_adhore
 owner: mingchen0919
-remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/my_tools/rmarkdown_i_adhore
+remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/aurora-tools/rmarkdown_i_adhore
 type: unrestricted

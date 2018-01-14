@@ -4,5 +4,5 @@ description: R Markdown based Fastqc wrapper
 long_description: Implements FastQC analysis and display results in R Markdown website.
 name: rmarkdown_fastqc_site
 owner: mingchen0919
-remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/my_tools/rmarkdown_fastqc_site
+remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/aurora-tools/rmarkdown_fastqc_site
 type: unrestricted

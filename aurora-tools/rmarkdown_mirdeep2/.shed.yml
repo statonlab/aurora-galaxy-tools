@@ -4,5 +4,5 @@ description: R Markdown based tool wrapper for the mirdeep2.
 long_description: R Markdown based tool wrapper for the mirdeep2.
 name: rmarkdown_mirdeep2
 owner: mingchen0919
-remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/my_tools/rmarkdown_mirdeep2
+remote_repository_url: https://github.com/statonlab/docker-GRReport/tree/master/aurora-tools/rmarkdown_mirdeep2
 type: unrestricted
