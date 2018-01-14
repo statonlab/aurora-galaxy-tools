@@ -6,7 +6,7 @@ Aurora Galaxy Tools are a type of Galaxy tools that are wrapped with the R Markd
 generalize Galaxy tool outputs in HTML format. Aurora tool outputs could be either individual HTML documents or a static website. Aurora Galaxy Tools make
 Galaxy analysis reports better organized, data visualization more interactive and prettier.  
 
-## [Example Outputs from Aurora Tools](https://statonlab.github.io/aurora-galaxy-tools/)
+## [Example Outputs from Aurora Galaxy Tools](https://statonlab.github.io/aurora-galaxy-tools/)
 
 
 ## View Tool Outputs on Galaxy
