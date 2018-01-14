@@ -1,0 +1,56 @@
+<tool id="rmarkdown_samtools_flagstat" name="R Markdown samtools flagstat" version="1.0.0">
+  <requirements>
+    <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+    <requirement type="package" version="1.20.0">r-getopt</requirement>
+    <requirement type="package" version="1.3">r-rmarkdown</requirement>
+    <requirement type="package" version="0.3.5">r-htmltools</requirement>
+    <requirement type="package" version="0.5.0">r-dplyr</requirement>
+    <requirement type="package" version="1.4.1">samtools</requirement>
+  </requirements>
+  <description>simple stats on BAM file</description>
+  <stdio>
+    <regex source="stderr" match="XXX" level="warning" description="Check the warnings_and_errors.txt file for more details."/>
+  </stdio>
+  <command><![CDATA[                    Rscript '${__tool_directory__}/rmarkdown_samtools_flagstat_render.R'
+                        -e $echo
+                        -b '$input_bam'
+                        -n '$input_bam.name'
+                        -r $report
+                        -d $report.files_path
+                        -s $sink_message
+                        -t '${__tool_directory__}/rmarkdown_samtools_flagstat.Rmd'
+                    ]]></command>
+  <inputs>
+    <param type="boolean" name="echo" label="Display analysis code in report?" optional="False" checked="False" truevalue="TRUE" falsevalue="FALSE"/>
+    <param type="data" format="bam,sam" name="input_bam" label="BAM/SAM file" optional="False"/>
+  </inputs>
+  <outputs>
+    <data name="report" format="html" label="rmarkdown flagstat report" hidden="false"/>
+    <data name="sink_message" format="txt" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt" hidden="false"/>
+  </outputs>
+  <help><![CDATA[
+  samtools flagstat in.sam|in.bam|in.cram
+
+Does a full pass through the input file to calculate and print statistics to stdout]]></help>
+  <citations>
+    <citation type="bibtex"><![CDATA[
+                    @article{allaire2016rmarkdown,
+                        title={rmarkdown: Dynamic Documents for R, 2016},
+                        author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+                        and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+                        journal={R package version 0.9},
+                        volume={6},
+                        year={2016}
+                    }]]></citation>
+    <citation type="bibtex"><![CDATA[@article{li2009sequence,
+  title={The sequence alignment/map format and SAMtools},
+  author={Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard},
+  journal={Bioinformatics},
+  volume={25},
+  number={16},
+  pages={2078--2079},
+  year={2009},
+  publisher={Oxford University Press}
+}]]></citation>
+  </citations>
+</tool>

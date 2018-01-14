@@ -1,0 +1,32 @@
+---
+title: 'Reads alignment stats'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = ECHO,
+  error = TRUE
+)
+```
+
+
+# Reads alignment stats on `r opt$input_bam_name`
+
+```{r 'flagstat'}
+command = paste0('samtools flagstat ', opt$input_bam, ' > ', paste0(opt$report_dir, '/report.txt'))
+system(command)
+df = readLines(paste0(opt$report_dir, '/report.txt')) %>%
+  str_replace('(\\d+\\s+\\+\\s+\\d+)\\s+', '\\1,') %>% 
+  str_split(',') %>% 
+  as.data.frame() %>% t()
+rownames(df) = NULL
+colnames(df) = c('PASS + FAIL', 'Description')
+knitr::kable(df)
+```
+
