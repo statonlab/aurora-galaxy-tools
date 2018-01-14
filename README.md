@@ -1,7 +1,7 @@
 ## Aurora tools
 
-Aurora tools are a type of Galaxy tools that are wrapped with the R Markdown framework. It generalizes Galaxy tool 
-outputs in HTML format. Aurora tool outputs could be either individual HTML documents or a static website. Aurora tools make
+Aurora tools are a type of Galaxy tools that are wrapped with the R Markdown framework. Aurora tools make it possible to
+generalize Galaxy tool outputs in HTML format. Aurora tool outputs could be either individual HTML documents or a static website. Aurora tools make
 Galaxy analysis reports better organized, data visualization more interactive and prettier.  
 
 ## [Example Outputs from Aurora Tools](https://statonlab.github.io/aurora-tools/)
