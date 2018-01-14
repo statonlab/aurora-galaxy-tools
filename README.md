@@ -1,17 +1,16 @@
-## Galaxy R Markdown Tools
+## Aurora tools
 
-Galaxy R Markdown Tools use R markdown as a framework to wrap multiple tools and/or scripts from different 
-programming languages into a single tool and generate an R markdown document in the format of either single HTML or a web site. 
-Technically, all Galaxy tools can be wrapped in the R Markdown framework to provide well-organized HTML outputs with better
-data visualization.
+Aurora tools are a type of Galaxy tools that are wrapped with the R Markdown framework. It generalizes Galaxy tool 
+outputs in HTML format. Aurora tool outputs could be either individual HTML documents or a static website. Aurora tools make
+Galaxy analysis reports better organized, data visualization more interactive and prettier.  
 
-## [Example Outputs from Galaxy R Markdown Tools](https://statonlab.github.io/galaxy-r-markdown-tools/)
+## [Example Outputs from Aurora Tools](https://statonlab.github.io/aurora-tools/)
 
 
 ## View Tool Outputs on Galaxy
 
-If you are interested in viewing Galaxy R Markdown tool outputs on a running Galaxy instance, you can run the following
-command to launch a Galaxy instance. The Galaxy instance has several R Markdown tools installed and has a history displaying
+If you are interested in viewing Aurora tool outputs on a running Galaxy instance, you can run the following
+command to launch a Galaxy instance. The Galaxy instance has several Aurora tools installed and has a history displaying
 the tool outputs.
 
 ``` 
@@ -24,11 +23,11 @@ docker run --rm -d --name=galaxy-r-markdown-tools \
 The Galaxy instance will be available at http://127.0.0.1:8080/. After logging in with email `admin@galaxy.org` and password `admin`,
 you will be able to see the tool outputs on the job history panel.
 
-## Try Galaxy R Markdown Tools
+## Try Aurora Tools
 
 Thanks to [Björn Grüning](https://github.com/bgruening) for developing this excellent 
 [Galaxy Docker image](https://github.com/bgruening/docker-galaxy-stable). We used his image (`bgruening/galaxy-stable` on Docker hub) 
-as a base image and developed a Galaxy Docker image which has all Galaxy R Markdown tools installed. To try out our Galaxy
+as a base image and developed a Galaxy Docker image which has all Aurora tools installed. To try out our Galaxy
 R Markdown tools, a Galaxy instance can be launched with the following command:
 
 ```bash 
@@ -43,7 +42,7 @@ about how to use the Docker image.
 
 ![all-galaxy-r-markdown-tools](docs/images/all-galaxy-r-markdown-tools.png)
 
-## Structure of the Galaxy R Markdown tool repository
+## Structure of the Aurora tool repository
 
 ### Output single HTML
 
@@ -56,17 +55,17 @@ defined in this file.
 ![fastqc_report_schema](docs/images/fastqc_report_schema.png)
 
 See an example tool from Galaxy tool shed: [rmarkdown_fastqc_report](https://toolshed.g2.bx.psu.edu/repository?repository_id=fd6e5068c69788da&changeset_revision=8c79e5b7cfc0)
-and an [example output](https://statonlab.github.io/galaxy-r-markdown-tools//index.html#rmarkdown_fastqc_report) from this tool. 
+and an [example output](https://statonlab.github.io/aurora-tools/index.html#rmarkdown_fastqc_report) from this tool. 
 
 
 ### Output static website
 
 Galaxy allows creating an extra files directory that is associated with a specific output. With this advantage, we can 
-create Galaxy R Markdown tools that output a static website. The figure below show the structure of an R Markdown tool
+create Aurora tools that output a static website. The figure below show the structure of an R Markdown tool
 which output a static website.
 
 See an example tool from Galaxy tool shed: [rmarkdown_fastqc_report](https://toolshed.g2.bx.psu.edu/repository?repository_id=b88fddb3425cab4e&changeset_revision=a6f8382f852c)
-and an [example output](https://statonlab.github.io/galaxy-r-markdown-tools//index.html#rmarkdown_fastqc_site) from this tool. 
+and an [example output](https://statonlab.github.io/aurora-tools/index.html#rmarkdown_fastqc_site) from this tool. 
 
 
 ![fastqc_site_schema](docs/images/fastqc_site_schema.png)
