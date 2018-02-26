@@ -73,10 +73,4 @@ and an [example output](https://statonlab.github.io/aurora-galaxy-tools/index.ht
 ![fastqc_site_schema](docs/images/fastqc_site_schema.png)
 
 
-## Contribute your Aurora Galaxy Tools
-
-We would like to maintain a repository for all Aurora Galaxy Tools. If you are interested in hosting your Aurora Galaxy Tools in this
-repository, please commit a PR. Please put a [planemo](http://planemo.readthedocs.io/en/latest/index.html) [`.shed.yml`](http://galaxy-iuc-standards.readthedocs.io/en/latest/best_practices/shed_yml.html) 
-file that contains tool metadata and your [Galaxy Tool Shed](https://toolshed.g2.bx.psu.edu/) username in your tool repository.  
-
 
