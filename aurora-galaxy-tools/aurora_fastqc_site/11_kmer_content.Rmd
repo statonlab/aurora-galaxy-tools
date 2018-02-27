@@ -1,0 +1,26 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE,
+  eval = TRUE
+)
+```
+
+# Kmer Content {.tabset}
+
+## Before
+
+```{r 'Kmer Content (before)', fig.width=10}
+kc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Kmer Content')
+knitr::kable(kc_1)
+```
+
+## After
+```{r 'Kmer Content (after)', fig.width=10}
+kc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Kmer Content')
+knitr::kable(kc_2)
+```

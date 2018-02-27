@@ -1,0 +1,62 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE,
+  eval = TRUE
+)
+```
+
+
+```{r 'function definition', echo=FALSE}
+# Define a function to extract outputs for each module from fastqc output
+extract_data_module = function(fastqc_data, module_name, header = TRUE, comment.char = "") {
+  f = readLines(fastqc_data)
+  start_line = grep(module_name, f)
+  end_module_lines = grep('END_MODULE', f)
+  end_line = end_module_lines[which(end_module_lines > start_line)[1]]
+  module_data = f[(start_line+1):(end_line-1)]
+  writeLines(module_data, '/tmp/temp.txt')
+  read.csv('/tmp/temp.txt', sep = '\t', header = header, comment.char = comment.char)
+}
+```
+
+# Per base sequence quality
+
+```{r 'per base sequence quality', fig.width=10}
+## reads 1
+pbsq_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per base sequence quality')
+pbsq_1$id = 1:length(pbsq_1$X.Base)
+pbsq_1$trim = 'before'
+
+## reads 2
+pbsq_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per base sequence quality')
+pbsq_2$id = 1:length(pbsq_2$X.Base)
+pbsq_2$trim = 'after'
+
+comb_pbsq = rbind(pbsq_1, pbsq_2)
+comb_pbsq$trim = factor(levels = c('before', 'after'), comb_pbsq$trim)
+
+p = ggplot(data = comb_pbsq) +
+  geom_boxplot(mapping = aes(x = id, 
+                             lower = Lower.Quartile, 
+                             upper = Upper.Quartile, 
+                             middle = Median, 
+                             ymin = X10th.Percentile, 
+                             ymax = X90th.Percentile,
+                             fill = "yellow"),
+               stat = 'identity') +
+  geom_line(mapping = aes(x = id, y = Mean, color = "red")) +
+  scale_x_continuous(breaks = pbsq_2$id, labels = pbsq_2$X.Base) +
+  scale_fill_identity() +
+  scale_color_identity() + 
+  ylim(0, max(comb_pbsq$Upper.Quartile) + 5) +
+  xlab('Position in read (bp)') +
+  facet_grid(. ~ trim) +
+  theme(axis.text.x = element_text(angle=45))
+p
+
+```

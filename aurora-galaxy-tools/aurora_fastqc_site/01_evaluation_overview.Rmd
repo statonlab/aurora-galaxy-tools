@@ -1,0 +1,95 @@
+---
+title: 'Short reads evaluation with [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE,
+  eval = TRUE
+)
+```
+
+# Run FastQC
+
+```{bash eval=TRUE,echo=FALSE}
+cd ${X_d}
+cp ${X_r} ${X_d}/read_1.fq
+cp ${X_R} ${X_d}/read_2.fq
+
+cat >temp.sh <<EOL
+fastqc \\
+  -q \\
+  -c ${X_c} \\
+  -l ${X_l} \\
+  ${X_d}/read_1.fq > /dev/null 2>&1
+  
+fastqc \\
+  -q \\
+  -c ${X_c} \\
+  -l ${X_l} \\
+  ${X_d}/read_2.fq > /dev/null 2>&1
+EOL
+
+grep -v None temp.sh > fastqc.sh
+
+# run fastqc
+sh fastqc.sh
+
+# unzip outputs
+unzip -q read_1_fastqc.zip
+unzip -q read_2_fastqc.zip
+```
+
+```{r}
+# display fastqc job script
+fastqc_sh = paste0(opt$X_d, '/fastqc.sh')
+tags$code(tags$pre(readChar(fastqc_sh, file.info(fastqc_sh)$size )))
+```
+
+# Raw FastQC reports
+
+## Before trimming
+```{r eval=TRUE}
+ori_html = tags$a(href = 'read_1_fastqc/fastqc_report.html', opt$X_n)
+ori_fastqc_data = tags$a(href = 'read_1_fastqc/fastqc_data.txt', 'fastqc_data.txt')
+ori_summary = tags$a(href = 'read_1_fastqc/summary.txt', 'summary.txt')
+tags$ul(
+    tags$li(ori_html),
+    tags$li(ori_fastqc_data),
+    tags$li(ori_summary)
+  )
+```
+
+## After trimming
+```{r eval=TRUE}
+ori_html = tags$a(href = 'read_2_fastqc/fastqc_report.html', opt$X_n)
+ori_fastqc_data = tags$a(href = 'read_2_fastqc/fastqc_data.txt', 'fastqc_data.txt')
+ori_summary = tags$a(href = 'read_2_fastqc/summary.txt', 'summary.txt')
+tags$ul(
+    tags$li(ori_html),
+    tags$li(ori_fastqc_data),
+    tags$li(ori_summary)
+  )
+```
+
+
+# Fastqc Output Visualization
+
+## Overview
+
+```{r eval=TRUE}
+read_1_summary = read.csv(paste0(opt$X_d, '/read_1_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 2:1]
+read_2_summary = read.csv(paste0(opt$X_d, '/read_2_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 1]
+combined_summary = cbind(read_1_summary, read_2_summary)
+names(combined_summary) = c('MODULE', paste0(opt$X_n, '(before)'), paste0(opt$X_N, '(after)'))
+combined_summary[combined_summary == 'FAIL'] = 'FAIL (X)'
+combined_summary[combined_summary == 'WARN'] = 'WARN (!)'
+knitr::kable(combined_summary)
+```

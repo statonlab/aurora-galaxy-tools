@@ -1,0 +1,44 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE,
+  eval = TRUE
+)
+```
+
+# Per tile sequence quality
+
+```{r 'per tile sequence quality', fig.width=10}
+## check if 'per tile sequence quality' module exits or not
+check_ptsq = grep('Per tile sequence quality', readLines(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt')))
+if (length(check_ptsq) > 0) {
+    ## reads 1
+  ptsq_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per tile sequence quality')
+  ptsq_1$trim = 'before'
+  
+  ## reads 2
+  ptsq_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per tile sequence quality')
+  ptsq_2$trim = 'after'
+  
+  comb_ptsq = rbind(ptsq_1, ptsq_2)
+  comb_ptsq$trim = factor(levels = c('before', 'after'), comb_ptsq$trim)
+  comb_ptsq$Base = factor(levels = unique(comb_ptsq$Base), comb_ptsq$Base)
+  
+  # convert integers to charaters
+  comb_ptsq$Tile = as.character(comb_ptsq$X.Tile)
+  
+  p = ggplot(data = comb_ptsq, aes(x = Base, y = Tile, fill = Mean)) +
+    geom_raster() + 
+    facet_grid(. ~ trim) + 
+    xlab('Position in read (bp)') + 
+    ylab('') +
+    theme(axis.text.x = element_text(angle=45))
+  ggplotly(p)
+} else {
+  print('No "per tile sequence quality" data')
+}
+```
