@@ -1,0 +1,419 @@
+---
+title: 'Short reads evaluation with [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE,
+  eval = TRUE
+)
+```
+
+
+```{bash eval=TRUE,echo=FALSE}
+#create extra file directory
+mkdir -p ${X_d}
+```
+
+# Run FastQC
+
+```{bash eval=TRUE,echo=FALSE}
+cd ${X_d}
+cp ${X_r} ${X_d}/read_1.fq
+cp ${X_R} ${X_d}/read_2.fq
+
+mkdir -p read_1 read_2
+cat >temp.sh <<EOL
+fastqc \\
+  -q \\
+  -c ${X_c} \\
+  -l ${X_l} \\
+  ${X_d}/read_1.fq > /dev/null 2>&1
+  
+fastqc \\
+  -q \\
+  -c ${X_c} \\
+  -l ${X_l} \\
+  ${X_d}/read_2.fq > /dev/null 2>&1
+EOL
+
+grep -v None temp.sh > fastqc.sh
+
+# run fastqc
+sh fastqc.sh
+
+# unzip outputs
+unzip -q read_1_fastqc.zip
+unzip -q read_2_fastqc.zip
+```
+
+```{r}
+# display fastqc job script
+fastqc_sh = paste0(opt$X_d, '/fastqc.sh')
+tags$code(tags$pre(readChar(fastqc_sh, file.info(fastqc_sh)$size )))
+```
+
+# Raw FastQC reports
+
+## Before trimming
+```{r eval=TRUE}
+ori_html = tags$a(href = 'read_1_fastqc/fastqc_report.html', opt$X_n)
+ori_fastqc_data = tags$a(href = 'read_1_fastqc/fastqc_data.txt', 'fastqc_data.txt')
+ori_summary = tags$a(href = 'read_1_fastqc/summary.txt', 'summary.txt')
+tags$ul(
+    tags$li(ori_html),
+    tags$li(ori_fastqc_data),
+    tags$li(ori_summary)
+  )
+```
+
+## After trimming
+```{r eval=TRUE}
+ori_html = tags$a(href = 'read_2_fastqc/fastqc_report.html', opt$X_n)
+ori_fastqc_data = tags$a(href = 'read_2_fastqc/fastqc_data.txt', 'fastqc_data.txt')
+ori_summary = tags$a(href = 'read_2_fastqc/summary.txt', 'summary.txt')
+tags$ul(
+    tags$li(ori_html),
+    tags$li(ori_fastqc_data),
+    tags$li(ori_summary)
+  )
+```
+
+
+# Fastqc Output Visualization
+
+## Overview
+
+```{r eval=TRUE}
+read_1_summary = read.csv(paste0(opt$X_d, '/read_1_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 2:1]
+read_2_summary = read.csv(paste0(opt$X_d, '/read_2_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 1]
+combined_summary = cbind(read_1_summary, read_2_summary)
+names(combined_summary) = c('MODULE', paste0(opt$X_n, '(before)'), paste0(opt$X_N, '(after)'))
+combined_summary[combined_summary == 'FAIL'] = 'FAIL (X)'
+combined_summary[combined_summary == 'WARN'] = 'WARN (!)'
+knitr::kable(combined_summary)
+```
+
+## Visualization by data module {.tabset}
+
+* Define a function to extract outputs for each module from fastqc output
+
+```{r 'function definition'}
+extract_data_module = function(fastqc_data, module_name, header = TRUE, comment.char = "") {
+  f = readLines(fastqc_data)
+  start_line = grep(module_name, f)
+  end_module_lines = grep('END_MODULE', f)
+  end_line = end_module_lines[which(end_module_lines > start_line)[1]]
+  module_data = f[(start_line+1):(end_line-1)]
+  writeLines(module_data, 'temp.txt')
+  read.csv('temp.txt', sep = '\t', header = header, comment.char = comment.char)
+}
+```
+
+### Per base sequence quality
+
+```{r 'per base sequence quality', fig.width=10}
+## reads 1
+pbsq_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per base sequence quality')
+pbsq_1$id = 1:length(pbsq_1$X.Base)
+pbsq_1$trim = 'before'
+
+## reads 2
+pbsq_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per base sequence quality')
+pbsq_2$id = 1:length(pbsq_2$X.Base)
+pbsq_2$trim = 'after'
+
+comb_pbsq = rbind(pbsq_1, pbsq_2)
+comb_pbsq$trim = factor(levels = c('before', 'after'), comb_pbsq$trim)
+
+p = ggplot(data = comb_pbsq) +
+  geom_boxplot(mapping = aes(x = id, 
+                             lower = Lower.Quartile, 
+                             upper = Upper.Quartile, 
+                             middle = Median, 
+                             ymin = X10th.Percentile, 
+                             ymax = X90th.Percentile,
+                             fill = "yellow"),
+               stat = 'identity') +
+  geom_line(mapping = aes(x = id, y = Mean, color = "red")) +
+  scale_x_continuous(breaks = pbsq_2$id, labels = pbsq_2$X.Base) +
+  scale_fill_identity() +
+  scale_color_identity() + 
+  ylim(0, max(comb_pbsq$Upper.Quartile) + 5) +
+  xlab('Position in read (bp)') +
+  facet_grid(. ~ trim) +
+  theme(axis.text.x = element_text(angle=45))
+p
+
+```
+
+### Per tile sequence quality
+
+```{r 'per tile sequence quality', fig.width=10}
+## check if 'per tile sequence quality' module exits or not
+check_ptsq = grep('Per tile sequence quality', readLines(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt')))
+if (length(check_ptsq) > 0) {
+    ## reads 1
+  ptsq_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per tile sequence quality')
+  ptsq_1$trim = 'before'
+  
+  ## reads 2
+  ptsq_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per tile sequence quality')
+  ptsq_2$trim = 'after'
+  
+  comb_ptsq = rbind(ptsq_1, ptsq_2)
+  comb_ptsq$trim = factor(levels = c('before', 'after'), comb_ptsq$trim)
+  comb_ptsq$Base = factor(levels = unique(comb_ptsq$Base), comb_ptsq$Base)
+  
+  # convert integers to charaters
+  comb_ptsq$Tile = as.character(comb_ptsq$X.Tile)
+  
+  p = ggplot(data = comb_ptsq, aes(x = Base, y = Tile, fill = Mean)) +
+    geom_raster() + 
+    facet_grid(. ~ trim) + 
+    xlab('Position in read (bp)') + 
+    ylab('') +
+    theme(axis.text.x = element_text(angle=45))
+  ggplotly(p)
+} else {
+  print('No "per tile sequence quality" data')
+}
+
+
+```
+
+### Per sequence quality score
+
+```{r 'Per sequence quality score', fig.width=10}
+## reads 1
+psqs_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per sequence quality scores')
+psqs_1$trim = 'before'
+
+## reads 2
+psqs_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per sequence quality scores')
+psqs_2$trim = 'after'
+
+comb_psqs = rbind(psqs_1, psqs_2)
+comb_psqs$trim = factor(levels = c('before', 'after'), comb_psqs$trim)
+
+p = ggplot(data = comb_psqs, aes(x = X.Quality, y = Count)) + 
+  geom_line(color = 'red') + 
+  facet_grid(. ~ trim) + 
+  xlim(min(comb_psqs$X.Quality), max(comb_psqs$X.Quality)) + 
+  xlab('Mean Sequence Qaulity (Phred Score)') + 
+  ylab('')
+ggplotly(p)
+```
+
+
+### Per base sequence content
+
+```{r 'Per base sequence content', fig.width=10}
+## reads 1
+pbsc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per base sequence content')
+pbsc_1$id = 1:length(pbsc_1$X.Base)
+
+melt_pbsc_1 = melt(pbsc_1, id=c('X.Base', 'id'))
+melt_pbsc_1$trim = 'before'
+
+
+## reads 2
+pbsc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per base sequence content')
+pbsc_2$id = 1:length(pbsc_2$X.Base)
+
+melt_pbsc_2 = melt(pbsc_2, id=c('X.Base', 'id'))
+melt_pbsc_2$trim = 'after'
+
+comb_pbsc = rbind(melt_pbsc_1, melt_pbsc_2)
+comb_pbsc$trim = factor(levels = c('before', 'after'), comb_pbsc$trim)
+
+p = ggplot(data = comb_pbsc, aes(x = id, y = value, color = variable)) +
+  geom_line() +
+  facet_grid(. ~ trim) +
+  xlim(min(comb_pbsc$id), max(comb_pbsc$id)) + 
+  ylim(0, 100) +
+  xlab('Position in read (bp)') +
+  ylab('')
+ggplotly(p)
+```
+
+### Per sequence GC content
+
+```{r 'Per sequence GC content', fig.width=10}
+## reads 1
+psGCc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per sequence GC content')
+psGCc_1$trim = 'before'
+
+## reads 2
+psGCc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per sequence GC content')
+psGCc_2$trim = 'after'
+
+comb_psGCc = rbind(psGCc_1, psGCc_2)
+comb_psGCc$trim = factor(levels = c('before', 'after'), comb_psGCc$trim)
+
+p = ggplot(data = comb_psGCc, aes(x = X.GC.Content, y = Count)) +
+  geom_line(color = 'red') +
+  facet_grid(. ~ trim) +
+  xlab('Mean Sequence Qaulity (Phred Score)') +
+  ylab('')
+ggplotly(p)
+```
+
+
+### Per base N content
+
+```{r 'Per base N content', fig.width=10}
+## reads 1
+pbNc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per base N content')
+pbNc_1$id = 1:length(pbNc_1$X.Base)
+pbNc_1$trim = 'before'
+
+## reads 2
+pbNc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per base N content')
+pbNc_2$id = 1:length(pbNc_2$X.Base)
+pbNc_2$trim = 'after'
+
+comb_pbNc = rbind(pbNc_1, pbNc_2)
+comb_pbNc$trim = factor(levels = c('before', 'after'), comb_pbNc$trim)
+
+p = ggplot(data = comb_pbNc, aes(x = id, y = N.Count)) +
+  geom_line(color = 'red') +
+  scale_x_continuous(breaks = pbNc_2$id, labels = pbNc_2$X.Base) + 
+  facet_grid(. ~ trim) +
+  ylim(0, 1) + 
+  xlab('N-Count') +
+  ylab('') + 
+  theme(axis.text.x = element_text(angle=45))
+ggplotly(p)
+```
+
+
+### Sequence Length Distribution
+
+```{r 'Sequence Length Distribution', fig.width=10}
+## reads 1
+sld_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Sequence Length Distribution')
+sld_1$id = 1:length(sld_1$X.Length)
+sld_1$trim = 'before'
+
+## reads 2
+sld_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Sequence Length Distribution')
+sld_2$id = 1:length(sld_2$X.Length)
+sld_2$trim = 'after'
+
+comb_sld = rbind(sld_1, sld_2)
+comb_sld$trim = factor(levels = c('before', 'after'), comb_sld$trim)
+
+p = ggplot(data = comb_sld, aes(x = id, y = Count)) +
+  geom_line(color = 'red') +
+  scale_x_continuous(breaks = sld_2$id, labels = sld_2$X.Length) + 
+  facet_grid(. ~ trim) +
+  xlab('Sequence Length (bp)') +
+  ylab('') + 
+  theme(axis.text.x = element_text(angle=45))
+ggplotly(p)
+```
+
+### Sequence Duplication Levels
+
+```{r 'Sequence Duplication Levels', fig.width=10}
+## reads 1
+sdl_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Sequence Duplication Levels', header = FALSE, comment.char = '#')
+names(sdl_1) = c('Duplication_Level', 'Percentage_of_deduplicated', 'Percentage_of_total')
+sdl_1$id = 1:length(sdl_1$Duplication_Level)
+
+melt_sdl_1 = melt(sdl_1, id=c('Duplication_Level', 'id'))
+melt_sdl_1$trim = 'before'
+
+
+## reads 2
+sdl_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Sequence Duplication Levels', header = FALSE, comment.char = '#')
+names(sdl_2) = c('Duplication_Level', 'Percentage_of_deduplicated', 'Percentage_of_total')
+sdl_2$id = 1:length(sdl_2$Duplication_Level)
+
+melt_sdl_2 = melt(sdl_2, id=c('Duplication_Level', 'id'))
+melt_sdl_2$trim = 'after'
+
+comb_sdl = rbind(melt_sdl_1, melt_sdl_2)
+comb_sdl$trim = factor(levels = c('before', 'after'), comb_sdl$trim)
+
+p = ggplot(data = comb_sdl, aes(x = id, y = value, color = variable)) +
+  geom_line() +
+  scale_x_continuous(breaks = sdl_2$id, labels = sdl_2$Duplication_Level) +
+  facet_grid(. ~ trim) +
+  xlab('Sequence Duplication Level') +
+  ylab('') + 
+  theme(axis.text.x = element_text(angle=45))
+ggplotly(p)
+```
+
+### Adapter Content
+
+```{r 'Adapter Content', fig.width=10}
+## reads 1
+ac_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Adapter Content')
+ac_1$id = 1:length(ac_1$X.Position)
+
+melt_ac_1 = melt(ac_1, id=c('X.Position', 'id'))
+melt_ac_1$trim = 'before'
+
+## reads 2
+ac_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Adapter Content')
+ac_2$id = 1:length(ac_2$X.Position)
+
+melt_ac_2 = melt(ac_2, id=c('X.Position', 'id'))
+melt_ac_2$trim = 'after'
+
+comb_ac = rbind(melt_ac_1, melt_ac_2)
+comb_ac$trim = factor(levels = c('before', 'after'), comb_ac$trim)
+
+p = ggplot(data = comb_ac, aes(x = id, y = value, color = variable)) +
+  geom_line() +
+  facet_grid(. ~ trim) +
+  xlim(min(comb_ac$id), max(comb_ac$id)) + 
+  ylim(0, 1) +
+  xlab('Position in read (bp)') +
+  ylab('')
+ggplotly(p)
+```
+
+### Kmer Content {.tabset}
+
+#### Before
+
+```{r 'Kmer Content (before)', fig.width=10}
+kc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Kmer Content')
+knitr::kable(kc_1)
+```
+
+#### After
+```{r 'Kmer Content (after)', fig.width=10}
+kc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Kmer Content')
+knitr::kable(kc_2)
+```
+
+
+# Session Info
+
+```{r 'session info'}
+sessionInfo()
+```
+
+# References
+
+* Bioinformatics, Babraham (2014). FastQC.
+
+* Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob (2016). rmarkdown: Dynamic Documents for R, 2016. In R package version 0.9, 6.
+
+* Xie, Yihui (2015). Dynamic Documents with R and knitr, CRC Press, Vol.29.
+
+* Carson Sievert and Chris Parmer and Toby Hocking and Scott Chamberlain and Karthik Ram and Marianne Corvellec and Pedro Despouy (2017). plotly: Create Interactive Web Graphics via 'plotly.js'. R package version 4.6.0. [Link]
+
+* Wickham, H. (2016). ggplot2: elegant graphics for data analysis. Springer. Chicago
