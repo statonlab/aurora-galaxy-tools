@@ -1,0 +1,99 @@
+<tool id="deseq_results" name="DESeq2: Results" version="2.0.1">
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+        <requirement type="package" version="1.14.1">bioconductor-deseq2</requirement>
+        <requirement type="package" version="0.2">r-dt</requirement>
+        <requirement type="package" version="1.0.8">r-pheatmap</requirement>
+    </requirements>
+    <description>
+        An R Markdown tool to display DESeq analysis.
+    </description>
+    <stdio>
+        <!--redirecting stderr to a file. "XXX" is used to match with nothing so that tool running won't be interrupted during testing-->
+        <regex match="XXX"
+               source="stderr"
+               level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command>
+        <![CDATA[
+
+        Rscript '${__tool_directory__}/DESeq_results_render.R'
+
+            -e $echo
+		    -o $report
+		    -d $report.files_path
+		    -s $sink_message
+		    -t '${__tool_directory__}'
+
+            ## 1. input data
+
+            -W $deseq_workspace
+            -C '$contrast_factor'
+            -T '$treatment'
+            -K '$condition'
+
+            -M '$clustering_factors'
+
+            ## 2. output report and report site directory
+            -R $deseq_results
+
+
+        ]]>
+    </command>
+    <inputs>
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false"
+               label="Display analysis code in report?"/>
+        <param type="data" name="deseq_workspace" format="rdata" multiple="false" optional="false"
+               label="Workspace from tool DESeq2: DESeq"/>
+        <param type="text" name="contrast_factor" label="Factor" optional="false"
+               help="the name of a factor in the design formula"/>
+        <param type="text" name="treatment" label="Treatment level" optional="false"
+               help=" the name of the numerator level for the fold change"/>
+        <param type="text" name="condition" label="Condition level" optional="false"
+               help=" the name of the denominator level for the fold change"/>
+        <param type="text" name="clustering_factors" title="Gene clustering factors" optional="false"
+               label="factors of interest for clustering samples and PCA plot"
+               help="A single factor or multiple factors from the design formula. Multiple factors are separated by comma (,)."/>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="DESeq results report on ${on_string}" />
+        <data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/>
+        <data format="csv" name="deseq_results" label="DESeq results on ${on_string}" from_work_dir="deseq_results.csv" />
+    </outputs>
+    <citations>
+        <citation type="bibtex">
+            @article{love2014moderated,
+            title={Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2},
+            author={Love, Michael I and Huber, Wolfgang and Anders, Simon},
+            journal={Genome biology},
+            volume={15},
+            number={12},
+            pages={550},
+            year={2014},
+            publisher={BioMed Central}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        </citation>
+    </citations>
+</tool>

@@ -1,0 +1,97 @@
+---
+title: 'DESeq2: Perform DESeq analysis'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+# `DESeqDataSet` object
+
+```{r 'DESeqDataSet object'}
+count_file_paths = strsplit(opt$X_P, ',')[[1]]
+count_file_names = strsplit(opt$X_N, ',')[[1]]
+sample_table = read.table(opt$X_S, header = TRUE)
+row.names(sample_table) = sample_table[,2]
+sample_table = sample_table[count_file_names, ]
+
+## copy count files into OUTPUT_DIR/counts
+dir.create(paste0(OUTPUT_DIR, '/counts'), recursive = TRUE)
+file_copy = file.copy(count_file_paths, paste0(OUTPUT_DIR, '/counts/', count_file_names), overwrite = TRUE)
+
+## DESeqDataSet object
+dds = DESeqDataSetFromHTSeqCount(sampleTable = sample_table,
+                                 directory = paste0(OUTPUT_DIR, '/counts'),
+                                 design = formula(opt$X_p))
+dds
+```
+
+# Pre-filtering the dataset.
+
+We can remove the rows that have 0 or 1 count to reduce object size and increase the calculation speed.
+
+* Number of rows before pre-filtering
+```{r}
+nrow(dds)
+```
+
+* Number of rows after pre-filtering
+```{r}
+dds = dds[rowSums(counts(dds)) > 1, ]
+nrow(dds)
+```
+
+# Peek at data {.tabset}
+
+## Count Data
+
+```{r 'count data'}
+datatable(head(counts(dds), 100), style="bootstrap", 
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+## Sample Table 
+
+```{r 'sample table'}
+datatable(sample_table, style="bootstrap",
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+# Sample distance on variance stabilized data {.tabset}
+
+## `rlog` Stabilizing transformation
+
+```{r}
+rld = rlog(dds, blind = FALSE)
+datatable(head(assay(rld), 100), style="bootstrap", 
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+## Sample distance
+
+```{r}
+sampleDists <- dist(t(assay(rld)))
+sampleDists
+```
+
+# Differential expression analysis
+
+```{r}
+dds <- DESeq(dds)
+```
+
+```{r echo=FALSE}
+# save objects except for opt.
+save(list=ls()[ls() != "opt"], file=opt$X_w)
+```
+
+
