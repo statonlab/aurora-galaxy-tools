@@ -38,15 +38,15 @@ TOOL_DIR =   ''
 
 
 # create the output associated directory to store all outputs
-dir.create(OUT_DIR, recursive = TRUE)
+dir.create(OUTPUT_DIR, recursive = TRUE)
 
 #-----------------render site--------------
 # copy site generating materials into OUTPUT_DIR
 file.copy(TOOL_DIR, OUTPUT_DIR, recursive = TRUE)
 # render site to OUTPUT_DIR/_site, this is configured in the "_site.yml" file
-render_site(input = paste0(OUTPUT_DIR, '/aurora_fastqc_site'))
+render_site(input = paste0(OUTPUT_DIR, '/tool_repository_name'))
 # remove site generating materials from output associated directory
-unlink(paste0(OUTPUT_DIR, '/aurora_fastqc_site'), recursive = TRUE)
+unlink(paste0(OUTPUT_DIR, '/tool_repository_name'), recursive = TRUE)
 # move _site/* into output associated directory
 move_cmd = paste0('mv ', OUTPUT_DIR, '/_site/* ', OUTPUT_DIR)
 system(move_cmd)
