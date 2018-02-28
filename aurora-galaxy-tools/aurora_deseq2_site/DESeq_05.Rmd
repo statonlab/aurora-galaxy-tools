@@ -1,0 +1,23 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+
+# Differential expression analysis
+
+```{r}
+dds <- DESeq(dds)
+```
+
+```{r echo=FALSE}
+# save useful objects.
+save(dds, rld, sample_table, sampleDists, zz, file=opt$X_w)
+```
+

@@ -1,0 +1,27 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+
+# Peek at data {.tabset}
+
+## Count Data
+
+```{r 'count data'}
+datatable(head(counts(dds), 100), style="bootstrap", 
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+## Sample Table 
+
+```{r 'sample table'}
+datatable(sample_table, style="bootstrap",
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```

@@ -1,0 +1,57 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+
+# Visualization {.tabset}
+## Gene clustering
+
+```{r}
+clustering_groups = strsplit(opt$X_M, ',')[[1]]
+
+topVarGenes <- head(order(rowVars(assay(rld)), decreasing = TRUE), 20)
+mat  <- assay(rld)[ topVarGenes, ]
+mat  <- mat - rowMeans(mat)
+annotation_col <- as.data.frame(colData(rld)[, clustering_groups])
+colnames(annotation_col) = clustering_groups
+rownames(annotation_col) = colnames(mat)
+pheatmap(mat, annotation_col = annotation_col)
+```
+
+## Sample-to-sample distance
+
+```{r}
+sampleDistMatrix <- as.matrix( sampleDists )
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+pheatmap(sampleDistMatrix,
+         clustering_distance_cols = sampleDists,
+         col = colors)
+```
+
+## PCA plot 
+
+```{r}
+plotPCA(rld, intgroup = clustering_groups)
+```
+
+## MDS plot {.tabset}
+
+### Data table
+```{r}
+mds <- as.data.frame(colData(rld))  %>%
+         cbind(cmdscale(sampleDistMatrix))
+knitr::kable(mds)
+```
+
+### Plot
+```{r}
+ggplot(mds, aes(x = `1`, y = `2`, col = time)) +
+  geom_point(size = 3) + coord_fixed()
+```

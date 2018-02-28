@@ -1,0 +1,21 @@
+name: "Analysis Report"
+output_dir: "../_site"
+navbar:
+    title: ""
+    type: inverse
+    left:
+        - text: "Home"
+          icon: fa-home
+          href: index.html
+        - text: "Results"
+          href: DESeq_results_01.html
+        - text: "MA-plot"
+          href: DESeq_results_02.html
+        - text: "Histogram of p values"
+          href: DESeq_results_03.html
+        - text: "Visualization"
+          href: DESeq_results_04.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

@@ -1,0 +1,29 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+
+
+# Sample distance on variance stabilized data {.tabset}
+
+## `rlog` Stabilizing transformation
+
+```{r}
+rld = rlog(dds, blind = FALSE)
+datatable(head(assay(rld), 100), style="bootstrap", 
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
+
+## Sample distance
+
+```{r}
+sampleDists <- dist(t(assay(rld)))
+sampleDists
+```

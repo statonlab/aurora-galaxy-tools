@@ -1,0 +1,17 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+# MA-plot {.tabset}
+
+```{r}
+cat('--- Shrinked with Bayesian procedure ---')
+plotMA(res)
+```

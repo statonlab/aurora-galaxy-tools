@@ -1,0 +1,21 @@
+name: "Analysis Report"
+output_dir: "../_site"
+navbar:
+    title: ""
+    type: inverse
+    left:
+        - text: "Home"
+          icon: fa-home
+          href: index.html
+        - text: "DESeqDataSet"
+          href: DESeq_01.html
+        - text: "Pre-filtering"
+          href: DESeq_02.html
+        - text: "Data"
+          href: DESeq_03.html
+        - text: "Sample distance"
+          href: DESeq_04.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

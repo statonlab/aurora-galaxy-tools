@@ -1,0 +1,27 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+
+
+# Pre-filtering the dataset.
+
+We can remove the rows that have 0 or 1 count to reduce object size and increase the calculation speed.
+
+* Number of rows before pre-filtering
+```{r}
+nrow(dds)
+```
+
+* Number of rows after pre-filtering
+```{r}
+dds = dds[rowSums(counts(dds)) > 1, ]
+nrow(dds)
+```

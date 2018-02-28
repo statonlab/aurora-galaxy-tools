@@ -1,0 +1,30 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e),
+  error = TRUE
+)
+```
+
+
+```{r eval=TRUE}
+# Import workspace
+# fcp = file.copy(opt$X_W, "deseq.RData")
+load(opt$X_W)
+```
+
+# Results {.tabset}
+
+## Result table
+
+```{r}
+cat('--- View the top 100 rows of the result table ---')
+res <- results(dds, contrast = c(opt$X_C, opt$X_T, opt$X_K))
+write.csv(as.data.frame(res), file = opt$X_R)
+res_df = as.data.frame(res)[1:100, ]
+datatable(res_df, style="bootstrap", filter = 'top',
+          class="table-condensed", options = list(dom = 'tp', scrollX = TRUE))
+```
