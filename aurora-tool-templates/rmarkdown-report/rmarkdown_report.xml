@@ -1,11 +1,11 @@
 <tool name="Tool report" id='aurora_tool_report' version="1.0.0">
     <description>
-        "some description"
+        some description
     </description>
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
         <requirement type="package" version="1.20.0">r-getopt</requirement>
-        <requirement type="package" version="1.3">r-rmarkdown</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
     </requirements>
     <stdio>
         <regex match="XXX" source="stderr" level="warning"
@@ -16,16 +16,11 @@
 
         Rscript '${__tool_directory__}/rmarkdown_report_render.R'
 
-            -e $echo
-
-            # path to the galaxy output report
-		    -o $report
-		    # path to the output report associated folder
-		    -d $report.files_path
-		    # path to the galaxy output warnings_and_errors.txt
-		    -s $sink_message
-		    # path to the tool installation directory
-		    -t '${__tool_directory__}'
+			-e $echo
+			-o $report
+			-d $report.files_path
+			-s $sink_message
+			-t '${__tool_directory__}'
 
 
         
