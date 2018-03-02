@@ -1,11 +1,6 @@
 ---
-title: 'HTML report title'
-output:
-    html_document:
-      number_sections: true
-      toc: true
-      theme: cosmo
-      highlight: tango
+title: 'Skewer Trimming'
+output: html_document
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
@@ -16,10 +11,46 @@ knitr::opts_chunk$set(
 ```
 
 
-# Trimming reads
+# Run Skewer
 
 ```{bash}
-skewer -Q 9 ${X_X} ${X_Y} -o ${X_d}/trim
+cd ${X_d}
+
+cat >temp.sh <<EOL
+skewer \\
+  -q ${X_A} \\
+  -Q ${X_B} \\
+  -x ${X_x} \\
+  -y ${X_y} \\
+  ${X_X} \\
+  ${X_Y} \\
+  -o ${X_d}/trim > /dev/null 2>&1
+EOL
+
+grep -v None temp.sh > skewer-job.sh
+
+# run skewer
+sh skewer-job.sh
+
+cp trim-trimmed-pair1.fastq ${X_f}
+cp trim-trimmed-pair2.fastq ${X_r}
+mv trim-trimmed.log trim-trimmed.txt
 ```
 
+
+```{r}
+# display skewer job script
+skewer_sh = paste0(opt$X_d, '/skewer-job.sh')
+tags$code(tags$pre(readChar(skewer_sh, file.info(skewer_sh)$size )))
+```
+
+# Results
+
+```{r}
+tags$ul(
+  tags$li(tags$a(href = 'trim-trimmed.txt', 'trim-trimmed.log')),
+  tags$li(tags$a(href = 'trim-trimmed-pair1.fastq', 'trim-trimmed-pair1.fastq')),
+  tags$li(tags$a(href = 'trim-trimmed-pair2.fastq', 'trim-trimmed-pair2.fastq'))
+)
+```
 

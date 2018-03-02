@@ -10,6 +10,7 @@ options(stringsAsFactors = FALSE)
 
 library(getopt)
 library(rmarkdown)
+library(htmltools)
 #------------------------------------------------
 
 
@@ -21,13 +22,14 @@ library(rmarkdown)
 spec_matrix = as.matrix(
   data.frame(stringsAsFactors=FALSE,
               long_flags = c("X_e", "X_o", "X_d", "X_s", "X_t", "X_X", "X_Y",
-                             "X_x", "X_y", "X_A", "X_B"),
+                             "X_x", "X_y", "X_A", "X_B", "X_f", "X_r"),
              short_flags = c("e", "o", "d", "s", "t", "X", "Y", "x", "y", "A",
-                             "B"),
-     argument_mask_flags = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
+                             "B", "f", "r"),
+     argument_mask_flags = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
          data_type_flags = c("character", "character", "character", "character",
                              "character", "character", "character",
-                             "character", "character", "character", "character")
+                             "character", "character", "character", "character",
+                             "character", "character")
   )
 )
 opt = getopt(spec_matrix)

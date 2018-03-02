@@ -12,3 +12,6 @@ Rscript '${__tool_directory__}/skewer_render.R'
     -y $adapter_y
     -A $end_quality
     -B $mean_quality
+    
+    -f $trimmed_r1
+    -r $trimmed_r2
