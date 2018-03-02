@@ -14,7 +14,8 @@ library(rmarkdown)
 
 
 #------------get arguments into R--------------------
-# getopt_specification_matrix(extract_short_flags('fastqc_report.xml')) %>%
+# library(dplyr)
+# getopt_specification_matrix(extract_short_flags('')) %>%
 #   write.table(file = 'spec.txt', sep = ',', row.names = FALSE, col.names = TRUE, quote = FALSE)
 
 
@@ -34,12 +35,13 @@ do.call(Sys.setenv, opt[-1])
 OUTPUT_DIR = ''
 TOOL_DIR =   ''
 RMD_NAME = ''
+OUTPUT_REPORT = opt$X_o
 
 # create the output associated directory to store all outputs
-dir.create(OUT_DIR, recursive = TRUE)
+dir.create(OUTPUT_DIR, recursive = TRUE)
 
 #-----------------render Rmd--------------
-render(paste0(TOOL_DIR, RMD_NAME, sep = '/'), OUTPUT_DIR)
+render(paste0(TOOL_DIR, RMD_NAME, sep = '/'), output_file = OUTPUT_REPORT)
 #------------------------------------------
 
 #==============the end==============
