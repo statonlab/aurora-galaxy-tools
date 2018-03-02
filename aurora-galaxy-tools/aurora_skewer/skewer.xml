@@ -1,0 +1,55 @@
+<tool id="aurora_skewer" name="Aurora Skewer" version="1.0.0">
+  <description>A fast and accurate adapter trimmer for next-generation sequencing paired-end reads&#xD;
+    </description>
+  <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement><requirement type="package" version="1.20.0">r-getopt</requirement><requirement type="package" version="1.6">r-rmarkdown</requirement><requirement type="package" version="0.2.2">skewer</requirement></requirements>
+  <stdio>
+        <regex match="XXX" source="stderr" level="warning" description="Check the warnings_and_errors.txt file for more details."/></stdio>
+  <command><![CDATA[Rscript '${__tool_directory__}/skewer_render.R'
+
+    -e $echo
+    -o $report
+    -d $report.files_path
+    -s $sink_message
+    -t '${__tool_directory__}'
+    
+    -X $first_reads
+    -Y $second_reads
+    -x $adapter_x
+    -y $adapter_y
+    -A $end_quality
+    -B $mean_quality
+]]></command>
+  <inputs>
+        <param type="data" name="first_reads" label="First reads file" optional="False" format="fastq,fastqsanger"/><param type="data" name="second_reads" label="Second reads" optional="False" format="fastq,fastqsanger"/><param type="data" name="adapter_x" argument="-x" label="Adapter sequence file for the first reads" optional="True" format="fasta,fa"/><param type="data" name="adapter_y" argument="-y" label="Adapter sequence file for the second reads" optional="True" format="fasta,fa"/><param type="integer" name="end_quality" argument="-q" label="3&#x2019; end quality trimming" help="Trim 3&#x2019; end until specified or higher quality reached. The default value is 0." optional="False" value="0"/><param type="integer" name="mean_quality" argument="-Q" label="Reads filtering by average quality" help="Specifies the lowest mean quality value allowed before trimming. The default value is 0." optional="False" value="0"/><param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false" label="Display analysis code in report?"/></inputs>
+  <outputs>
+        <data name="report" format="html" label="Skewer trimmed" hidden="false"/><data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/></outputs>
+  <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[@article{jiang2014skewer,
+  title={Skewer: a fast and accurate adapter trimmer for next-generation sequencing paired-end reads},
+  author={Jiang, Hongshan and Lei, Rong and Ding, Shou-Wei and Zhu, Shuifang},
+  journal={BMC bioinformatics},
+  volume={15},
+  number={1},
+  pages={182},
+  year={2014},
+  publisher={BioMed Central}
+}]]></citation></citations>
+</tool>

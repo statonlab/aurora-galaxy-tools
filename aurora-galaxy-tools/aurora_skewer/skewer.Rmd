@@ -1,0 +1,25 @@
+---
+title: 'HTML report title'
+output:
+    html_document:
+      number_sections: true
+      toc: true
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+# Trimming reads
+
+```{bash}
+skewer -Q 9 ${X_X} ${X_Y} -o ${X_d}/trim
+```
+
+
