@@ -1,0 +1,62 @@
+<tool id="aurora_star" name="Aurora Star" version="1.0.0">
+    <description>ultrafast universal RNA-seq aligner&#xD;
+    </description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+        <requirement type="package" version="2.5.4a">star</requirement>
+    </requirements>
+    <stdio>
+        <regex match="XXX" source="stderr" level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command><![CDATA[Rscript '${__tool_directory__}/star_render.R'
+
+    -e $echo
+    -o $report
+    -d $report.files_path
+    -s $sink_message
+    -t '${__tool_directory__}'
+    
+    -A '$genomeFastaFiles'
+    -B '$sjdbGTFfile'
+    -C '$sjdbOverhang']]></command>
+    <inputs>
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false"
+               label="Display analysis code in report?"/>
+        <param type="data" name="genomeFastaFiles" argument="--genomeFastaFiles" label="Genome fasta files"
+               optional="False" format="fasta,fa"/>
+        <param type="data" name="sjdbGTFfile" argument="--sjdbGTFfile" label="Annotated transcripts"
+               help="the file with annotated transcripts in the standard GTF format. STAR will extract splice junctions from this file and use them to greatly improve accuracy of the mapping. While this is optional, and STAR can be run without annotations, using annotations is highly recommended whenever they are available."
+               optional="True" format="gtf"/>
+        <param type="integer" name="sjdbOverhang" argument="--sjdbOverhang" label="sjdbOverhang"
+               help="the length of the genomic sequence around the annotated junction to be used in constructing the splice junctions database. Ideally, this length should be equal to the ReadLength-1, where ReadLength is the length of the reads. For instance, for Illumina 2x100b paired-end reads, the ideal value is 100-1=99. In case of reads of varying length, the ideal value is max(ReadLength)-1. In most cases, a generic value of 100 will work as well as the ideal value."
+               optional="False" value="100" min="1"/>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="tool report"/>
+        <data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/>
+    </outputs>
+    <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation>
+    </citations>
+</tool>

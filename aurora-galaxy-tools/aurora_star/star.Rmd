@@ -1,0 +1,43 @@
+---
+title: 'STAR: RNA-Seq aligner'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+# Generating genome indexes
+
+```{bash}
+cd ${X_d}
+# create genome directory for genome indexes
+mkdir -p ${X_d}/genomeDir
+
+cat >temp.sh <<EOF
+STAR \\
+  --runMode genomeGenerate \\
+  --genomeDir ${X_d}/genomeDir \\
+  --genomeFastaFiles $( echo ${X_A} | sed 's/,/ /g' ) \\
+  --sjdbGTFfile ${X_B} \\
+  --sjdbOverhang ${X_C} \\
+  > /dev/null 2>&1
+EOF
+
+grep -v None temp.sh > index-genome.sh
+
+# run star
+sh index-genome.sh
+```
+
+
+```{r}
+# display skewer job script
+index_genome_sh = paste0(opt$X_d, '/index-genome.sh')
+tags$code(tags$pre(readChar(index_genome_sh, file.info(index_genome_sh)$size )))
+```
+
