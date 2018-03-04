@@ -1,0 +1,95 @@
+---
+title: 'STAR: RNA-Seq aligner'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+## Generating genome indexes
+
+```{bash}
+cd ${X_d}
+# create genome directory for genome indexes
+mkdir -p ${X_d}/genomeDir
+
+cat >temp.sh <<EOF
+STAR \\
+  --runMode genomeGenerate \\
+  --genomeDir ${X_d}/genomeDir \\
+  --genomeFastaFiles $( echo ${X_A} | sed 's/,/ /g' ) \\
+  --sjdbGTFfile ${X_B} \\
+  --sjdbOverhang ${X_C} \\
+  > /dev/null 2>&1
+EOF
+
+grep -v None temp.sh > index-genome.sh
+
+# run star
+sh index-genome.sh
+```
+
+
+```{r}
+# display index-genome code
+index_genome_sh = paste0(opt$X_d, '/index-genome.sh')
+tags$code(tags$pre(readChar(index_genome_sh, file.info(index_genome_sh)$size )))
+```
+
+## Running mapping jobs
+
+```{bash}
+cd ${X_d}
+
+cat >temp.sh <<EOF
+STAR \\
+  --genomeDir ${X_d}/genomeDir \\
+  --readFilesIn \\
+  ${X_F} \\
+  ${X_R} \\
+  > /dev/null 2>&1
+EOF
+
+grep -v None temp.sh > mapping.sh
+
+# run mapping
+sh mapping.sh
+```
+
+
+```{r}
+# display mapping code
+mapping_sh = paste0(opt$X_d, '/mapping.sh')
+tags$code(tags$pre(readChar(mapping_sh, file.info(mapping_sh)$size )))
+```
+
+
+## SAM to sorted BAM
+
+```{bash}
+cd ${X_d}
+
+echo "samtools sort -o Aligned.out.sorted.bam Aligned.out.sam" > sam2bam.sh
+
+sh sam2bam.sh
+
+cp Aligned.out.sorted.bam ${X_S}
+```
+
+```{r}
+# display sam to bam code
+sam2bam_sh = paste0(opt$X_d, '/sam2bam.sh')
+tags$code(tags$pre(readChar(sam2bam_sh, file.info(sam2bam_sh)$size )))
+```
+
+## Mapping statistics
+
+```{bash}
+cd ${X_d}
+samtools flagstat Aligned.out.sorted.bam
+```

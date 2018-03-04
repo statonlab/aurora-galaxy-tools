@@ -1,0 +1,15 @@
+name: "Analysis Report"
+output_dir: "../_site"
+navbar:
+    title: ""
+    type: inverse
+    left:
+        - text: "Home"
+          icon: fa-home
+          href: index.html
+        - text: "STAR: RNA-Seq mapping"
+          href: aurora_star_site.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
