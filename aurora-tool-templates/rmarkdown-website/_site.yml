@@ -7,11 +7,11 @@ navbar:
         - text: "Home"
           icon: fa-home
           href: index.html
-        - text: ""
+        - text: "TITLE 1"
           href: 01_test.html
-        - text: ""
+        - text: "TITLE 2"
           menu:
-            - text: ""
+            - text: "TITLE 2.1"
               href: 02_test.html
 output:
   html_document:
