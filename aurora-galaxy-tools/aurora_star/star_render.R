@@ -23,12 +23,12 @@ library(htmltools)
 spec_matrix = as.matrix(
   data.frame(stringsAsFactors=FALSE,
               long_flags = c("X_e", "X_o", "X_d", "X_s", "X_t", "X_A", "X_B",
-                             "X_C"),
-             short_flags = c("e", "o", "d", "s", "t", "A", "B", "C"),
-     argument_mask_flags = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
+                             "X_C", "X_F", "X_R", "X_S"),
+             short_flags = c("e", "o", "d", "s", "t", "A", "B", "C", "F", "R", "S"),
+     argument_mask_flags = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
          data_type_flags = c("character", "character", "character", "character",
                              "character", "character", "character",
-                             "character")
+                             "character", "character", "character", "character")
   )
 )
 opt = getopt(spec_matrix)
