@@ -15,7 +15,7 @@ library(rmarkdown)
 
 #------------get arguments into R--------------------
 # library(dplyr)
-# getopt_specification_matrix(extract_short_flags('fastqc_report.xml')) %>%
+# getopt_specification_matrix(extract_short_flags('')) %>%
 #   write.table(file = 'spec.txt', sep = ',', row.names = FALSE, col.names = TRUE, quote = FALSE)
 
 
