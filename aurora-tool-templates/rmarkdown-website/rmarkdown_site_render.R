@@ -44,7 +44,7 @@ dir.create(OUTPUT_DIR, recursive = TRUE)
 #-----------------render site--------------
 # copy site generating materials into OUTPUT_DIR
 dir.create(paste0(OUTPUT_DIR, '/site_generator'), recursive = TRUE)
-system(paste0('cp -r ', TOOL_DIR, '/TOOL_BASENAME_*.Rmd ', OUTPUT_DIR, '/site_generator/skewer.Rmd'))
+system(paste0('cp -r ', TOOL_DIR, '/TOOL_BASENAME_*.Rmd ', OUTPUT_DIR, '/site_generator/TOOL_BASENAME_*.Rmdd'))
 system(paste0('cp -r ', TOOL_DIR, '/TOOL_BASENAME_site.yml ', OUTPUT_DIR, '/site_generator/_site.yml'))
 system(paste0('cp -r ', TOOL_DIR, '/TOOL_BASENAME_index.Rmd ', OUTPUT_DIR, '/site_generator/index.Rmd'))
 # render site to OUTPUT_DIR/_site, this is configured in the "_site.yml" file
