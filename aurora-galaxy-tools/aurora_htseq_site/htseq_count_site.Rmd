@@ -1,0 +1,65 @@
+---
+title: 'htseq-count analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+## Run htseq-count
+
+```{bash}
+cd ${X_d}
+
+cat >htseq-count.sh <<EOF
+  htseq-count \\
+    $(echo ${X_A} | sed 's/,/ /g') \\
+    ${X_G} \\
+    -f ${X_f} \\
+    -r ${X_r} \\
+    -s ${X_S} \\
+    -a ${X_a} \\
+    -t ${X_T} \\
+    -i ${X_i} \\
+    -m ${X_m} > counts.txt
+    
+  grep -v '__no_feature\|__ambiguous\|__too_low_aQual\|__not_aligned\|__alignment_not_unique' counts.txt > ${X_c}
+EOF
+```
+
+
+```{r}
+# display htseq-count job script
+htseq_count_sh = paste0(opt$X_d, '/htseq-count.sh')
+tags$code(tags$pre(readChar(htseq_count_sh, file.info(htseq_count_sh)$size )))
+```
+
+```{bash}
+cd ${X_d}
+sh htseq-count.sh
+```
+
+## Counts
+
+```{r}
+count_data = read.table(paste0(opt$X_d, '/counts.txt'), row.names = 1)
+sample_names = trimws(strsplit(opt$X_B, ',')[[1]])
+colnames(count_data) = rep(sample_names, length = ncol(count_data))
+DT::datatable(count_data, caption = "htseq counts for each sample")
+```
+
+```{r}
+# save count data as an R object
+save(count_data, file = paste0(opt$X_d, '/counts.RData'))
+```
+
+```{bash}
+cp ${X_d}/counts.RData ${X_O}
+```
+
+

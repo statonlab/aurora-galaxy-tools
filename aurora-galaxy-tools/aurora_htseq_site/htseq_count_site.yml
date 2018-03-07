@@ -1,0 +1,15 @@
+name: "Analysis Report"
+output_dir: "../_site"
+navbar:
+    title: ""
+    type: inverse
+    left:
+        - text: "Home"
+          icon: fa-home
+          href: index.html
+        - text: "htseq-count Analysis"
+          href: htseq_count_site.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

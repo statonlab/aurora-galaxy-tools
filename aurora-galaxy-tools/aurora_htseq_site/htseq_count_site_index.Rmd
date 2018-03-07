@@ -1,0 +1,16 @@
+---
+title: "htseq-count Report"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+## References
+
+Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob (2016). rmarkdown: Dynamic Documents for R, 2016. In R package version 0.9, 6.
+
+Xie, Yihui (2015). Dynamic Documents with R and knitr, CRC Press, Vol.29.
+
+Anders, Simon and Pyl, Paul Theodor and Huber, Wolfgang (2015). HTSeq—a Python framework to work with high-throughput sequencing data. In Bioinformatics, 31 (2), pp. 166--169.
