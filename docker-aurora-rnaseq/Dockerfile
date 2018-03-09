@@ -5,7 +5,7 @@ FROM quay.io/bgruening/galaxy:17.09
 
 MAINTAINER Ming Chen, ming.chen0919@gmail.com
 
-ENV GALAXY_CONFIG_BRAND Aurora Tools (RNASeq)
+ENV GALAXY_CONFIG_BRAND="Aurora Tools (RNASeq)"
 
 # Install tools
 ADD aurora_rnaseq.yml $GALAXY_ROOT/tools.yaml
