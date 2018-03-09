@@ -1,0 +1,22 @@
+---
+title: 'DESeq2 Analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+## Heatmap of count matrix
+
+```{r}
+ntd <- normTransform(dds)
+select <- order(rowMeans(counts(dds,normalized=TRUE)),
+                decreasing=TRUE)[1:20]
+df <- as.data.frame(colData(dds)[, -ncol(colData(dds))])
+pheatmap(assay(ntd)[select,], annotation_col=df)
+```

@@ -1,0 +1,10 @@
+---
+name: aurora_deseq2_site
+owner: mingchen0919
+description: Differential expression analysis with R DESeq2 package
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  RNA: RNA
+...

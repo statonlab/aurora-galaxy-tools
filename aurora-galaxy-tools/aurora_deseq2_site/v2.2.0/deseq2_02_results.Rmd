@@ -1,0 +1,29 @@
+---
+title: 'DESeq2 Analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+## Results
+
+```{r}
+res = results(dds, contrast = c(opt$X_D, opt$X_E, opt$X_F), alpha = opt$X_I)
+DT::datatable(as.data.frame(res))
+```
+
+```{r}
+# significant genes
+sig_res = res[(res$padj < opt$X_I) & !is.na(res$padj), ]
+write.csv(sig_res, file = paste0(opt$X_d, '/significant_genes.csv'), quote = FALSE)
+```
+
+```{bash echo=FALSE}
+cp ${X_d}/significant_genes.csv ${X_J}
+```

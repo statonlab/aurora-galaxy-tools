@@ -1,0 +1,25 @@
+---
+title: 'DESeq2 Analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+## DESeq2 analysis
+
+```{r}
+# load count data
+load(opt$X_A)
+# load column data
+coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data), ]
+dds = DESeqDataSetFromMatrix(countData = count_data,
+                             colData = coldata,
+                             design = formula(opt$X_C))
+dds = DESeq(dds, test = opt$X_G, fitType = opt$X_H)
+```
+

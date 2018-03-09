@@ -1,0 +1,34 @@
+---
+title: 'DESeq2 Analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+## MA-plot
+
+```{r warning=FALSE, message=FALSE}
+df = data.frame(ID = rownames(res),
+                mean = res$baseMean,
+                lfc = res$log2FoldChange,
+                padj = res$padj,
+                stringsAsFactors = FALSE)
+cols = vector(mode='character', length = nrow(res))
+cols[(res$padj < opt$X_I) & !is.na(res$padj)] = paste0('< ', opt$X_I)
+cols[(res$padj >= opt$X_I) & !is.na(res$padj)] = paste0('>= ', opt$X_I)
+cols[cols == ''] = 'NA'
+df$col = cols
+p = ggplot(data = df) +
+  geom_point(mapping = aes(x = log(mean), y = lfc, col = cols, key = ID)) +
+  scale_x_continuous(name = 'Log(mean)') +
+  scale_y_continuous(name = 'Log fold change') +
+  scale_color_discrete(name = 'Adjusted P')+
+  theme_classic()
+ggplotly(p)
+```

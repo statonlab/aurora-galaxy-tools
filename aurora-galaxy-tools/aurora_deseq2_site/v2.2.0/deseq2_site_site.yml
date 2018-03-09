@@ -1,0 +1,25 @@
+name: "Analysis Report"
+output_dir: "../_site"
+navbar:
+    title: ""
+    type: inverse
+    left:
+        - text: "Home"
+          icon: fa-home
+          href: index.html
+        - text: "Differential Expression Analysis"
+          menu:
+            - text: "DESeq analysis"
+              href: deseq2_01_run_deseq.html
+            - text: "Results"
+              href: deseq2_02_results.html
+            - text: "MA-plot"
+              href: deseq2_03_MA_plot.html
+            - text: "Heatmap"
+              href: deseq2_04_heatmap.html
+            - text: "PCA plot"
+              href: deseq2_05_pca.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

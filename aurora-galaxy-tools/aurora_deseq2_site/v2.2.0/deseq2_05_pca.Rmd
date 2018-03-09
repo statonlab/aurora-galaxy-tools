@@ -1,0 +1,21 @@
+---
+title: 'DESeq2 Analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+## Principle component plot
+
+```{r}
+vsd <- vst(dds, blind=FALSE)
+p = plotPCA(vsd, intgroup=c(opt$X_D)) + 
+  scale_color_discrete(name = 'Group') +
+  theme_classic()
+ggplotly(p)
+```
