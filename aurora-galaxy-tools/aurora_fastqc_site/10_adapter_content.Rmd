@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Adapter Content
+### Adapter Content
 
 ```{r 'Adapter Content', fig.width=10}
 ## reads 1
@@ -36,6 +36,10 @@ p = ggplot(data = comb_ac, aes(x = id, y = value, color = variable)) +
   xlim(min(comb_ac$id), max(comb_ac$id)) + 
   ylim(0, 1) +
   xlab('Position in read (bp)') +
-  ylab('')
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line())
 ggplotly(p)
 ```

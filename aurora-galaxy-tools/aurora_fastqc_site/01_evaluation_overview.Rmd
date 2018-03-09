@@ -85,11 +85,27 @@ tags$ul(
 ## Overview
 
 ```{r eval=TRUE}
-read_1_summary = read.csv(paste0(opt$X_d, '/read_1_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 2:1]
-read_2_summary = read.csv(paste0(opt$X_d, '/read_2_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 1]
-combined_summary = cbind(read_1_summary, read_2_summary)
-names(combined_summary) = c('MODULE', paste0(opt$X_n, '(before)'), paste0(opt$X_N, '(after)'))
+read_1_summary = read.csv(paste0(opt$X_d, '/read_1_fastqc/summary.txt'),
+                          stringsAsFactors = FALSE,
+                          header = FALSE, sep = '\t')[, 2:1]
+read_2_summary = read.csv(paste0(opt$X_d, '/read_2_fastqc/summary.txt'),
+                          stringsAsFactors = FALSE,
+                          header = FALSE, sep = '\t')[, 1]
+combined_summary = data.frame(read_1_summary, read_2_summary, stringsAsFactors = FALSE)
+names(combined_summary) = c('MODULE', 'Pre-trimming', 'Post-trimming')
 combined_summary[combined_summary == 'FAIL'] = 'FAIL (X)'
 combined_summary[combined_summary == 'WARN'] = 'WARN (!)'
 knitr::kable(combined_summary)
+```
+
+```{r 'function definition', echo=FALSE}
+extract_data_module = function(fastqc_data, module_name, header = TRUE, comment.char = "") {
+  f = readLines(fastqc_data)
+  start_line = grep(module_name, f)
+  end_module_lines = grep('END_MODULE', f)
+  end_line = end_module_lines[which(end_module_lines > start_line)[1]]
+  module_data = f[(start_line+1):(end_line-1)]
+  writeLines(module_data, '/tmp/temp.txt')
+  read.csv('/tmp/temp.txt', sep = '\t', header = header, comment.char = comment.char)
+}
 ```

@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Per sequence GC content
+### Per sequence GC content
 
 ```{r 'Per sequence GC content', fig.width=10}
 ## reads 1
@@ -28,6 +28,8 @@ p = ggplot(data = comb_psGCc, aes(x = X.GC.Content, y = Count)) +
   geom_line(color = 'red') +
   facet_grid(. ~ trim) +
   xlab('Mean Sequence Qaulity (Phred Score)') +
-  ylab('')
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme_classic()
 ggplotly(p)
 ```

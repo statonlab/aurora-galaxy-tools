@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Sequence Length Distribution
+### Sequence Length Distribution
 
 ```{r 'Sequence Length Distribution', fig.width=10}
 ## reads 1
@@ -32,6 +32,9 @@ p = ggplot(data = comb_sld, aes(x = id, y = Count)) +
   facet_grid(. ~ trim) +
   xlab('Sequence Length (bp)') +
   ylab('') + 
-  theme(axis.text.x = element_text(angle=45))
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line(), 
+        plot.margin = margin(2,2,2,10) )
 ggplotly(p)
 ```

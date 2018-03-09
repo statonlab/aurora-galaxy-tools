@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 ```
 
 
-# Per base sequence content
+### Per base sequence content
 
 ```{r 'Per base sequence content', fig.width=10}
 ## reads 1
@@ -32,12 +32,14 @@ melt_pbsc_2$trim = 'after'
 comb_pbsc = rbind(melt_pbsc_1, melt_pbsc_2)
 comb_pbsc$trim = factor(levels = c('before', 'after'), comb_pbsc$trim)
 
-p = ggplot(data = comb_pbsc, aes(x = id, y = value, color = variable)) +
-  geom_line() +
+p = ggplot(data = comb_pbsc) +
+  geom_line(mapping = aes(x = id, y = value, color = variable)) +
   facet_grid(. ~ trim) +
   xlim(min(comb_pbsc$id), max(comb_pbsc$id)) + 
   ylim(0, 100) +
   xlab('Position in read (bp)') +
-  ylab('')
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme_classic()
 ggplotly(p)
 ```

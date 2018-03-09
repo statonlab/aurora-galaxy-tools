@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Per base N content
+### Per base N content
 
 ```{r 'Per base N content', fig.width=10}
 ## reads 1
@@ -33,6 +33,8 @@ p = ggplot(data = comb_pbNc, aes(x = id, y = N.Count)) +
   ylim(0, 1) + 
   xlab('N-Count') +
   ylab('') + 
-  theme(axis.text.x = element_text(angle=45))
+  theme(axis.text.x = element_text(size = 5),
+        axis.line = element_line(),
+        panel.background = element_rect(fill = NA))
 ggplotly(p)
 ```

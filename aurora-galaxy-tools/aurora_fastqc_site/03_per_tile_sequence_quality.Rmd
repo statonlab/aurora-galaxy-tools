@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Per tile sequence quality
+### Per tile sequence quality
 
 ```{r 'per tile sequence quality', fig.width=10}
 ## check if 'per tile sequence quality' module exits or not
@@ -29,14 +29,17 @@ if (length(check_ptsq) > 0) {
   comb_ptsq$Base = factor(levels = unique(comb_ptsq$Base), comb_ptsq$Base)
   
   # convert integers to charaters
-  comb_ptsq$Tile = as.character(comb_ptsq$X.Tile)
+  # comb_ptsq$Tile = as.character(comb_ptsq$X.Tile)
   
-  p = ggplot(data = comb_ptsq, aes(x = Base, y = Tile, fill = Mean)) +
-    geom_raster() + 
+  p = ggplot(data = comb_ptsq) +
+    geom_raster(mapping = aes(x = Base, y = X.Tile, fill = Mean)) + 
     facet_grid(. ~ trim) + 
-    xlab('Position in read (bp)') + 
-    ylab('') +
-    theme(axis.text.x = element_text(angle=45))
+    scale_x_discrete(name = "Position in read (bp)") +
+    scale_y_continuous(name = "") +
+    scale_fill_gradient(low = "blue", high = "red") +
+    theme(axis.text.x = element_text(size = 5, angle = 90),
+          axis.text.y = element_text(size = 5),
+        panel.background = element_rect(fill = NA))
   ggplotly(p)
 } else {
   print('No "per tile sequence quality" data')
