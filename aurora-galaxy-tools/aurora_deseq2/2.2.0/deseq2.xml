@@ -1,0 +1,111 @@
+<tool id="aurora_deseq2" name="Aurora DESeq2" version="2.2.0">
+    <description>Differential analysis of count data with the DESeq2 package</description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+        <requirement type="package" version="1.14.1">bioconductor-deseq2</requirement>
+        <requirement type="package" version="4.5.6">r-plotly</requirement>
+        <requirement type="package" version="2.2.1">r-ggplot2</requirement>
+        <requirement type="package" version="1.0.8">r-pheatmap</requirement>
+        <requirement type="package" version="0.2">r-dt</requirement>
+    </requirements>
+    <stdio>
+        <regex match="XXX" source="stderr" level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command><![CDATA[Rscript '${__tool_directory__}/deseq2_render.R'
+
+  -e $echo
+  -o $report
+  -d $report.files_path
+  -s $sink_message
+  -t '${__tool_directory__}' 
+  
+  -A '$count_data'
+  -B '$column_data'
+  -C '$design_formula'
+  -D '$treatment_name'
+  -E '$treated'
+  -F '$untreated'
+  -G '$test_type'
+  -H '$fit_type'
+  -I '$alpha'
+  -J '$significant_genes']]></command>
+    <inputs>
+        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="true"
+               label="Display analysis code in report?"/>
+        <param type="data" name="count_data" label="Count data"
+               help="an RData file that stores the count matrix data. The file is generated from the aurora_htseq tool."
+               optional="False" format="rdata"/>
+        <param type="data" name="column_data" label="Column data"
+               help="A table file that stores column data for DESeq2 analysis. The first columns are the column names from the count matrix data. The remaining columns are experimental treatments."
+               optional="False" format="csv"/>
+        <param type="text" name="design_formula" label="Design formula"
+               help="The design formula expresses the variables which will be used in modeling. The formula should be a tilde (~) followed by the variables with plus signs between them, e.g., ~ condition1 + condition2"
+               optional="False">
+            <sanitizer sanitize="true">
+                <valid initial="default">
+                    <add preset="string.printable"/>
+                    <add value="~"/>
+                </valid>
+            </sanitizer>
+        </param>
+        <param type="text" name="treatment_name" label="Treatment name"
+               help="one of the treatment column names from the column data." optional="False"/>
+        <param type="text" name="treated" label="Treated"
+               help="A level from the specified treatment column that will be used as the treated group in the DESeq2 analysis."
+               optional="False"/>
+        <param type="text" name="untreated" label="Untreated"
+               help="A level from the specified treatment column that will be used as the untreated group in the DESeq2 analysis."
+               optional="False"/>
+        <param type="select" name="test_type" label="Test type" optional="False">
+            <option value="Wald" selected="true">Wald</option>
+            <option value="LRT" selected="false">Likelihood Ratio Test (LRT)</option>
+        </param>
+        <param type="select" name="fit_type" label="Fitting of dispersions"
+               help="either &quot;parametric&quot;, &quot;local&quot;, or &quot;mean&quot; for the type of fitting of dispersions to the mean intensity"
+               optional="False">
+            <option value="parametric" selected="true">parametric</option>
+            <option value="local" selected="false">local</option>
+            <option value="mean" selected="false">mean</option>
+        </param>
+        <param type="float" name="alpha" label="Alpha"
+               help="the significance cutoff used for optimizing the independent filtering (by default 0.1). If the adjusted p-value cutoff (FDR) will be a value other than 0.1, alpha should be set to that value."
+               optional="False" value="0.1" min="0" max="1"/>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="Aurora DESeq2"/>
+        <data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/>
+        <data name="significant_genes" format="csv" label="signficant genes from ${on_string} " hidden="false"/>
+    </outputs>
+    <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[@article{love2014differential,
+  title={Differential analysis of count data--the DESeq2 package},
+  author={Love, Michael and Anders, Simon and Huber, Wolfgang},
+  journal={Genome Biol},
+  volume={15},
+  pages={550},
+  year={2014}
+}]]></citation>
+    </citations>
+</tool>

@@ -1,0 +1,88 @@
+---
+title: 'DESeq2 Analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = as.logical(opt$X_e), 
+  error = TRUE
+)
+```
+
+
+## DESeq2 analysis
+
+```{r}
+# load count data
+load(opt$X_A)
+# load column data
+coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data), ]
+dds = DESeqDataSetFromMatrix(countData = count_data,
+                             colData = coldata,
+                             design = formula(opt$X_C))
+dds = DESeq(dds, test = opt$X_G, fitType = opt$X_H)
+```
+
+
+## Results
+
+```{r}
+res = results(dds, contrast = c(opt$X_D, opt$X_E, opt$X_F), alpha = opt$X_I)
+DT::datatable(as.data.frame(res))
+```
+
+```{r}
+# significant genes
+sig_res = res[(res$padj < opt$X_I) & !is.na(res$padj), ]
+write.csv(sig_res, file = paste0(opt$X_d, '/significant_genes.csv'), quote = FALSE)
+```
+
+```{bash echo=FALSE}
+cp ${X_d}/significant_genes.csv ${X_J}
+```
+
+## MA-plot
+
+```{r warning=FALSE, message=FALSE}
+df = data.frame(ID = rownames(res),
+                mean = res$baseMean,
+                lfc = res$log2FoldChange,
+                padj = res$padj,
+                stringsAsFactors = FALSE)
+cols = vector(mode='character', length = nrow(res))
+cols[(res$padj < opt$X_I) & !is.na(res$padj)] = paste0('< ', opt$X_I)
+cols[(res$padj >= opt$X_I) & !is.na(res$padj)] = paste0('>= ', opt$X_I)
+cols[cols == ''] = 'NA'
+df$col = cols
+p = ggplot(data = df) +
+  geom_point(mapping = aes(x = log(mean), y = lfc, col = cols, key = ID)) +
+  scale_x_continuous(name = 'Log(mean)') +
+  scale_y_continuous(name = 'Log fold change') +
+  scale_color_discrete(name = 'Adjusted P')+
+  theme_classic()
+ggplotly(p)
+```
+
+
+## Heatmap of count matrix
+
+```{r}
+ntd <- normTransform(dds)
+select <- order(rowMeans(counts(dds,normalized=TRUE)),
+                decreasing=TRUE)[1:20]
+df <- as.data.frame(colData(dds)[, -ncol(colData(dds))])
+pheatmap(assay(ntd)[select,], annotation_col=df)
+```
+
+
+## Principle component plot
+
+```{r}
+vsd <- vst(dds, blind=FALSE)
+p = plotPCA(vsd, intgroup=c(opt$X_D)) + 
+  scale_color_discrete(name = 'Group') +
+  theme_classic()
+ggplotly(p)
+```
+
