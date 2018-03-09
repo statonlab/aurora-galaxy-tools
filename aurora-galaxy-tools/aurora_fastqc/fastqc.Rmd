@@ -9,12 +9,15 @@ output:
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_knit$set(progress = FALSE)
+
 knitr::opts_chunk$set(
   echo = as.logical(opt$X_e),
   error = TRUE,
   eval = TRUE
 )
 ```
+
 
 
 ```{bash eval=TRUE,echo=FALSE}
@@ -92,30 +95,32 @@ tags$ul(
 ## Overview
 
 ```{r eval=TRUE}
-read_1_summary = read.csv(paste0(opt$X_d, '/read_1_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 2:1]
-read_2_summary = read.csv(paste0(opt$X_d, '/read_2_fastqc/summary.txt'), header = FALSE, sep = '\t')[, 1]
-combined_summary = cbind(read_1_summary, read_2_summary)
-names(combined_summary) = c('MODULE', paste0(opt$X_n, '(before)'), paste0(opt$X_N, '(after)'))
+read_1_summary = read.csv(paste0(opt$X_d, '/read_1_fastqc/summary.txt'),
+                          stringsAsFactors = FALSE,
+                          header = FALSE, sep = '\t')[, 2:1]
+read_2_summary = read.csv(paste0(opt$X_d, '/read_2_fastqc/summary.txt'),
+                          stringsAsFactors = FALSE,
+                          header = FALSE, sep = '\t')[, 1]
+combined_summary = data.frame(read_1_summary, read_2_summary, stringsAsFactors = FALSE)
+names(combined_summary) = c('MODULE', 'Pre-trimming', 'Post-trimming')
 combined_summary[combined_summary == 'FAIL'] = 'FAIL (X)'
 combined_summary[combined_summary == 'WARN'] = 'WARN (!)'
 knitr::kable(combined_summary)
 ```
 
-## Visualization by data module {.tabset}
-
-* Define a function to extract outputs for each module from fastqc output
-
-```{r 'function definition'}
+```{r 'function definition', echo=FALSE}
 extract_data_module = function(fastqc_data, module_name, header = TRUE, comment.char = "") {
   f = readLines(fastqc_data)
   start_line = grep(module_name, f)
   end_module_lines = grep('END_MODULE', f)
   end_line = end_module_lines[which(end_module_lines > start_line)[1]]
   module_data = f[(start_line+1):(end_line-1)]
-  writeLines(module_data, 'temp.txt')
-  read.csv('temp.txt', sep = '\t', header = header, comment.char = comment.char)
+  writeLines(module_data, '/tmp/temp.txt')
+  read.csv('/tmp/temp.txt', sep = '\t', header = header, comment.char = comment.char)
 }
 ```
+
+
 
 ### Per base sequence quality
 
@@ -143,16 +148,17 @@ p = ggplot(data = comb_pbsq) +
                              fill = "yellow"),
                stat = 'identity') +
   geom_line(mapping = aes(x = id, y = Mean, color = "red")) +
-  scale_x_continuous(breaks = pbsq_2$id, labels = pbsq_2$X.Base) +
+  scale_x_continuous(name = 'Position in read (bp)', breaks = pbsq_2$id, labels = pbsq_2$X.Base) +
+  scale_y_continuous(limits = c(0, max(comb_pbsq$Upper.Quartile) + 5)) +
   scale_fill_identity() +
   scale_color_identity() + 
-  ylim(0, max(comb_pbsq$Upper.Quartile) + 5) +
-  xlab('Position in read (bp)') +
   facet_grid(. ~ trim) +
-  theme(axis.text.x = element_text(angle=45))
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        panel.grid.major.y = element_line(color = 'blue', size = 0.1))
 p
-
 ```
+
 
 ### Per tile sequence quality
 
@@ -173,20 +179,21 @@ if (length(check_ptsq) > 0) {
   comb_ptsq$Base = factor(levels = unique(comb_ptsq$Base), comb_ptsq$Base)
   
   # convert integers to charaters
-  comb_ptsq$Tile = as.character(comb_ptsq$X.Tile)
+  # comb_ptsq$Tile = as.character(comb_ptsq$X.Tile)
   
-  p = ggplot(data = comb_ptsq, aes(x = Base, y = Tile, fill = Mean)) +
-    geom_raster() + 
+  p = ggplot(data = comb_ptsq) +
+    geom_raster(mapping = aes(x = Base, y = X.Tile, fill = Mean)) + 
     facet_grid(. ~ trim) + 
-    xlab('Position in read (bp)') + 
-    ylab('') +
-    theme(axis.text.x = element_text(angle=45))
+    scale_x_discrete(name = "Position in read (bp)") +
+    scale_y_continuous(name = "") +
+    scale_fill_gradient(low = "blue", high = "red") +
+    theme(axis.text.x = element_text(size = 5, angle = 90),
+          axis.text.y = element_text(size = 5),
+        panel.background = element_rect(fill = NA))
   ggplotly(p)
 } else {
   print('No "per tile sequence quality" data')
 }
-
-
 ```
 
 ### Per sequence quality score
@@ -203,15 +210,17 @@ psqs_2$trim = 'after'
 comb_psqs = rbind(psqs_1, psqs_2)
 comb_psqs$trim = factor(levels = c('before', 'after'), comb_psqs$trim)
 
-p = ggplot(data = comb_psqs, aes(x = X.Quality, y = Count)) + 
-  geom_line(color = 'red') + 
+p = ggplot(data = comb_psqs) + 
+  geom_line(mapping = aes(x = X.Quality, y = Count), color = 'red') + 
   facet_grid(. ~ trim) + 
-  xlim(min(comb_psqs$X.Quality), max(comb_psqs$X.Quality)) + 
-  xlab('Mean Sequence Qaulity (Phred Score)') + 
-  ylab('')
-ggplotly(p)
+  scale_x_continuous(name = 'Mean Sequence Qaulity (Phred Score)',
+                     limits = c(min(comb_psqs$X.Quality), max(comb_psqs$X.Quality))) +
+  scale_y_continuous(name = '') +
+  theme(panel.background = element_rect(fill = NA),
+        axis.line = element_line(),
+        panel.grid.major.y = element_line(color = 'blue', size = 0.1))
+p
 ```
-
 
 ### Per base sequence content
 
@@ -234,13 +243,15 @@ melt_pbsc_2$trim = 'after'
 comb_pbsc = rbind(melt_pbsc_1, melt_pbsc_2)
 comb_pbsc$trim = factor(levels = c('before', 'after'), comb_pbsc$trim)
 
-p = ggplot(data = comb_pbsc, aes(x = id, y = value, color = variable)) +
-  geom_line() +
+p = ggplot(data = comb_pbsc) +
+  geom_line(mapping = aes(x = id, y = value, color = variable)) +
   facet_grid(. ~ trim) +
   xlim(min(comb_pbsc$id), max(comb_pbsc$id)) + 
   ylim(0, 100) +
   xlab('Position in read (bp)') +
-  ylab('')
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme_classic()
 ggplotly(p)
 ```
 
@@ -262,7 +273,9 @@ p = ggplot(data = comb_psGCc, aes(x = X.GC.Content, y = Count)) +
   geom_line(color = 'red') +
   facet_grid(. ~ trim) +
   xlab('Mean Sequence Qaulity (Phred Score)') +
-  ylab('')
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme_classic()
 ggplotly(p)
 ```
 
@@ -290,7 +303,9 @@ p = ggplot(data = comb_pbNc, aes(x = id, y = N.Count)) +
   ylim(0, 1) + 
   xlab('N-Count') +
   ylab('') + 
-  theme(axis.text.x = element_text(angle=45))
+  theme(axis.text.x = element_text(size = 5),
+        axis.line = element_line(),
+        panel.background = element_rect(fill = NA))
 ggplotly(p)
 ```
 
@@ -317,7 +332,10 @@ p = ggplot(data = comb_sld, aes(x = id, y = Count)) +
   facet_grid(. ~ trim) +
   xlab('Sequence Length (bp)') +
   ylab('') + 
-  theme(axis.text.x = element_text(angle=45))
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line(), 
+        plot.margin = margin(2,2,2,10) )
 ggplotly(p)
 ```
 
@@ -344,14 +362,17 @@ melt_sdl_2$trim = 'after'
 comb_sdl = rbind(melt_sdl_1, melt_sdl_2)
 comb_sdl$trim = factor(levels = c('before', 'after'), comb_sdl$trim)
 
-p = ggplot(data = comb_sdl, aes(x = id, y = value, color = variable)) +
-  geom_line() +
+p = ggplot(data = comb_sdl) +
+  geom_line(mapping = aes(x = id, y = value, color = variable)) +
   scale_x_continuous(breaks = sdl_2$id, labels = sdl_2$Duplication_Level) +
   facet_grid(. ~ trim) +
   xlab('Sequence Duplication Level') +
   ylab('') + 
-  theme(axis.text.x = element_text(angle=45))
-ggplotly(p)
+  scale_color_discrete(name = '') +
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line())
+p
 ```
 
 ### Adapter Content
@@ -380,7 +401,11 @@ p = ggplot(data = comb_ac, aes(x = id, y = value, color = variable)) +
   xlim(min(comb_ac$id), max(comb_ac$id)) + 
   ylim(0, 1) +
   xlab('Position in read (bp)') +
-  ylab('')
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line())
 ggplotly(p)
 ```
 
@@ -398,7 +423,6 @@ knitr::kable(kc_1)
 kc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Kmer Content')
 knitr::kable(kc_2)
 ```
-
 
 # Session Info
 

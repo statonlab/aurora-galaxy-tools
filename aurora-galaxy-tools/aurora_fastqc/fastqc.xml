@@ -1,4 +1,4 @@
-<tool name="Fastqc report" id='aurora_fastqc_report' version="2.1.0">
+<tool name="Aurora Fastqc" id='aurora_fastqc' version="2.1.0">
     <description>
         Evaluate short reads with FastQC software on a single or a paired of untrimmed and trimmed reads
         files.
@@ -25,7 +25,7 @@
     <command><![CDATA[
         
 
-        Rscript '${__tool_directory__}/fastqc_report_render.R'
+        Rscript '${__tool_directory__}/fastqc_render.R'
             -e $echo
             -r $reads_1
             -n '$reads_1.name'
@@ -38,7 +38,7 @@
 		    -d $report.files_path
 		    -s $sink_message
 
-		    -p '${__tool_directory__}/fastqc_report.Rmd'
+		    -p '${__tool_directory__}/fastqc.Rmd'
         
     ]]></command>
     <inputs>
@@ -55,7 +55,7 @@
                label="Display analysis code in report?"/>
     </inputs>
     <outputs>
-        <data format="html" name="report" label="fastqc report"/>
+        <data format="html" name="report" label="aurora fastqc"/>
         <data format="txt" name="sink_message" label="Warnings and Errors" from_work_dir="warnings_and_errors.txt"/>
     </outputs>
     <citations>
