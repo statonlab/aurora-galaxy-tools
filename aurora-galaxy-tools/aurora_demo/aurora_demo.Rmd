@@ -1,0 +1,49 @@
+---
+title: 'Aurora Galaxy Tool Demo'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  error = TRUE
+)
+```
+
+
+# Python script
+
+We first use Python code to generate a random data matrix and save the data into an output file.
+
+```{python}
+import numpy as np
+import os
+
+n_row = int(os.environ['X_r'])
+n_col = int(os.environ['X_c'])
+heatmap_data = np.power(10, np.random.randn(n_row, n_col))
+heatmap_file = os.environ['X_O']
+np.savetxt(os.environ['X_O'], heatmap_data)
+print(heatmap_data)
+```
+
+
+# Shell script
+
+Then we use shell script to display the file content.
+
+```{bash}
+awk '{print $1, $2}' ${X_O}
+```
+
+
+# R script
+
+Finally, we use R script to import the data and generate a heatmap.
+
+```{r warning=FALSE, message=FALSE}
+heatmap_data = read.table(opt$X_O, header = FALSE, stringsAsFactors = FALSE)
+knitr::kable(heatmap_data)
+pheatmap::pheatmap(heatmap_data, cluster_rows = FALSE, cluster_cols = FALSE)
+```
+

@@ -1,0 +1,10 @@
+---
+name: aurora_demo
+owner: mingchen0919
+description: A tool for demonstrating the idea of Aurora Galaxy tool development.
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  ZZZ test3: ZZZ test3
+...
