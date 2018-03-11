@@ -22,13 +22,12 @@ import os
 n_row = int(os.environ['X_r'])
 n_col = int(os.environ['X_c'])
 heatmap_data = np.power(10, np.random.randn(n_row, n_col))
-heatmap_file = os.environ['X_O']
 np.savetxt(os.environ['X_O'], heatmap_data)
 print(heatmap_data)
 ```
 
 
-# Shell script
+# Bash script
 
 Then we use shell script to display the file content.
 

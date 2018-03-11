@@ -23,7 +23,7 @@
       -T '${__tool_directory__}']]></command>
     <inputs>
         <param type="integer" name="row_number" label="Number of rows" optional="False" value="10"/>
-        <param type="integer" name="column_number" label="Number of columns" optional="False" value="5"/>
+        <param type="integer" name="column_number" label="Number of columns" optional="False" value="4"/>
     </inputs>
     <outputs>
         <data name="heatmap_data" format="tabular" hidden="false" label="aurora demo output"/>
