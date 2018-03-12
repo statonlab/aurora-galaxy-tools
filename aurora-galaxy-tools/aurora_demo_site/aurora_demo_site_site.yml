@@ -1,0 +1,19 @@
+name: "Analysis Report"
+output_dir: "../_site"
+navbar:
+    title: ""
+    type: inverse
+    left:
+        - text: "Home"
+          icon: fa-home
+          href: index.html
+        - text: "Python"
+          href: aurora_demo_site_1_python.html
+        - text: "Bash"
+          href: aurora_demo_site_2_bash.html
+        - text: "R"
+          href: aurora_demo_site_3_r.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

@@ -1,0 +1,18 @@
+---
+title: 'Bash script'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  error = TRUE
+)
+```
+
+
+Then we use shell script to display the file content.
+
+```{bash}
+awk '{print $1, $2}' ${X_O}
+```

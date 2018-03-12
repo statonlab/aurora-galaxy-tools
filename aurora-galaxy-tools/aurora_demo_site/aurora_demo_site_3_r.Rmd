@@ -1,0 +1,20 @@
+---
+title: 'R script'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  error = TRUE
+)
+```
+
+
+Finally, we use R script to import the data and generate a heatmap.
+
+```{r warning=FALSE, message=FALSE}
+heatmap_data = read.table(opt$X_O, header = FALSE, stringsAsFactors = FALSE)
+knitr::kable(heatmap_data)
+pheatmap::pheatmap(heatmap_data, cluster_rows = FALSE, cluster_cols = FALSE)
+```
