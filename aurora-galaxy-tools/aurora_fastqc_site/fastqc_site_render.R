@@ -34,22 +34,37 @@ spec_matrix = as.matrix(
   )
 )
 opt = getopt(spec_matrix)
+#----------------------------------------------------
 
-# using passed arguments in R to define system environment variables
+
+#-----------using passed arguments in R 
+#           to define system environment variables---
 do.call(Sys.setenv, opt[-1])
+#----------------------------------------------------
+
+#---------- often used variables ----------------
+# OUTPUT_REPORT: path to galaxy output report
+# OUTPUT_DIR: path to the output associated directory, which stores all outputs
+# TOOL_DIR: path to the tool installation directory
+OUTPUT_DIR = opt$X_d
+TOOL_DIR =   opt$X_t
+OUTPUT_REPORT = opt$X_o
+
 
 # create the output associated directory to store all outputs
-dir.create(opt$X_d, recursive = TRUE)
+dir.create(OUTPUT_DIR, recursive = TRUE)
 
-#-----------------render site--------------
-# copy site generating materials into folder "_site" within the output associated directory
-file.copy(opt$X_t, opt$X_d, recursive = TRUE)
-# render site to the output associated directory
-render_site(input = paste0(opt$X_d, '/aurora_fastqc_site'))
+# copy site generating materials into OUTPUT_DIR
+dir.create(paste0(OUTPUT_DIR, '/site_generator'), recursive = TRUE)
+system(paste0('cp -r ', TOOL_DIR, '/*.Rmd ', OUTPUT_DIR, '/site_generator/'))
+system(paste0('cp -r ', TOOL_DIR, '/_site.yml ', OUTPUT_DIR, '/site_generator/_site.yml'))
+system(paste0('cp -r ', TOOL_DIR, '/index.Rmd ', OUTPUT_DIR, '/site_generator/index.Rmd'))
+# render site to OUTPUT_DIR/_site, this is configured in the "_site.yml" file
+render_site(input = paste0(OUTPUT_DIR, '/site_generator'))
 # remove site generating materials from output associated directory
-unlink(paste0(opt$X_d, '/aurora_fastqc_site'), recursive = TRUE)
+unlink(paste0(OUTPUT_DIR, '/site_generator'), recursive = TRUE)
 # move _site/* into output associated directory
-move_cmd = paste0('mv ', opt$X_d, '/_site/* ', opt$X_d)
+move_cmd = paste0('mv ', OUTPUT_DIR, '/_site/* ', OUTPUT_DIR)
 system(move_cmd)
 #------------------------------------------
 

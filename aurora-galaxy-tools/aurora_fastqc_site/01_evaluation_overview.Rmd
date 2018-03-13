@@ -23,6 +23,7 @@ cd ${X_d}
 cp ${X_r} ${X_d}/read_1.fq
 cp ${X_R} ${X_d}/read_2.fq
 
+mkdir -p read_1 read_2
 cat >temp.sh <<EOL
 fastqc \\
   -q \\
