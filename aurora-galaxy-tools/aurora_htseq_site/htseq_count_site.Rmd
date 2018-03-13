@@ -47,7 +47,7 @@ sh htseq-count.sh
 ## Counts
 
 ```{r}
-count_data = read.table(paste0(opt$X_d, '/counts.txt'), row.names = 1)
+count_data = read.table(opt$X_c, row.names = 1)
 sample_names = trimws(strsplit(opt$X_B, ',')[[1]])
 colnames(count_data) = rep(sample_names, length = ncol(count_data))
 DT::datatable(count_data, caption = "htseq counts for each sample")
