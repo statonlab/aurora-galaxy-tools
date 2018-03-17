@@ -40,7 +40,7 @@ OUTPUT_REPORT = opt$X_o
 dir.create(OUTPUT_DIR, recursive = TRUE)
 
 #-----------------render Rmd--------------
-render(paste0(TOOL_DIR, RMD_NAME, sep = '/'), output_file = OUTPUT_REPORT)
+render(paste0(TOOL_DIR, '/', RMD_NAME), output_file = OUTPUT_REPORT)
 #------------------------------------------
 
 #==============the end==============
