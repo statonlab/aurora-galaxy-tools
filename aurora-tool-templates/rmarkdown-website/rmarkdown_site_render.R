@@ -14,13 +14,12 @@ library(rmarkdown)
 
 
 #------------get arguments into R--------------------
-# library(dplyr)
-# getopt_specification_matrix(extract_short_flags('')) %>%
-#   write.table(file = 'spec.txt', sep = ',', row.names = FALSE, col.names = TRUE, quote = FALSE)
-
-
-spec_matrix = as.matrix()
-opt = getopt(spec_matrix)
+# load helper function
+source('https://raw.githubusercontent.com/statonlab/aurora-galaxy-tools/master/aurora-tool-templates/helper.R')
+# import getopt specification matrix from a csv file
+spec_csv = paste0(Sys.getenv('TOOL_DIR'), '/getopt_specification.csv')
+opt = getopt(getopt_specification_matrix(spec_csv))
+opt$X_t = Sys.getenv('TOOL_DIR')
 #----------------------------------------------------
 
 
