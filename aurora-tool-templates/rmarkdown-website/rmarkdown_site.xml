@@ -12,7 +12,7 @@
                description="Check the warnings_and_errors.txt file for more details."/>
     </stdio>
     <command><![CDATA[
-        
+        export TOOL_DIRECTORY='${__tool_directory__}' &&
 
         Rscript '${__tool_directory__}/rmarkdown_site_render.R'
 
