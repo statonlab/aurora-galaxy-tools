@@ -6,11 +6,12 @@ output:
       toc: true
       theme: cosmo
       highlight: tango
+      code_folding: hide
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(
-  echo = as.logical(), 
+  echo = TRUE,
   error = TRUE
 )
 ```
