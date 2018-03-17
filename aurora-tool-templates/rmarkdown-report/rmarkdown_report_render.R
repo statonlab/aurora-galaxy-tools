@@ -31,10 +31,10 @@ do.call(Sys.setenv, opt[-1])
 #---------- often used variables ----------------
 # OUTPUT_DIR: path to the output associated directory, which stores all outputs
 # TOOL_DIR: path to the tool installation directory
-OUTPUT_DIR = opt$X_o
+OUTPUT_DIR = opt$X_d
 TOOL_DIR =   opt$X_t
-RMD_NAME = ''
 OUTPUT_REPORT = opt$X_o
+RMD_NAME = ''
 
 # create the output associated directory to store all outputs
 dir.create(OUTPUT_DIR, recursive = TRUE)
