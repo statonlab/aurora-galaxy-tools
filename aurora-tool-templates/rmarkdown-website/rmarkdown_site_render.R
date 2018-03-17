@@ -15,7 +15,7 @@ library(rmarkdown)
 
 #------------get arguments into R--------------------
 # load helper function
-source('https://raw.githubusercontent.com/statonlab/aurora-galaxy-tools/master/aurora-tool-templates/helper.R')
+source(paste0(Sys.getenv('TOOL_DIR'), '/helper.R'))
 # import getopt specification matrix from a csv file
 spec_csv = paste0(Sys.getenv('TOOL_DIR'), '/getopt_specification.csv')
 opt = getopt(getopt_specification_matrix(spec_csv))
