@@ -1,0 +1,5 @@
+short flag,argument mask,data type,variable name,galaxy input type,description
+o,1,character,report,data,
+d,1,character,report.files_path,data,
+s,1,character,sink_message,data,
+u,1,character,web_services_root_url,
