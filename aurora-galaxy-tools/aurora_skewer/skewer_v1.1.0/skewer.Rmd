@@ -1,0 +1,106 @@
+---
+title: 'Skewer report'
+output:
+    html_document:
+      number_sections: true
+      highlight: tango
+      code_folding: hide
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  error = TRUE
+)
+```
+
+
+# Run Skewer
+
+```{bash echo=FALSE}
+#--- build skewer job script ---
+## change directory to output dir
+cd ${X_d}
+
+cat >temp.sh <<EOL
+skewer \\
+	${X_A} \\
+	${X_B} \\
+	-x ${X_x} \\ 
+	-y ${X_y} \\
+	-m ${X_m} \\
+	-r ${X_r} \\
+	-d ${X_D} \\
+	-q ${X_q} \\
+	-Q ${X_Q} \\
+	-l ${X_l} \\
+	-j ${X_j} \\
+	-M ${X_M} \\
+	-b ${X_b} \\
+	-c ${X_b} \\
+	-n ${X_n} \\
+	-u ${X_u} \\
+	-f ${X_f} \\
+	-z ${X_z} \\
+	-qiime ${X_E} \\
+	-quiet ${X_F} \\
+	-i ${X_i} \\
+	-o trim > /dev/null 2>&1
+
+EOL
+
+# remove empty input lines
+grep -v '\-M  \\' temp.sh |\
+  grep -v 'None' |\
+  grep -v 'NO_ARGUMENT_NO' |\
+  sed 's/NO_ARGUMENT_YES//g' > skewer-job.sh
+```
+
+```{r echo=FALSE}
+# display skewer job script
+skewer_sh = paste0(opt$X_d, '/skewer-job.sh')
+tags$code(tags$pre(readChar(skewer_sh, file.info(skewer_sh)$size )))
+```
+
+```{bash echo=FALSE}
+## change directory to output dir
+cd ${X_d}
+
+sh skewer-job.sh
+
+if [ -e trim-trimmed-pair1.fastq ]; then
+  cp trim-trimmed-pair1.fastq ${X_1}
+fi
+
+if [ -e trim-trimmed-pair2.fastq ]; then
+  cp trim-trimmed-pair2.fastq ${X_2}
+fi
+
+if [ -e trim-trimmed.fastq ]; then
+  cp trim-trimmed.fastq ${X_3}
+fi
+
+if [ -e trim-trimmed.log ]; then
+  cp trim-trimmed.log trim-trimmed.txt
+fi
+```
+
+
+
+# Results
+
+```{r echo=FALSE}
+if (file.exists(paste0(opt$X_d, '/trim-trimmed.fastq'))) {
+  tags$ul(
+    tags$li(tags$a(href = 'trim-trimmed.txt', 'trim-trimmed.log')),
+    tags$li(tags$a(href = 'trim-trimmed.fastq', 'trim-trimmed.fastq'))
+  )
+} else {
+  tags$ul(
+    tags$li(tags$a(href = 'trim-trimmed.txt', 'trim-trimmed.log')),
+    tags$li(tags$a(href = 'trim-trimmed-pair1.fastq', 'trim-trimmed-pair1.fastq')),
+    tags$li(tags$a(href = 'trim-trimmed-pair2.fastq', 'trim-trimmed-pair2.fastq'))
+  )
+}
+
+```

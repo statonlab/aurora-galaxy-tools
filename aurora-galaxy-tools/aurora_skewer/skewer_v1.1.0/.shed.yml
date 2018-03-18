@@ -1,0 +1,11 @@
+---
+name: aurora_skewer
+owner: mingchen0919
+description: A fast and accurate adapter trimmer for next-generation sequencing paired-end
+  reads.
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  RNA: RNA
+...
