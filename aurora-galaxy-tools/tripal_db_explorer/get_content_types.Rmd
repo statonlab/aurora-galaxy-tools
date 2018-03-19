@@ -6,6 +6,15 @@ output:
       highlight: tango
 ---
 
+<style>
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -14,10 +23,42 @@ knitr::opts_chunk$set(
 ```
 
 
-# Database contents
+# Database resources summary
 
 ```{r echo=FALSE}
 tripal_content = fromJSON(opt$X_u)
 DT::datatable(tripal_content$member)
 ```
+
+
+```{r, results='asis', echo=FALSE}
+for (i in 1:nrow(tripal_content$member)) {
+  content_type_url = tripal_content$member[i, '@id']
+  content_type_label = tripal_content$member[i, 'label']
+  content_type_json = fromJSON(content_type_url)
+  content_type_total_items = content_type_json$totalItems
+  if (content_type_total_items > 0) {
+    example_1st_item_id = content_type_json$member[1, '@id']
+    example_1st_item_item_page = content_type_json$member[1, 'ItemPage']
+    example_1st_item_content = toJSON(fromJSON(example_1st_item_id), pretty = TRUE)
+  } else {
+    example_1st_item_id = 'Not available'
+    example_1st_item_item_page = 'Not available'
+    example_1st_item_content = 'Not available'
+  }
+  cat('##', content_type_label, '\n')
+  cat('\n')
+  cat('* **Total items:**', content_type_total_items, '\n')
+  cat('* **Web service URL:**', content_type_json$`@id`, '\n')
+  cat('* **Example page:**', example_1st_item_item_page, '\n')
+  
+  ## display one example item in json format
+  cat('* **Example item in JSON:**\n\n')
+  cat('```json\n')
+  cat(example_1st_item_content)
+  cat('\n')
+  cat('```\n\n')
+}
+```
+
 
