@@ -1,5 +1,5 @@
-<tool id="tool_1" name="Get content types" version="1.0.0">
-    <description>Tripal database explorer: get content types&#xD;
+<tool id="get_content_types" name="tripal_db_explorer: resources summary" version="1.0.0">
+    <description>
     </description>
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>

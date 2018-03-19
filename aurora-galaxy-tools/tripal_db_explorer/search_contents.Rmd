@@ -1,0 +1,57 @@
+---
+title: 'Tripal database explorer: search results'
+output:
+    html_document:
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  error = TRUE
+)
+```
+
+
+```{r}
+# get member ids after implementing search filtering
+content_type_url = opt$X_u
+path = "organism,genus=Fagus&name=ABall;contains"
+path = sub('\\|', '&', opt$X_s)
+search_url = paste0(content_type_url, '?', path)
+search_members = fromJSON(search_url)
+# search_url_rebuild = paste0(search_url, '&limit=', search_members$totalItems)
+total_records = as.integer(opt$X_l)
+if (total_records == 0) {
+  total_records = search_members$totalItems
+} 
+search_url_rebuild = paste0(search_url, '&limit=', total_records)
+re_search_members = fromJSON(search_url_rebuild)
+```
+
+
+```{r}
+# get requested field values from search results
+request_paths = sub(',', '\\.', strsplit(opt$X_e, '\\|')[[1]])
+res = data.frame()
+for (id in re_search_members$member$`@id`) {
+  member = as.data.frame(fromJSON(id))
+  res = rbind(res, member[, request_paths])
+}
+colnames(res) = request_paths
+```
+
+```{r}
+if (nrow(res) < 1) {
+  cat('No records found.')
+} else {
+  DT::datatable(res)
+}
+```
+
+```{r}
+# save results to file
+write.table(res, file = opt$X_r, quote = FALSE, col.names = FALSE)
+```
+

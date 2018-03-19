@@ -1,0 +1,10 @@
+---
+name: tripal_db_explorer
+owner: mingchen0919
+description: A wrapper of tripal Web services for exploring Tripal databases
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Web Services: Web Services
+...
