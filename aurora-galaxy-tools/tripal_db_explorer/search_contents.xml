@@ -1,19 +1,11 @@
 <tool id="search_contents" name="tripal_db_explorer: search" version="1.0.0">
-    <description>
+  <description>&#xD;
     </description>
-    <requirements>
-        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
-        <requirement type="package" version="1.20.0">r-getopt</requirement>
-        <requirement type="package" version="1.6">r-rmarkdown</requirement>
-        <requirement type="package" version="1.5">r-jsonlite</requirement>
-        <requirement type="package" version="0.2">r-dt</requirement>
-        <requirement type="package" version="3.1">r-curl</requirement>
-    </requirements>
-    <stdio>
-        <regex match="XXX" source="stderr" level="warning"
-               description="Check the warnings_and_errors.txt file for more details."/>
-    </stdio>
-    <command><![CDATA[export TOOL_DIR='${__tool_directory__}' &&
+  <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement><requirement type="package" version="1.20.0">r-getopt</requirement><requirement type="package" version="1.6">r-rmarkdown</requirement><requirement type="package" version="1.5">r-jsonlite</requirement><requirement type="package" version="0.2">r-dt</requirement><requirement type="package" version="3.1">r-curl</requirement><requirement type="package" version="1.95_4.8">r-rcurl</requirement></requirements>
+  <stdio>
+        <regex match="XXX" source="stderr" level="warning" description="Check the warnings_and_errors.txt file for more details."/></stdio>
+  <command><![CDATA[export TOOL_DIR='${__tool_directory__}' &&
 
 Rscript '${__tool_directory__}/'search_contents_render.R
 
@@ -40,32 +32,11 @@ Rscript '${__tool_directory__}/'search_contents_render.R
 	-l '$records_number'
 	-r '$search_results'
 ]]></command>
-    <inputs>
-        <param type="text" name="content_type_url" label="Content type URL" optional="False"/>
-        <section name="search_section" title="Search: fields" expanded="True">
-            <repeat name="search_field_repeat" title="Field paths" min="1" max="20" default="1">
-                <param type="text" name="field_path" optional="False"/>
-                <param type="select" name="search_operator" optional="False">
-                    <option value="eq" selected="false">equal (string value)</option>
-                    <option value="contains" selected="true">contains (string value)</option>
-                </param>
-            </repeat>
-        </section>
-        <section name="extract_section" title="Extract: fields" expanded="True">
-            <repeat name="extract_field_repeat" title="Field paths" min="1" max="20" default="1">
-                <param type="text" name="field_path" optional="False"/>
-            </repeat>
-        </section>
-        <param type="integer" name="records_number" label="Records number"
-               help="The maximum number of records to be extracted" optional="False" value="25" min="0"/>
-    </inputs>
-    <outputs>
-        <data name="report" format="html" label="${tool.name} report" hidden="false"/>
-        <data name="sink_message" format="txt" label="${tool.name} log" from_work_dir="warnings_and_errors.txt"
-              hidden="false"/>
-        <data name="search_results" format="txt" label="${tool.name} results" hidden="false"/>
-    </outputs>
-    <citations>
+  <inputs>
+        <param type="text" name="content_type_url" label="Content type URL" optional="False"/><section name="search_section" title="Search: fields" expanded="True"><repeat name="search_field_repeat" title="Field paths" min="1" max="20" default="1"><param type="text" name="field_path" optional="False"/><param type="select" name="search_operator" optional="False"><option value="eq" selected="false">equal (string value)</option><option value="contains" selected="true">contains (string value)</option></param></repeat></section><section name="extract_section" title="Extract: fields" expanded="True"><repeat name="extract_field_repeat" title="Field paths" min="1" max="20" default="1"><param type="text" name="field_path" optional="False"/></repeat></section><param type="integer" name="records_number" label="Records number" help="The maximum number of records to be extracted" optional="False" value="25" min="0"/></inputs>
+  <outputs>
+        <data name="report" format="html" label="${tool.name} report" hidden="false"/><data name="sink_message" format="txt" label="${tool.name} log" from_work_dir="warnings_and_errors.txt" hidden="false"/><data name="search_results" format="txt" label="${tool.name} results" hidden="false"/></outputs>
+  <citations>
         <citation type="bibtex"><![CDATA[
             @article{allaire2016rmarkdown,
             title={rmarkdown: Dynamic Documents for R, 2016},
@@ -75,8 +46,7 @@ Rscript '${__tool_directory__}/'search_contents_render.R
             volume={6},
             year={2016}
             }
-        ]]></citation>
-        <citation type="bibtex"><![CDATA[
+        ]]></citation><citation type="bibtex"><![CDATA[
             @book{xie2015dynamic,
             title={Dynamic Documents with R and knitr},
             author={Xie, Yihui},
@@ -84,6 +54,5 @@ Rscript '${__tool_directory__}/'search_contents_render.R
             year={2015},
             publisher={CRC Press}
             }
-        ]]></citation>
-    </citations>
+        ]]></citation></citations>
 </tool>

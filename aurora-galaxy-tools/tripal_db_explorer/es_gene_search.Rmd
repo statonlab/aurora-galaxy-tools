@@ -1,0 +1,35 @@
+---
+title: 'Tripal Database: gene search'
+output:
+    html_document:
+      theme: cosmo
+      highlight: tango
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  error = TRUE
+)
+```
+
+
+# Search information
+
+```{r, results='asis'}
+cat('\n')
+cat('* **Database URL**:', opt$X_U, '\n')
+cat('* **Organism**:', opt$X_O, '\n')
+cat('* **Keywords**:', opt$X_K, '\n')
+```
+
+
+```{r}
+download_url = paste0(opt$X_U, '/elasticsearch/gene_download?',
+             'organism=', URLencode(opt$X_O), '&',
+             'search_term=', URLencode(opt$X_K))
+download.file(download_url, destfile = opt$X_R)
+```
+
+
+

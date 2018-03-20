@@ -1,22 +1,24 @@
-<tool id="get_content_types" name="tripal_db_explorer: resources summary" version="1.0.0">
-  <description/>
+<tool id="es_gene_search" name="tripal_db_explorer: elasticsearch gene search" version="1.0.0">
+  <description>  </description>
   <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement><requirement type="package" version="1.20.0">r-getopt</requirement><requirement type="package" version="1.6">r-rmarkdown</requirement><requirement type="package" version="1.5">r-jsonlite</requirement><requirement type="package" version="0.2">r-dt</requirement><requirement type="package" version="3.1">r-curl</requirement><requirement type="package" version="1.95_4.8">r-rcurl</requirement></requirements>
   <stdio>
         <regex match="XXX" source="stderr" level="warning" description="Check the warnings_and_errors.txt file for more details."/></stdio>
   <command><![CDATA[export TOOL_DIR='${__tool_directory__}' &&
 
-Rscript '${__tool_directory__}/'get_content_types_render.R
+Rscript '${__tool_directory__}/'es_gene_search_render.R
 
 	-o '$report'
 	-d '$report.files_path'
-	-s '$sink_message'
-	-u '$web_services_root_url'
+	-U '$tripal_db_url'
+	-O '$organism'
+	-K '$search_keywords'
+	-R '$fasta_results'
 ]]></command>
   <inputs>
-        <param type="text" name="web_services_root_url" label="Web services root URL" optional="False"/></inputs>
+        <param type="text" name="tripal_db_url" label="Tripal database URL" optional="False"/><param type="text" name="organism" label="Organism" optional="False"/><param type="text" name="search_keywords" label="Search keywords" optional="False"/><param type="boolean" name="download_fasta" label="Save gene sequences to fasta file" optional="False" truevalue="TRUE" falsevalue="FALSE"/></inputs>
   <outputs>
-        <data name="report" format="html" label="${tool.name} report" hidden="false"/><data name="sink_message" format="txt" label="${tool.name} log" from_work_dir="warnings_and_errors.txt" hidden="false"/></outputs>
+        <data name="report" format="html" label="${tool.name} report" hidden="false"/><data name="sink_message" format="txt" label="${tool.name} log" from_work_dir="warnings_and_errors.txt" hidden="false"/><data name="fasta_results" format="fasta" label="${tool.name} results" hidden="false"/></outputs>
   <citations>
         <citation type="bibtex"><![CDATA[
             @article{allaire2016rmarkdown,
