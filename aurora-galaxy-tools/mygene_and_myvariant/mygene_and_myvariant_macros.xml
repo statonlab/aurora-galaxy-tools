@@ -1,0 +1,1439 @@
+<macros>
+    <xml name="fields">
+        <option value="cadd" selected="false">cadd</option>
+        <option value="cadd.1000g" selected="false">cadd.1000g</option>
+        <option value="cadd.1000g.af" selected="false">cadd.1000g.af</option>
+        <option value="cadd.1000g.afr" selected="false">cadd.1000g.afr</option>
+        <option value="cadd.1000g.amr" selected="false">cadd.1000g.amr</option>
+        <option value="cadd.1000g.asn" selected="false">cadd.1000g.asn</option>
+        <option value="cadd.1000g.eur" selected="false">cadd.1000g.eur</option>
+        <option value="cadd.alt" selected="false">cadd.alt</option>
+        <option value="cadd.anc" selected="false">cadd.anc</option>
+        <option value="cadd.annotype" selected="false">cadd.annotype</option>
+        <option value="cadd.bstatistic" selected="false">cadd.bstatistic</option>
+        <option value="cadd.chmm" selected="false">cadd.chmm</option>
+        <option value="cadd.chmm.bivflnk" selected="false">cadd.chmm.bivflnk</option>
+        <option value="cadd.chmm.enh" selected="false">cadd.chmm.enh</option>
+        <option value="cadd.chmm.enhbiv" selected="false">cadd.chmm.enhbiv</option>
+        <option value="cadd.chmm.het" selected="false">cadd.chmm.het</option>
+        <option value="cadd.chmm.quies" selected="false">cadd.chmm.quies</option>
+        <option value="cadd.chmm.reprpc" selected="false">cadd.chmm.reprpc</option>
+        <option value="cadd.chmm.reprpcwk" selected="false">cadd.chmm.reprpcwk</option>
+        <option value="cadd.chmm.tssa" selected="false">cadd.chmm.tssa</option>
+        <option value="cadd.chmm.tssaflnk" selected="false">cadd.chmm.tssaflnk</option>
+        <option value="cadd.chmm.tssbiv" selected="false">cadd.chmm.tssbiv</option>
+        <option value="cadd.chmm.tx" selected="false">cadd.chmm.tx</option>
+        <option value="cadd.chmm.txflnk" selected="false">cadd.chmm.txflnk</option>
+        <option value="cadd.chmm.txwk" selected="false">cadd.chmm.txwk</option>
+        <option value="cadd.chmm.znfrpts" selected="false">cadd.chmm.znfrpts</option>
+        <option value="cadd.chrom" selected="false">cadd.chrom</option>
+        <option value="cadd.consdetail" selected="false">cadd.consdetail</option>
+        <option value="cadd.consequence" selected="false">cadd.consequence</option>
+        <option value="cadd.consscore" selected="false">cadd.consscore</option>
+        <option value="cadd.cpg" selected="false">cadd.cpg</option>
+        <option value="cadd.dna" selected="false">cadd.dna</option>
+        <option value="cadd.dna.helt" selected="false">cadd.dna.helt</option>
+        <option value="cadd.dna.mgw" selected="false">cadd.dna.mgw</option>
+        <option value="cadd.dna.prot" selected="false">cadd.dna.prot</option>
+        <option value="cadd.dna.roll" selected="false">cadd.dna.roll</option>
+        <option value="cadd.dst2splice" selected="false">cadd.dst2splice</option>
+        <option value="cadd.dst2spltype" selected="false">cadd.dst2spltype</option>
+        <option value="cadd.encode" selected="false">cadd.encode</option>
+        <option value="cadd.encode.exp" selected="false">cadd.encode.exp</option>
+        <option value="cadd.encode.h3k27ac" selected="false">cadd.encode.h3k27ac</option>
+        <option value="cadd.encode.h3k4me1" selected="false">cadd.encode.h3k4me1</option>
+        <option value="cadd.encode.h3k4me3" selected="false">cadd.encode.h3k4me3</option>
+        <option value="cadd.encode.nucleo" selected="false">cadd.encode.nucleo</option>
+        <option value="cadd.encode.occ" selected="false">cadd.encode.occ</option>
+        <option value="cadd.encode.p_val" selected="false">cadd.encode.p_val</option>
+        <option value="cadd.encode.p_val.comb" selected="false">cadd.encode.p_val.comb</option>
+        <option value="cadd.encode.p_val.ctcf" selected="false">cadd.encode.p_val.ctcf</option>
+        <option value="cadd.encode.p_val.dnas" selected="false">cadd.encode.p_val.dnas</option>
+        <option value="cadd.encode.p_val.faire" selected="false">cadd.encode.p_val.faire</option>
+        <option value="cadd.encode.p_val.mycp" selected="false">cadd.encode.p_val.mycp</option>
+        <option value="cadd.encode.p_val.polii" selected="false">cadd.encode.p_val.polii</option>
+        <option value="cadd.encode.sig" selected="false">cadd.encode.sig</option>
+        <option value="cadd.encode.sig.ctcf" selected="false">cadd.encode.sig.ctcf</option>
+        <option value="cadd.encode.sig.dnase" selected="false">cadd.encode.sig.dnase</option>
+        <option value="cadd.encode.sig.faire" selected="false">cadd.encode.sig.faire</option>
+        <option value="cadd.encode.sig.myc" selected="false">cadd.encode.sig.myc</option>
+        <option value="cadd.encode.sig.polii" selected="false">cadd.encode.sig.polii</option>
+        <option value="cadd.esp" selected="false">cadd.esp</option>
+        <option value="cadd.esp.af" selected="false">cadd.esp.af</option>
+        <option value="cadd.esp.afr" selected="false">cadd.esp.afr</option>
+        <option value="cadd.esp.eur" selected="false">cadd.esp.eur</option>
+        <option value="cadd.exon" selected="false">cadd.exon</option>
+        <option value="cadd.fitcons" selected="false">cadd.fitcons</option>
+        <option value="cadd.gc" selected="false">cadd.gc</option>
+        <option value="cadd.gene" selected="false">cadd.gene</option>
+        <option value="cadd.gene.ccds_id" selected="false">cadd.gene.ccds_id</option>
+        <option value="cadd.gene.cds" selected="false">cadd.gene.cds</option>
+        <option value="cadd.gene.cds.cdna_pos" selected="false">cadd.gene.cds.cdna_pos</option>
+        <option value="cadd.gene.cds.cds_pos" selected="false">cadd.gene.cds.cds_pos</option>
+        <option value="cadd.gene.cds.rel_cdna_pos" selected="false">cadd.gene.cds.rel_cdna_pos</option>
+        <option value="cadd.gene.cds.rel_cds_pos" selected="false">cadd.gene.cds.rel_cds_pos</option>
+        <option value="cadd.gene.feature_id" selected="false">cadd.gene.feature_id</option>
+        <option value="cadd.gene.gene_id" selected="false">cadd.gene.gene_id</option>
+        <option value="cadd.gene.genename" selected="false">cadd.gene.genename</option>
+        <option value="cadd.gene.prot" selected="false">cadd.gene.prot</option>
+        <option value="cadd.gene.prot.domain" selected="false">cadd.gene.prot.domain</option>
+        <option value="cadd.gene.prot.protpos" selected="false">cadd.gene.prot.protpos</option>
+        <option value="cadd.gene.prot.rel_prot_pos" selected="false">cadd.gene.prot.rel_prot_pos</option>
+        <option value="cadd.gerp" selected="false">cadd.gerp</option>
+        <option value="cadd.gerp.n" selected="false">cadd.gerp.n</option>
+        <option value="cadd.gerp.rs" selected="false">cadd.gerp.rs</option>
+        <option value="cadd.gerp.rs_pval" selected="false">cadd.gerp.rs_pval</option>
+        <option value="cadd.gerp.s" selected="false">cadd.gerp.s</option>
+        <option value="cadd.grantham" selected="false">cadd.grantham</option>
+        <option value="cadd.intron" selected="false">cadd.intron</option>
+        <option value="cadd.isderived" selected="false">cadd.isderived</option>
+        <option value="cadd.isknownvariant" selected="false">cadd.isknownvariant</option>
+        <option value="cadd.istv" selected="false">cadd.istv</option>
+        <option value="cadd.length" selected="false">cadd.length</option>
+        <option value="cadd.mapability" selected="false">cadd.mapability</option>
+        <option value="cadd.mapability.20bp" selected="false">cadd.mapability.20bp</option>
+        <option value="cadd.mapability.35bp" selected="false">cadd.mapability.35bp</option>
+        <option value="cadd.min_dist_tse" selected="false">cadd.min_dist_tse</option>
+        <option value="cadd.min_dist_tss" selected="false">cadd.min_dist_tss</option>
+        <option value="cadd.mirsvr" selected="false">cadd.mirsvr</option>
+        <option value="cadd.mirsvr.aln" selected="false">cadd.mirsvr.aln</option>
+        <option value="cadd.mirsvr.e" selected="false">cadd.mirsvr.e</option>
+        <option value="cadd.mirsvr.score" selected="false">cadd.mirsvr.score</option>
+        <option value="cadd.motif" selected="false">cadd.motif</option>
+        <option value="cadd.motif.dist" selected="false">cadd.motif.dist</option>
+        <option value="cadd.motif.ecount" selected="false">cadd.motif.ecount</option>
+        <option value="cadd.motif.ehipos" selected="false">cadd.motif.ehipos</option>
+        <option value="cadd.motif.ename" selected="false">cadd.motif.ename</option>
+        <option value="cadd.motif.escorechng" selected="false">cadd.motif.escorechng</option>
+        <option value="cadd.motif.toverlap" selected="false">cadd.motif.toverlap</option>
+        <option value="cadd.mutindex" selected="false">cadd.mutindex</option>
+        <option value="cadd.naa" selected="false">cadd.naa</option>
+        <option value="cadd.oaa" selected="false">cadd.oaa</option>
+        <option value="cadd.phast_cons" selected="false">cadd.phast_cons</option>
+        <option value="cadd.phast_cons.mammalian" selected="false">cadd.phast_cons.mammalian</option>
+        <option value="cadd.phast_cons.primate" selected="false">cadd.phast_cons.primate</option>
+        <option value="cadd.phast_cons.vertebrate" selected="false">cadd.phast_cons.vertebrate</option>
+        <option value="cadd.phred" selected="false">cadd.phred</option>
+        <option value="cadd.phylop" selected="false">cadd.phylop</option>
+        <option value="cadd.phylop.mammalian" selected="false">cadd.phylop.mammalian</option>
+        <option value="cadd.phylop.primate" selected="false">cadd.phylop.primate</option>
+        <option value="cadd.phylop.vertebrate" selected="false">cadd.phylop.vertebrate</option>
+        <option value="cadd.polyphen" selected="false">cadd.polyphen</option>
+        <option value="cadd.polyphen.cat" selected="false">cadd.polyphen.cat</option>
+        <option value="cadd.polyphen.val" selected="false">cadd.polyphen.val</option>
+        <option value="cadd.pos" selected="false">cadd.pos</option>
+        <option value="cadd.rawscore" selected="false">cadd.rawscore</option>
+        <option value="cadd.ref" selected="false">cadd.ref</option>
+        <option value="cadd.scoresegdup" selected="false">cadd.scoresegdup</option>
+        <option value="cadd.segway" selected="false">cadd.segway</option>
+        <option value="cadd.sift" selected="false">cadd.sift</option>
+        <option value="cadd.sift.cat" selected="false">cadd.sift.cat</option>
+        <option value="cadd.sift.val" selected="false">cadd.sift.val</option>
+        <option value="cadd.targetscans" selected="false">cadd.targetscans</option>
+        <option value="cadd.tf" selected="false">cadd.tf</option>
+        <option value="cadd.tf.bs" selected="false">cadd.tf.bs</option>
+        <option value="cadd.tf.bs_peaks" selected="false">cadd.tf.bs_peaks</option>
+        <option value="cadd.tf.bs_peaks_max" selected="false">cadd.tf.bs_peaks_max</option>
+        <option value="cadd.type" selected="false">cadd.type</option>
+        <option value="cgi" selected="false">cgi</option>
+        <option value="cgi.association" selected="false">cgi.association</option>
+        <option value="cgi.cdna" selected="false">cgi.cdna</option>
+        <option value="cgi.drug" selected="false">cgi.drug</option>
+        <option value="cgi.evidence_level" selected="false">cgi.evidence_level</option>
+        <option value="cgi.gene" selected="false">cgi.gene</option>
+        <option value="cgi.primary_tumor_type" selected="false">cgi.primary_tumor_type</option>
+        <option value="cgi.protein_change" selected="false">cgi.protein_change</option>
+        <option value="cgi.region" selected="false">cgi.region</option>
+        <option value="cgi.source" selected="false">cgi.source</option>
+        <option value="cgi.transcript" selected="false">cgi.transcript</option>
+        <option value="chrom" selected="false">chrom</option>
+        <option value="civic" selected="false">civic</option>
+        <option value="civic.clinvar_entries" selected="false">civic.clinvar_entries</option>
+        <option value="civic.coordinates" selected="false">civic.coordinates</option>
+        <option value="civic.coordinates.chromosome" selected="false">civic.coordinates.chromosome</option>
+        <option value="civic.coordinates.chromosome2" selected="false">civic.coordinates.chromosome2</option>
+        <option value="civic.coordinates.ensembl_version" selected="false">civic.coordinates.ensembl_version</option>
+        <option value="civic.coordinates.reference_bases" selected="false">civic.coordinates.reference_bases</option>
+        <option value="civic.coordinates.reference_build" selected="false">civic.coordinates.reference_build</option>
+        <option value="civic.coordinates.representative_transcript" selected="false">
+            civic.coordinates.representative_transcript
+        </option>
+        <option value="civic.coordinates.representative_transcript2" selected="false">
+            civic.coordinates.representative_transcript2
+        </option>
+        <option value="civic.coordinates.start" selected="false">civic.coordinates.start</option>
+        <option value="civic.coordinates.start2" selected="false">civic.coordinates.start2</option>
+        <option value="civic.coordinates.stop" selected="false">civic.coordinates.stop</option>
+        <option value="civic.coordinates.stop2" selected="false">civic.coordinates.stop2</option>
+        <option value="civic.coordinates.variant_bases" selected="false">civic.coordinates.variant_bases</option>
+        <option value="civic.description" selected="false">civic.description</option>
+        <option value="civic.entrez_id" selected="false">civic.entrez_id</option>
+        <option value="civic.entrez_name" selected="false">civic.entrez_name</option>
+        <option value="civic.evidence_items" selected="false">civic.evidence_items</option>
+        <option value="civic.evidence_items.clinical_siginificance" selected="false">
+            civic.evidence_items.clinical_siginificance
+        </option>
+        <option value="civic.evidence_items.description" selected="false">civic.evidence_items.description</option>
+        <option value="civic.evidence_items.disease" selected="false">civic.evidence_items.disease</option>
+        <option value="civic.evidence_items.disease.display_name" selected="false">
+            civic.evidence_items.disease.display_name
+        </option>
+        <option value="civic.evidence_items.disease.doid" selected="false">civic.evidence_items.disease.doid</option>
+        <option value="civic.evidence_items.disease.id" selected="false">civic.evidence_items.disease.id</option>
+        <option value="civic.evidence_items.disease.name" selected="false">civic.evidence_items.disease.name</option>
+        <option value="civic.evidence_items.disease.url" selected="false">civic.evidence_items.disease.url</option>
+        <option value="civic.evidence_items.drug_interaction_type" selected="false">
+            civic.evidence_items.drug_interaction_type
+        </option>
+        <option value="civic.evidence_items.drugs" selected="false">civic.evidence_items.drugs</option>
+        <option value="civic.evidence_items.drugs.id" selected="false">civic.evidence_items.drugs.id</option>
+        <option value="civic.evidence_items.drugs.name" selected="false">civic.evidence_items.drugs.name</option>
+        <option value="civic.evidence_items.drugs.pubchem_id" selected="false">civic.evidence_items.drugs.pubchem_id
+        </option>
+        <option value="civic.evidence_items.evidence_direction" selected="false">
+            civic.evidence_items.evidence_direction
+        </option>
+        <option value="civic.evidence_items.evidence_level" selected="false">civic.evidence_items.evidence_level
+        </option>
+        <option value="civic.evidence_items.id" selected="false">civic.evidence_items.id</option>
+        <option value="civic.evidence_items.name" selected="false">civic.evidence_items.name</option>
+        <option value="civic.evidence_items.open_change_count" selected="false">civic.evidence_items.open_change_count
+        </option>
+        <option value="civic.evidence_items.rating" selected="false">civic.evidence_items.rating</option>
+        <option value="civic.evidence_items.source" selected="false">civic.evidence_items.source</option>
+        <option value="civic.evidence_items.source.citation" selected="false">civic.evidence_items.source.citation
+        </option>
+        <option value="civic.evidence_items.source.full_journal_title" selected="false">
+            civic.evidence_items.source.full_journal_title
+        </option>
+        <option value="civic.evidence_items.source.id" selected="false">civic.evidence_items.source.id</option>
+        <option value="civic.evidence_items.source.is_review" selected="false">civic.evidence_items.source.is_review
+        </option>
+        <option value="civic.evidence_items.source.journal" selected="false">civic.evidence_items.source.journal
+        </option>
+        <option value="civic.evidence_items.source.name" selected="false">civic.evidence_items.source.name</option>
+        <option value="civic.evidence_items.source.open_access" selected="false">
+            civic.evidence_items.source.open_access
+        </option>
+        <option value="civic.evidence_items.source.pmc_id" selected="false">civic.evidence_items.source.pmc_id</option>
+        <option value="civic.evidence_items.source.publication_date" selected="false">
+            civic.evidence_items.source.publication_date
+        </option>
+        <option value="civic.evidence_items.source.publication_date.day" selected="false">
+            civic.evidence_items.source.publication_date.day
+        </option>
+        <option value="civic.evidence_items.source.publication_date.month" selected="false">
+            civic.evidence_items.source.publication_date.month
+        </option>
+        <option value="civic.evidence_items.source.publication_date.year" selected="false">
+            civic.evidence_items.source.publication_date.year
+        </option>
+        <option value="civic.evidence_items.source.pubmed_id" selected="false">civic.evidence_items.source.pubmed_id
+        </option>
+        <option value="civic.evidence_items.source.source_url" selected="false">civic.evidence_items.source.source_url
+        </option>
+        <option value="civic.evidence_items.source.status" selected="false">civic.evidence_items.source.status</option>
+        <option value="civic.evidence_items.status" selected="false">civic.evidence_items.status</option>
+        <option value="civic.evidence_items.type" selected="false">civic.evidence_items.type</option>
+        <option value="civic.evidence_items.variant_id" selected="false">civic.evidence_items.variant_id</option>
+        <option value="civic.evidence_items.variant_origin" selected="false">civic.evidence_items.variant_origin
+        </option>
+        <option value="civic.gene_id" selected="false">civic.gene_id</option>
+        <option value="civic.hgvs_expressions" selected="false">civic.hgvs_expressions</option>
+        <option value="civic.lifecycle_actions" selected="false">civic.lifecycle_actions</option>
+        <option value="civic.lifecycle_actions.last_modified" selected="false">civic.lifecycle_actions.last_modified
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.order" selected="false">
+            civic.lifecycle_actions.last_modified.order
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.timestamp" selected="false">
+            civic.lifecycle_actions.last_modified.timestamp
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user" selected="false">
+            civic.lifecycle_actions.last_modified.user
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.affiliation" selected="false">
+            civic.lifecycle_actions.last_modified.user.affiliation
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.area_of_expertise" selected="false">
+            civic.lifecycle_actions.last_modified.user.area_of_expertise
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.avatar_url" selected="false">
+            civic.lifecycle_actions.last_modified.user.avatar_url
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.bio" selected="false">
+            civic.lifecycle_actions.last_modified.user.bio
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.created_at" selected="false">
+            civic.lifecycle_actions.last_modified.user.created_at
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.display_name" selected="false">
+            civic.lifecycle_actions.last_modified.user.display_name
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.facebook_profile" selected="false">
+            civic.lifecycle_actions.last_modified.user.facebook_profile
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.featured_expert" selected="false">
+            civic.lifecycle_actions.last_modified.user.featured_expert
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.id" selected="false">
+            civic.lifecycle_actions.last_modified.user.id
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.last_seen_at" selected="false">
+            civic.lifecycle_actions.last_modified.user.last_seen_at
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.linkedin_profile" selected="false">
+            civic.lifecycle_actions.last_modified.user.linkedin_profile
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.name" selected="false">
+            civic.lifecycle_actions.last_modified.user.name
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.orcid" selected="false">
+            civic.lifecycle_actions.last_modified.user.orcid
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.organization" selected="false">
+            civic.lifecycle_actions.last_modified.user.organization
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.organization.description" selected="false">
+            civic.lifecycle_actions.last_modified.user.organization.description
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.organization.id" selected="false">
+            civic.lifecycle_actions.last_modified.user.organization.id
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.organization.name" selected="false">
+            civic.lifecycle_actions.last_modified.user.organization.name
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.organization.url" selected="false">
+            civic.lifecycle_actions.last_modified.user.organization.url
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.role" selected="false">
+            civic.lifecycle_actions.last_modified.user.role
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.twitter_handle" selected="false">
+            civic.lifecycle_actions.last_modified.user.twitter_handle
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.url" selected="false">
+            civic.lifecycle_actions.last_modified.user.url
+        </option>
+        <option value="civic.lifecycle_actions.last_modified.user.username" selected="false">
+            civic.lifecycle_actions.last_modified.user.username
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed" selected="false">civic.lifecycle_actions.last_reviewed
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.order" selected="false">
+            civic.lifecycle_actions.last_reviewed.order
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.timestamp" selected="false">
+            civic.lifecycle_actions.last_reviewed.timestamp
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user" selected="false">
+            civic.lifecycle_actions.last_reviewed.user
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.affiliation" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.affiliation
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.area_of_expertise" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.area_of_expertise
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.avatar_url" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.avatar_url
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.bio" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.bio
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.created_at" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.created_at
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.display_name" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.display_name
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.facebook_profile" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.facebook_profile
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.featured_expert" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.featured_expert
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.id" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.id
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.last_seen_at" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.last_seen_at
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.linkedin_profile" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.linkedin_profile
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.name" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.name
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.orcid" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.orcid
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.organization" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.organization
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.organization.description" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.organization.description
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.organization.id" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.organization.id
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.organization.name" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.organization.name
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.organization.url" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.organization.url
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.role" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.role
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.twitter_handle" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.twitter_handle
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.url" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.url
+        </option>
+        <option value="civic.lifecycle_actions.last_reviewed.user.username" selected="false">
+            civic.lifecycle_actions.last_reviewed.user.username
+        </option>
+        <option value="civic.name" selected="false">civic.name</option>
+        <option value="civic.type" selected="false">civic.type</option>
+        <option value="civic.variant_aliases" selected="false">civic.variant_aliases</option>
+        <option value="civic.variant_groups" selected="false">civic.variant_groups</option>
+        <option value="civic.variant_groups.description" selected="false">civic.variant_groups.description</option>
+        <option value="civic.variant_groups.id" selected="false">civic.variant_groups.id</option>
+        <option value="civic.variant_groups.name" selected="false">civic.variant_groups.name</option>
+        <option value="civic.variant_groups.type" selected="false">civic.variant_groups.type</option>
+        <option value="civic.variant_groups.variants" selected="false">civic.variant_groups.variants</option>
+        <option value="civic.variant_groups.variants.coordinates" selected="false">
+            civic.variant_groups.variants.coordinates
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.chromosome" selected="false">
+            civic.variant_groups.variants.coordinates.chromosome
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.chromosome2" selected="false">
+            civic.variant_groups.variants.coordinates.chromosome2
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.ensembl_version" selected="false">
+            civic.variant_groups.variants.coordinates.ensembl_version
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.reference_bases" selected="false">
+            civic.variant_groups.variants.coordinates.reference_bases
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.reference_build" selected="false">
+            civic.variant_groups.variants.coordinates.reference_build
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.representative_transcript" selected="false">
+            civic.variant_groups.variants.coordinates.representative_transcript
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.representative_transcript2" selected="false">
+            civic.variant_groups.variants.coordinates.representative_transcript2
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.start" selected="false">
+            civic.variant_groups.variants.coordinates.start
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.start2" selected="false">
+            civic.variant_groups.variants.coordinates.start2
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.stop" selected="false">
+            civic.variant_groups.variants.coordinates.stop
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.stop2" selected="false">
+            civic.variant_groups.variants.coordinates.stop2
+        </option>
+        <option value="civic.variant_groups.variants.coordinates.variant_bases" selected="false">
+            civic.variant_groups.variants.coordinates.variant_bases
+        </option>
+        <option value="civic.variant_groups.variants.description" selected="false">
+            civic.variant_groups.variants.description
+        </option>
+        <option value="civic.variant_groups.variants.entrez_id" selected="false">
+            civic.variant_groups.variants.entrez_id
+        </option>
+        <option value="civic.variant_groups.variants.entrez_name" selected="false">
+            civic.variant_groups.variants.entrez_name
+        </option>
+        <option value="civic.variant_groups.variants.gene_id" selected="false">civic.variant_groups.variants.gene_id
+        </option>
+        <option value="civic.variant_groups.variants.id" selected="false">civic.variant_groups.variants.id</option>
+        <option value="civic.variant_groups.variants.name" selected="false">civic.variant_groups.variants.name</option>
+        <option value="civic.variant_groups.variants.type" selected="false">civic.variant_groups.variants.type</option>
+        <option value="civic.variant_groups.variants.variant_types" selected="false">
+            civic.variant_groups.variants.variant_types
+        </option>
+        <option value="civic.variant_groups.variants.variant_types.description" selected="false">
+            civic.variant_groups.variants.variant_types.description
+        </option>
+        <option value="civic.variant_groups.variants.variant_types.display_name" selected="false">
+            civic.variant_groups.variants.variant_types.display_name
+        </option>
+        <option value="civic.variant_groups.variants.variant_types.id" selected="false">
+            civic.variant_groups.variants.variant_types.id
+        </option>
+        <option value="civic.variant_groups.variants.variant_types.name" selected="false">
+            civic.variant_groups.variants.variant_types.name
+        </option>
+        <option value="civic.variant_groups.variants.variant_types.so_id" selected="false">
+            civic.variant_groups.variants.variant_types.so_id
+        </option>
+        <option value="civic.variant_groups.variants.variant_types.url" selected="false">
+            civic.variant_groups.variants.variant_types.url
+        </option>
+        <option value="civic.variant_id" selected="false">civic.variant_id</option>
+        <option value="civic.variant_types" selected="false">civic.variant_types</option>
+        <option value="civic.variant_types.description" selected="false">civic.variant_types.description</option>
+        <option value="civic.variant_types.display_name" selected="false">civic.variant_types.display_name</option>
+        <option value="civic.variant_types.id" selected="false">civic.variant_types.id</option>
+        <option value="civic.variant_types.name" selected="false">civic.variant_types.name</option>
+        <option value="civic.variant_types.so_id" selected="false">civic.variant_types.so_id</option>
+        <option value="civic.variant_types.url" selected="false">civic.variant_types.url</option>
+        <option value="clinvar" selected="false">clinvar</option>
+        <option value="clinvar.allele_id" selected="false">clinvar.allele_id</option>
+        <option value="clinvar.alt" selected="false">clinvar.alt</option>
+        <option value="clinvar.chrom" selected="false">clinvar.chrom</option>
+        <option value="clinvar.coding_hgvs_only" selected="false">clinvar.coding_hgvs_only</option>
+        <option value="clinvar.cosmic" selected="false">clinvar.cosmic</option>
+        <option value="clinvar.cytogenic" selected="false">clinvar.cytogenic</option>
+        <option value="clinvar.dbvar" selected="false">clinvar.dbvar</option>
+        <option value="clinvar.gene" selected="false">clinvar.gene</option>
+        <option value="clinvar.gene.id" selected="false">clinvar.gene.id</option>
+        <option value="clinvar.gene.symbol" selected="false">clinvar.gene.symbol</option>
+        <option value="clinvar.genotypeset" selected="false">clinvar.genotypeset</option>
+        <option value="clinvar.genotypeset.genotype" selected="false">clinvar.genotypeset.genotype</option>
+        <option value="clinvar.genotypeset.type" selected="false">clinvar.genotypeset.type</option>
+        <option value="clinvar.hg19" selected="false">clinvar.hg19</option>
+        <option value="clinvar.hg19.end" selected="false">clinvar.hg19.end</option>
+        <option value="clinvar.hg19.start" selected="false">clinvar.hg19.start</option>
+        <option value="clinvar.hg38" selected="false">clinvar.hg38</option>
+        <option value="clinvar.hg38.end" selected="false">clinvar.hg38.end</option>
+        <option value="clinvar.hg38.start" selected="false">clinvar.hg38.start</option>
+        <option value="clinvar.hgvs" selected="false">clinvar.hgvs</option>
+        <option value="clinvar.hgvs.coding" selected="false">clinvar.hgvs.coding</option>
+        <option value="clinvar.hgvs.genomic" selected="false">clinvar.hgvs.genomic</option>
+        <option value="clinvar.hgvs.non-coding" selected="false">clinvar.hgvs.non-coding</option>
+        <option value="clinvar.hgvs.protein" selected="false">clinvar.hgvs.protein</option>
+        <option value="clinvar.omim" selected="false">clinvar.omim</option>
+        <option value="clinvar.rcv" selected="false">clinvar.rcv</option>
+        <option value="clinvar.rcv.accession" selected="false">clinvar.rcv.accession</option>
+        <option value="clinvar.rcv.clinical_significance" selected="false">clinvar.rcv.clinical_significance</option>
+        <option value="clinvar.rcv.conditions" selected="false">clinvar.rcv.conditions</option>
+        <option value="clinvar.rcv.conditions.age_of_onset" selected="false">clinvar.rcv.conditions.age_of_onset
+        </option>
+        <option value="clinvar.rcv.conditions.identifiers" selected="false">clinvar.rcv.conditions.identifiers</option>
+        <option value="clinvar.rcv.conditions.identifiers.efo" selected="false">clinvar.rcv.conditions.identifiers.efo
+        </option>
+        <option value="clinvar.rcv.conditions.identifiers.gene" selected="false">
+            clinvar.rcv.conditions.identifiers.gene
+        </option>
+        <option value="clinvar.rcv.conditions.identifiers.human_phenotype_ontology" selected="false">
+            clinvar.rcv.conditions.identifiers.human_phenotype_ontology
+        </option>
+        <option value="clinvar.rcv.conditions.identifiers.medgen" selected="false">
+            clinvar.rcv.conditions.identifiers.medgen
+        </option>
+        <option value="clinvar.rcv.conditions.identifiers.omim" selected="false">
+            clinvar.rcv.conditions.identifiers.omim
+        </option>
+        <option value="clinvar.rcv.conditions.identifiers.orphanet" selected="false">
+            clinvar.rcv.conditions.identifiers.orphanet
+        </option>
+        <option value="clinvar.rcv.conditions.name" selected="false">clinvar.rcv.conditions.name</option>
+        <option value="clinvar.rcv.conditions.synonyms" selected="false">clinvar.rcv.conditions.synonyms</option>
+        <option value="clinvar.rcv.last_evaluated" selected="false">clinvar.rcv.last_evaluated</option>
+        <option value="clinvar.rcv.number_submitters" selected="false">clinvar.rcv.number_submitters</option>
+        <option value="clinvar.rcv.origin" selected="false">clinvar.rcv.origin</option>
+        <option value="clinvar.rcv.preferred_name" selected="false">clinvar.rcv.preferred_name</option>
+        <option value="clinvar.rcv.review_status" selected="false">clinvar.rcv.review_status</option>
+        <option value="clinvar.ref" selected="false">clinvar.ref</option>
+        <option value="clinvar.rsid" selected="false">clinvar.rsid</option>
+        <option value="clinvar.type" selected="false">clinvar.type</option>
+        <option value="clinvar.uniprot" selected="false">clinvar.uniprot</option>
+        <option value="clinvar.variant_id" selected="false">clinvar.variant_id</option>
+        <option value="cosmic" selected="false">cosmic</option>
+        <option value="cosmic.alt" selected="false">cosmic.alt</option>
+        <option value="cosmic.chrom" selected="false">cosmic.chrom</option>
+        <option value="cosmic.cosmic_id" selected="false">cosmic.cosmic_id</option>
+        <option value="cosmic.hg19" selected="false">cosmic.hg19</option>
+        <option value="cosmic.hg19.end" selected="false">cosmic.hg19.end</option>
+        <option value="cosmic.hg19.start" selected="false">cosmic.hg19.start</option>
+        <option value="cosmic.mut_freq" selected="false">cosmic.mut_freq</option>
+        <option value="cosmic.mut_nt" selected="false">cosmic.mut_nt</option>
+        <option value="cosmic.ref" selected="false">cosmic.ref</option>
+        <option value="cosmic.tumor_site" selected="false">cosmic.tumor_site</option>
+        <option value="dbnsfp" selected="false">dbnsfp</option>
+        <option value="dbnsfp.1000gp3" selected="false">dbnsfp.1000gp3</option>
+        <option value="dbnsfp.1000gp3.ac" selected="false">dbnsfp.1000gp3.ac</option>
+        <option value="dbnsfp.1000gp3.af" selected="false">dbnsfp.1000gp3.af</option>
+        <option value="dbnsfp.1000gp3.afr_ac" selected="false">dbnsfp.1000gp3.afr_ac</option>
+        <option value="dbnsfp.1000gp3.afr_af" selected="false">dbnsfp.1000gp3.afr_af</option>
+        <option value="dbnsfp.1000gp3.amr_ac" selected="false">dbnsfp.1000gp3.amr_ac</option>
+        <option value="dbnsfp.1000gp3.amr_af" selected="false">dbnsfp.1000gp3.amr_af</option>
+        <option value="dbnsfp.1000gp3.eas_ac" selected="false">dbnsfp.1000gp3.eas_ac</option>
+        <option value="dbnsfp.1000gp3.eas_af" selected="false">dbnsfp.1000gp3.eas_af</option>
+        <option value="dbnsfp.1000gp3.eur_ac" selected="false">dbnsfp.1000gp3.eur_ac</option>
+        <option value="dbnsfp.1000gp3.eur_af" selected="false">dbnsfp.1000gp3.eur_af</option>
+        <option value="dbnsfp.1000gp3.sas_ac" selected="false">dbnsfp.1000gp3.sas_ac</option>
+        <option value="dbnsfp.1000gp3.sas_af" selected="false">dbnsfp.1000gp3.sas_af</option>
+        <option value="dbnsfp.aa" selected="false">dbnsfp.aa</option>
+        <option value="dbnsfp.aa.alt" selected="false">dbnsfp.aa.alt</option>
+        <option value="dbnsfp.aa.codon_degeneracy" selected="false">dbnsfp.aa.codon_degeneracy</option>
+        <option value="dbnsfp.aa.codonpos" selected="false">dbnsfp.aa.codonpos</option>
+        <option value="dbnsfp.aa.pos" selected="false">dbnsfp.aa.pos</option>
+        <option value="dbnsfp.aa.ref" selected="false">dbnsfp.aa.ref</option>
+        <option value="dbnsfp.aa.refcodon" selected="false">dbnsfp.aa.refcodon</option>
+        <option value="dbnsfp.alspac" selected="false">dbnsfp.alspac</option>
+        <option value="dbnsfp.alspac.ac" selected="false">dbnsfp.alspac.ac</option>
+        <option value="dbnsfp.alspac.af" selected="false">dbnsfp.alspac.af</option>
+        <option value="dbnsfp.alt" selected="false">dbnsfp.alt</option>
+        <option value="dbnsfp.ancestral_allele" selected="false">dbnsfp.ancestral_allele</option>
+        <option value="dbnsfp.cds_strand" selected="false">dbnsfp.cds_strand</option>
+        <option value="dbnsfp.chrom" selected="false">dbnsfp.chrom</option>
+        <option value="dbnsfp.clinvar" selected="false">dbnsfp.clinvar</option>
+        <option value="dbnsfp.clinvar.clinsig" selected="false">dbnsfp.clinvar.clinsig</option>
+        <option value="dbnsfp.clinvar.golden_stars" selected="false">dbnsfp.clinvar.golden_stars</option>
+        <option value="dbnsfp.clinvar.rs" selected="false">dbnsfp.clinvar.rs</option>
+        <option value="dbnsfp.clinvar.trait" selected="false">dbnsfp.clinvar.trait</option>
+        <option value="dbnsfp.dann" selected="false">dbnsfp.dann</option>
+        <option value="dbnsfp.dann.rankscore" selected="false">dbnsfp.dann.rankscore</option>
+        <option value="dbnsfp.dann.score" selected="false">dbnsfp.dann.score</option>
+        <option value="dbnsfp.eigen" selected="false">dbnsfp.eigen</option>
+        <option value="dbnsfp.eigen-pc" selected="false">dbnsfp.eigen-pc</option>
+        <option value="dbnsfp.eigen-pc.raw" selected="false">dbnsfp.eigen-pc.raw</option>
+        <option value="dbnsfp.eigen-pc.raw_rankscore" selected="false">dbnsfp.eigen-pc.raw_rankscore</option>
+        <option value="dbnsfp.eigen.phred" selected="false">dbnsfp.eigen.phred</option>
+        <option value="dbnsfp.eigen.raw" selected="false">dbnsfp.eigen.raw</option>
+        <option value="dbnsfp.eigen.raw_rankscore" selected="false">dbnsfp.eigen.raw_rankscore</option>
+        <option value="dbnsfp.ensembl" selected="false">dbnsfp.ensembl</option>
+        <option value="dbnsfp.ensembl.geneid" selected="false">dbnsfp.ensembl.geneid</option>
+        <option value="dbnsfp.ensembl.proteinid" selected="false">dbnsfp.ensembl.proteinid</option>
+        <option value="dbnsfp.ensembl.transcriptid" selected="false">dbnsfp.ensembl.transcriptid</option>
+        <option value="dbnsfp.esp6500" selected="false">dbnsfp.esp6500</option>
+        <option value="dbnsfp.esp6500.aa_ac" selected="false">dbnsfp.esp6500.aa_ac</option>
+        <option value="dbnsfp.esp6500.aa_af" selected="false">dbnsfp.esp6500.aa_af</option>
+        <option value="dbnsfp.esp6500.ea_ac" selected="false">dbnsfp.esp6500.ea_ac</option>
+        <option value="dbnsfp.esp6500.ea_af" selected="false">dbnsfp.esp6500.ea_af</option>
+        <option value="dbnsfp.exac" selected="false">dbnsfp.exac</option>
+        <option value="dbnsfp.exac.ac" selected="false">dbnsfp.exac.ac</option>
+        <option value="dbnsfp.exac.adj_ac" selected="false">dbnsfp.exac.adj_ac</option>
+        <option value="dbnsfp.exac.adj_af" selected="false">dbnsfp.exac.adj_af</option>
+        <option value="dbnsfp.exac.af" selected="false">dbnsfp.exac.af</option>
+        <option value="dbnsfp.exac.afr_ac" selected="false">dbnsfp.exac.afr_ac</option>
+        <option value="dbnsfp.exac.afr_af" selected="false">dbnsfp.exac.afr_af</option>
+        <option value="dbnsfp.exac.amr_ac" selected="false">dbnsfp.exac.amr_ac</option>
+        <option value="dbnsfp.exac.amr_af" selected="false">dbnsfp.exac.amr_af</option>
+        <option value="dbnsfp.exac.eas_ac" selected="false">dbnsfp.exac.eas_ac</option>
+        <option value="dbnsfp.exac.eas_af" selected="false">dbnsfp.exac.eas_af</option>
+        <option value="dbnsfp.exac.fin_ac" selected="false">dbnsfp.exac.fin_ac</option>
+        <option value="dbnsfp.exac.fin_af" selected="false">dbnsfp.exac.fin_af</option>
+        <option value="dbnsfp.exac.nfe_ac" selected="false">dbnsfp.exac.nfe_ac</option>
+        <option value="dbnsfp.exac.nfe_af" selected="false">dbnsfp.exac.nfe_af</option>
+        <option value="dbnsfp.exac.sas_ac" selected="false">dbnsfp.exac.sas_ac</option>
+        <option value="dbnsfp.exac.sas_af" selected="false">dbnsfp.exac.sas_af</option>
+        <option value="dbnsfp.exac_nonpsych" selected="false">dbnsfp.exac_nonpsych</option>
+        <option value="dbnsfp.exac_nonpsych.ac" selected="false">dbnsfp.exac_nonpsych.ac</option>
+        <option value="dbnsfp.exac_nonpsych.adj_ac" selected="false">dbnsfp.exac_nonpsych.adj_ac</option>
+        <option value="dbnsfp.exac_nonpsych.adj_af" selected="false">dbnsfp.exac_nonpsych.adj_af</option>
+        <option value="dbnsfp.exac_nonpsych.af" selected="false">dbnsfp.exac_nonpsych.af</option>
+        <option value="dbnsfp.exac_nonpsych.afr_ac" selected="false">dbnsfp.exac_nonpsych.afr_ac</option>
+        <option value="dbnsfp.exac_nonpsych.afr_af" selected="false">dbnsfp.exac_nonpsych.afr_af</option>
+        <option value="dbnsfp.exac_nonpsych.amr_ac" selected="false">dbnsfp.exac_nonpsych.amr_ac</option>
+        <option value="dbnsfp.exac_nonpsych.amr_af" selected="false">dbnsfp.exac_nonpsych.amr_af</option>
+        <option value="dbnsfp.exac_nonpsych.eas_ac" selected="false">dbnsfp.exac_nonpsych.eas_ac</option>
+        <option value="dbnsfp.exac_nonpsych.eas_af" selected="false">dbnsfp.exac_nonpsych.eas_af</option>
+        <option value="dbnsfp.exac_nonpsych.fin_ac" selected="false">dbnsfp.exac_nonpsych.fin_ac</option>
+        <option value="dbnsfp.exac_nonpsych.fin_af" selected="false">dbnsfp.exac_nonpsych.fin_af</option>
+        <option value="dbnsfp.exac_nonpsych.nfe_ac" selected="false">dbnsfp.exac_nonpsych.nfe_ac</option>
+        <option value="dbnsfp.exac_nonpsych.nfe_af" selected="false">dbnsfp.exac_nonpsych.nfe_af</option>
+        <option value="dbnsfp.exac_nontcga" selected="false">dbnsfp.exac_nontcga</option>
+        <option value="dbnsfp.exac_nontcga.ac" selected="false">dbnsfp.exac_nontcga.ac</option>
+        <option value="dbnsfp.exac_nontcga.adj_ac" selected="false">dbnsfp.exac_nontcga.adj_ac</option>
+        <option value="dbnsfp.exac_nontcga.adj_af" selected="false">dbnsfp.exac_nontcga.adj_af</option>
+        <option value="dbnsfp.exac_nontcga.af" selected="false">dbnsfp.exac_nontcga.af</option>
+        <option value="dbnsfp.exac_nontcga.afr_ac" selected="false">dbnsfp.exac_nontcga.afr_ac</option>
+        <option value="dbnsfp.exac_nontcga.afr_af" selected="false">dbnsfp.exac_nontcga.afr_af</option>
+        <option value="dbnsfp.exac_nontcga.amr_ac" selected="false">dbnsfp.exac_nontcga.amr_ac</option>
+        <option value="dbnsfp.exac_nontcga.amr_af" selected="false">dbnsfp.exac_nontcga.amr_af</option>
+        <option value="dbnsfp.exac_nontcga.eas_ac" selected="false">dbnsfp.exac_nontcga.eas_ac</option>
+        <option value="dbnsfp.exac_nontcga.eas_af" selected="false">dbnsfp.exac_nontcga.eas_af</option>
+        <option value="dbnsfp.exac_nontcga.fin_ac" selected="false">dbnsfp.exac_nontcga.fin_ac</option>
+        <option value="dbnsfp.exac_nontcga.fin_af" selected="false">dbnsfp.exac_nontcga.fin_af</option>
+        <option value="dbnsfp.exac_nontcga.nfe_ac" selected="false">dbnsfp.exac_nontcga.nfe_ac</option>
+        <option value="dbnsfp.exac_nontcga.nfe_af" selected="false">dbnsfp.exac_nontcga.nfe_af</option>
+        <option value="dbnsfp.exac_nontcga.sas_ac" selected="false">dbnsfp.exac_nontcga.sas_ac</option>
+        <option value="dbnsfp.exac_nontcga.sas_af" selected="false">dbnsfp.exac_nontcga.sas_af</option>
+        <option value="dbnsfp.fathmm" selected="false">dbnsfp.fathmm</option>
+        <option value="dbnsfp.fathmm-mkl" selected="false">dbnsfp.fathmm-mkl</option>
+        <option value="dbnsfp.fathmm-mkl.coding_group" selected="false">dbnsfp.fathmm-mkl.coding_group</option>
+        <option value="dbnsfp.fathmm-mkl.coding_pred" selected="false">dbnsfp.fathmm-mkl.coding_pred</option>
+        <option value="dbnsfp.fathmm-mkl.coding_rankscore" selected="false">dbnsfp.fathmm-mkl.coding_rankscore</option>
+        <option value="dbnsfp.fathmm-mkl.coding_score" selected="false">dbnsfp.fathmm-mkl.coding_score</option>
+        <option value="dbnsfp.fathmm.pred" selected="false">dbnsfp.fathmm.pred</option>
+        <option value="dbnsfp.fathmm.rankscore" selected="false">dbnsfp.fathmm.rankscore</option>
+        <option value="dbnsfp.fathmm.score" selected="false">dbnsfp.fathmm.score</option>
+        <option value="dbnsfp.genename" selected="false">dbnsfp.genename</option>
+        <option value="dbnsfp.genocanyon" selected="false">dbnsfp.genocanyon</option>
+        <option value="dbnsfp.genocanyon.rankscore" selected="false">dbnsfp.genocanyon.rankscore</option>
+        <option value="dbnsfp.genocanyon.score" selected="false">dbnsfp.genocanyon.score</option>
+        <option value="dbnsfp.gerp++" selected="false">dbnsfp.gerp++</option>
+        <option value="dbnsfp.gerp++.nr" selected="false">dbnsfp.gerp++.nr</option>
+        <option value="dbnsfp.gerp++.rs" selected="false">dbnsfp.gerp++.rs</option>
+        <option value="dbnsfp.gerp++.rs_rankscore" selected="false">dbnsfp.gerp++.rs_rankscore</option>
+        <option value="dbnsfp.gm12878" selected="false">dbnsfp.gm12878</option>
+        <option value="dbnsfp.gm12878.confidence_value" selected="false">dbnsfp.gm12878.confidence_value</option>
+        <option value="dbnsfp.gm12878.fitcons_rankscore" selected="false">dbnsfp.gm12878.fitcons_rankscore</option>
+        <option value="dbnsfp.gm12878.fitcons_score" selected="false">dbnsfp.gm12878.fitcons_score</option>
+        <option value="dbnsfp.gtex" selected="false">dbnsfp.gtex</option>
+        <option value="dbnsfp.gtex.gene" selected="false">dbnsfp.gtex.gene</option>
+        <option value="dbnsfp.gtex.tissue" selected="false">dbnsfp.gtex.tissue</option>
+        <option value="dbnsfp.h1-hesc" selected="false">dbnsfp.h1-hesc</option>
+        <option value="dbnsfp.h1-hesc.confidence_value" selected="false">dbnsfp.h1-hesc.confidence_value</option>
+        <option value="dbnsfp.h1-hesc.fitcons_rankscore" selected="false">dbnsfp.h1-hesc.fitcons_rankscore</option>
+        <option value="dbnsfp.h1-hesc.fitcons_score" selected="false">dbnsfp.h1-hesc.fitcons_score</option>
+        <option value="dbnsfp.hg18" selected="false">dbnsfp.hg18</option>
+        <option value="dbnsfp.hg18.end" selected="false">dbnsfp.hg18.end</option>
+        <option value="dbnsfp.hg18.start" selected="false">dbnsfp.hg18.start</option>
+        <option value="dbnsfp.hg19" selected="false">dbnsfp.hg19</option>
+        <option value="dbnsfp.hg19.end" selected="false">dbnsfp.hg19.end</option>
+        <option value="dbnsfp.hg19.start" selected="false">dbnsfp.hg19.start</option>
+        <option value="dbnsfp.hg38" selected="false">dbnsfp.hg38</option>
+        <option value="dbnsfp.hg38.end" selected="false">dbnsfp.hg38.end</option>
+        <option value="dbnsfp.hg38.start" selected="false">dbnsfp.hg38.start</option>
+        <option value="dbnsfp.huvec" selected="false">dbnsfp.huvec</option>
+        <option value="dbnsfp.huvec.confidence_value" selected="false">dbnsfp.huvec.confidence_value</option>
+        <option value="dbnsfp.huvec.fitcons_rankscore" selected="false">dbnsfp.huvec.fitcons_rankscore</option>
+        <option value="dbnsfp.huvec.fitcons_score" selected="false">dbnsfp.huvec.fitcons_score</option>
+        <option value="dbnsfp.integrated" selected="false">dbnsfp.integrated</option>
+        <option value="dbnsfp.integrated.confidence_value" selected="false">dbnsfp.integrated.confidence_value</option>
+        <option value="dbnsfp.integrated.fitcons_rankscore" selected="false">dbnsfp.integrated.fitcons_rankscore
+        </option>
+        <option value="dbnsfp.integrated.fitcons_score" selected="false">dbnsfp.integrated.fitcons_score</option>
+        <option value="dbnsfp.interpro_domain" selected="false">dbnsfp.interpro_domain</option>
+        <option value="dbnsfp.lrt" selected="false">dbnsfp.lrt</option>
+        <option value="dbnsfp.lrt.converted_rankscore" selected="false">dbnsfp.lrt.converted_rankscore</option>
+        <option value="dbnsfp.lrt.omega" selected="false">dbnsfp.lrt.omega</option>
+        <option value="dbnsfp.lrt.pred" selected="false">dbnsfp.lrt.pred</option>
+        <option value="dbnsfp.lrt.score" selected="false">dbnsfp.lrt.score</option>
+        <option value="dbnsfp.metalr" selected="false">dbnsfp.metalr</option>
+        <option value="dbnsfp.metalr.pred" selected="false">dbnsfp.metalr.pred</option>
+        <option value="dbnsfp.metalr.rankscore" selected="false">dbnsfp.metalr.rankscore</option>
+        <option value="dbnsfp.metalr.score" selected="false">dbnsfp.metalr.score</option>
+        <option value="dbnsfp.metasvm" selected="false">dbnsfp.metasvm</option>
+        <option value="dbnsfp.metasvm.pred" selected="false">dbnsfp.metasvm.pred</option>
+        <option value="dbnsfp.metasvm.rankscore" selected="false">dbnsfp.metasvm.rankscore</option>
+        <option value="dbnsfp.metasvm.score" selected="false">dbnsfp.metasvm.score</option>
+        <option value="dbnsfp.mutationassessor" selected="false">dbnsfp.mutationassessor</option>
+        <option value="dbnsfp.mutationassessor.pred" selected="false">dbnsfp.mutationassessor.pred</option>
+        <option value="dbnsfp.mutationassessor.rankscore" selected="false">dbnsfp.mutationassessor.rankscore</option>
+        <option value="dbnsfp.mutationassessor.score" selected="false">dbnsfp.mutationassessor.score</option>
+        <option value="dbnsfp.mutationtaster" selected="false">dbnsfp.mutationtaster</option>
+        <option value="dbnsfp.mutationtaster.AAE" selected="false">dbnsfp.mutationtaster.AAE</option>
+        <option value="dbnsfp.mutationtaster.converted_rankscore" selected="false">
+            dbnsfp.mutationtaster.converted_rankscore
+        </option>
+        <option value="dbnsfp.mutationtaster.model" selected="false">dbnsfp.mutationtaster.model</option>
+        <option value="dbnsfp.mutationtaster.pred" selected="false">dbnsfp.mutationtaster.pred</option>
+        <option value="dbnsfp.mutationtaster.score" selected="false">dbnsfp.mutationtaster.score</option>
+        <option value="dbnsfp.mutpred" selected="false">dbnsfp.mutpred</option>
+        <option value="dbnsfp.mutpred.aa_change" selected="false">dbnsfp.mutpred.aa_change</option>
+        <option value="dbnsfp.mutpred.accession" selected="false">dbnsfp.mutpred.accession</option>
+        <option value="dbnsfp.mutpred.pred" selected="false">dbnsfp.mutpred.pred</option>
+        <option value="dbnsfp.mutpred.pred.mechanism" selected="false">dbnsfp.mutpred.pred.mechanism</option>
+        <option value="dbnsfp.mutpred.pred.p_val" selected="false">dbnsfp.mutpred.pred.p_val</option>
+        <option value="dbnsfp.mutpred.rankscore" selected="false">dbnsfp.mutpred.rankscore</option>
+        <option value="dbnsfp.mutpred.score" selected="false">dbnsfp.mutpred.score</option>
+        <option value="dbnsfp.phastcons" selected="false">dbnsfp.phastcons</option>
+        <option value="dbnsfp.phastcons.100way" selected="false">dbnsfp.phastcons.100way</option>
+        <option value="dbnsfp.phastcons.100way.vertebrate" selected="false">dbnsfp.phastcons.100way.vertebrate</option>
+        <option value="dbnsfp.phastcons.100way.vertebrate_rankscore" selected="false">
+            dbnsfp.phastcons.100way.vertebrate_rankscore
+        </option>
+        <option value="dbnsfp.phastcons.20way" selected="false">dbnsfp.phastcons.20way</option>
+        <option value="dbnsfp.phastcons.20way.mammalian" selected="false">dbnsfp.phastcons.20way.mammalian</option>
+        <option value="dbnsfp.phastcons.20way.mammalian_rankscore" selected="false">
+            dbnsfp.phastcons.20way.mammalian_rankscore
+        </option>
+        <option value="dbnsfp.phylo" selected="false">dbnsfp.phylo</option>
+        <option value="dbnsfp.phylo.p100way" selected="false">dbnsfp.phylo.p100way</option>
+        <option value="dbnsfp.phylo.p100way.vertebrate" selected="false">dbnsfp.phylo.p100way.vertebrate</option>
+        <option value="dbnsfp.phylo.p100way.vertebrate_rankscore" selected="false">
+            dbnsfp.phylo.p100way.vertebrate_rankscore
+        </option>
+        <option value="dbnsfp.phylo.p20way" selected="false">dbnsfp.phylo.p20way</option>
+        <option value="dbnsfp.phylo.p20way.mammalian" selected="false">dbnsfp.phylo.p20way.mammalian</option>
+        <option value="dbnsfp.phylo.p20way.mammalian_rankscore" selected="false">
+            dbnsfp.phylo.p20way.mammalian_rankscore
+        </option>
+        <option value="dbnsfp.polyphen2" selected="false">dbnsfp.polyphen2</option>
+        <option value="dbnsfp.polyphen2.hdiv" selected="false">dbnsfp.polyphen2.hdiv</option>
+        <option value="dbnsfp.polyphen2.hdiv.pred" selected="false">dbnsfp.polyphen2.hdiv.pred</option>
+        <option value="dbnsfp.polyphen2.hdiv.rankscore" selected="false">dbnsfp.polyphen2.hdiv.rankscore</option>
+        <option value="dbnsfp.polyphen2.hdiv.score" selected="false">dbnsfp.polyphen2.hdiv.score</option>
+        <option value="dbnsfp.polyphen2.hvar" selected="false">dbnsfp.polyphen2.hvar</option>
+        <option value="dbnsfp.polyphen2.hvar.pred" selected="false">dbnsfp.polyphen2.hvar.pred</option>
+        <option value="dbnsfp.polyphen2.hvar.rankscore" selected="false">dbnsfp.polyphen2.hvar.rankscore</option>
+        <option value="dbnsfp.polyphen2.hvar.score" selected="false">dbnsfp.polyphen2.hvar.score</option>
+        <option value="dbnsfp.provean" selected="false">dbnsfp.provean</option>
+        <option value="dbnsfp.provean.pred" selected="false">dbnsfp.provean.pred</option>
+        <option value="dbnsfp.provean.rankscore" selected="false">dbnsfp.provean.rankscore</option>
+        <option value="dbnsfp.provean.score" selected="false">dbnsfp.provean.score</option>
+        <option value="dbnsfp.ref" selected="false">dbnsfp.ref</option>
+        <option value="dbnsfp.reliability_index" selected="false">dbnsfp.reliability_index</option>
+        <option value="dbnsfp.revel" selected="false">dbnsfp.revel</option>
+        <option value="dbnsfp.revel.rankscore" selected="false">dbnsfp.revel.rankscore</option>
+        <option value="dbnsfp.revel.score" selected="false">dbnsfp.revel.score</option>
+        <option value="dbnsfp.rsid" selected="false">dbnsfp.rsid</option>
+        <option value="dbnsfp.sift" selected="false">dbnsfp.sift</option>
+        <option value="dbnsfp.sift.converted_rankscore" selected="false">dbnsfp.sift.converted_rankscore</option>
+        <option value="dbnsfp.sift.pred" selected="false">dbnsfp.sift.pred</option>
+        <option value="dbnsfp.sift.score" selected="false">dbnsfp.sift.score</option>
+        <option value="dbnsfp.siphy_29way" selected="false">dbnsfp.siphy_29way</option>
+        <option value="dbnsfp.siphy_29way.logodds" selected="false">dbnsfp.siphy_29way.logodds</option>
+        <option value="dbnsfp.siphy_29way.logodds_rankscore" selected="false">dbnsfp.siphy_29way.logodds_rankscore
+        </option>
+        <option value="dbnsfp.siphy_29way.pi" selected="false">dbnsfp.siphy_29way.pi</option>
+        <option value="dbnsfp.siphy_29way.pi.a" selected="false">dbnsfp.siphy_29way.pi.a</option>
+        <option value="dbnsfp.siphy_29way.pi.c" selected="false">dbnsfp.siphy_29way.pi.c</option>
+        <option value="dbnsfp.siphy_29way.pi.g" selected="false">dbnsfp.siphy_29way.pi.g</option>
+        <option value="dbnsfp.siphy_29way.pi.t" selected="false">dbnsfp.siphy_29way.pi.t</option>
+        <option value="dbnsfp.twinsuk" selected="false">dbnsfp.twinsuk</option>
+        <option value="dbnsfp.twinsuk.ac" selected="false">dbnsfp.twinsuk.ac</option>
+        <option value="dbnsfp.twinsuk.af" selected="false">dbnsfp.twinsuk.af</option>
+        <option value="dbnsfp.uniprot" selected="false">dbnsfp.uniprot</option>
+        <option value="dbnsfp.uniprot.acc" selected="false">dbnsfp.uniprot.acc</option>
+        <option value="dbnsfp.uniprot.pos" selected="false">dbnsfp.uniprot.pos</option>
+        <option value="dbnsfp.vest3" selected="false">dbnsfp.vest3</option>
+        <option value="dbnsfp.vest3.rankscore" selected="false">dbnsfp.vest3.rankscore</option>
+        <option value="dbnsfp.vest3.score" selected="false">dbnsfp.vest3.score</option>
+        <option value="dbnsfp.vest3.transcriptid" selected="false">dbnsfp.vest3.transcriptid</option>
+        <option value="dbnsfp.vest3.transcriptvar" selected="false">dbnsfp.vest3.transcriptvar</option>
+        <option value="dbsnp" selected="false">dbsnp</option>
+        <option value="dbsnp.allele_origin" selected="false">dbsnp.allele_origin</option>
+        <option value="dbsnp.alt" selected="false">dbsnp.alt</option>
+        <option value="dbsnp.chrom" selected="false">dbsnp.chrom</option>
+        <option value="dbsnp.class" selected="false">dbsnp.class</option>
+        <option value="dbsnp.flags" selected="false">dbsnp.flags</option>
+        <option value="dbsnp.gene" selected="false">dbsnp.gene</option>
+        <option value="dbsnp.gene.geneid" selected="false">dbsnp.gene.geneid</option>
+        <option value="dbsnp.gene.symbol" selected="false">dbsnp.gene.symbol</option>
+        <option value="dbsnp.gmaf" selected="false">dbsnp.gmaf</option>
+        <option value="dbsnp.hg19" selected="false">dbsnp.hg19</option>
+        <option value="dbsnp.hg19.end" selected="false">dbsnp.hg19.end</option>
+        <option value="dbsnp.hg19.start" selected="false">dbsnp.hg19.start</option>
+        <option value="dbsnp.ref" selected="false">dbsnp.ref</option>
+        <option value="dbsnp.rsid" selected="false">dbsnp.rsid</option>
+        <option value="dbsnp.validated" selected="false">dbsnp.validated</option>
+        <option value="dbsnp.var_subtype" selected="false">dbsnp.var_subtype</option>
+        <option value="dbsnp.vartype" selected="false">dbsnp.vartype</option>
+        <option value="docm" selected="false">docm</option>
+        <option value="docm.aa_change" selected="false">docm.aa_change</option>
+        <option value="docm.all_domains" selected="false">docm.all_domains</option>
+        <option value="docm.alt" selected="false">docm.alt</option>
+        <option value="docm.c_position" selected="false">docm.c_position</option>
+        <option value="docm.chrom" selected="false">docm.chrom</option>
+        <option value="docm.default_gene_name" selected="false">docm.default_gene_name</option>
+        <option value="docm.deletion_substructures" selected="false">docm.deletion_substructures</option>
+        <option value="docm.disease" selected="false">docm.disease</option>
+        <option value="docm.doid" selected="false">docm.doid</option>
+        <option value="docm.domain" selected="false">docm.domain</option>
+        <option value="docm.ensembl_gene_id" selected="false">docm.ensembl_gene_id</option>
+        <option value="docm.genename" selected="false">docm.genename</option>
+        <option value="docm.genename_source" selected="false">docm.genename_source</option>
+        <option value="docm.hg19" selected="false">docm.hg19</option>
+        <option value="docm.hg19.end" selected="false">docm.hg19.end</option>
+        <option value="docm.hg19.start" selected="false">docm.hg19.start</option>
+        <option value="docm.primary" selected="false">docm.primary</option>
+        <option value="docm.pubmed_id" selected="false">docm.pubmed_id</option>
+        <option value="docm.ref" selected="false">docm.ref</option>
+        <option value="docm.source" selected="false">docm.source</option>
+        <option value="docm.strand" selected="false">docm.strand</option>
+        <option value="docm.transcript_error" selected="false">docm.transcript_error</option>
+        <option value="docm.transcript_name" selected="false">docm.transcript_name</option>
+        <option value="docm.transcript_source" selected="false">docm.transcript_source</option>
+        <option value="docm.transcript_species" selected="false">docm.transcript_species</option>
+        <option value="docm.transcript_status" selected="false">docm.transcript_status</option>
+        <option value="docm.transcript_version" selected="false">docm.transcript_version</option>
+        <option value="docm.trv_type" selected="false">docm.trv_type</option>
+        <option value="docm.type" selected="false">docm.type</option>
+        <option value="docm.ucsc_cons" selected="false">docm.ucsc_cons</option>
+        <option value="docm.url" selected="false">docm.url</option>
+        <option value="emv" selected="false">emv</option>
+        <option value="emv.clinvar_rcv" selected="false">emv.clinvar_rcv</option>
+        <option value="emv.egl_classification" selected="false">emv.egl_classification</option>
+        <option value="emv.egl_protein" selected="false">emv.egl_protein</option>
+        <option value="emv.egl_variant" selected="false">emv.egl_variant</option>
+        <option value="emv.gene" selected="false">emv.gene</option>
+        <option value="emv.hgvs" selected="false">emv.hgvs</option>
+        <option value="evs" selected="false">evs</option>
+        <option value="evs.alt" selected="false">evs.alt</option>
+        <option value="evs.chrom" selected="false">evs.chrom</option>
+        <option value="evs.clinical_info" selected="false">evs.clinical_info</option>
+        <option value="evs.function_gvs" selected="false">evs.function_gvs</option>
+        <option value="evs.gene" selected="false">evs.gene</option>
+        <option value="evs.gene.accession" selected="false">evs.gene.accession</option>
+        <option value="evs.gene.symbol" selected="false">evs.gene.symbol</option>
+        <option value="evs.grantham_score" selected="false">evs.grantham_score</option>
+        <option value="evs.hg19" selected="false">evs.hg19</option>
+        <option value="evs.hg19.end" selected="false">evs.hg19.end</option>
+        <option value="evs.hg19.start" selected="false">evs.hg19.start</option>
+        <option value="evs.hg38" selected="false">evs.hg38</option>
+        <option value="evs.hg38.end" selected="false">evs.hg38.end</option>
+        <option value="evs.hg38.start" selected="false">evs.hg38.start</option>
+        <option value="evs.hgvs" selected="false">evs.hgvs</option>
+        <option value="evs.hgvs.coding" selected="false">evs.hgvs.coding</option>
+        <option value="evs.hgvs.protein" selected="false">evs.hgvs.protein</option>
+        <option value="evs.ref" selected="false">evs.ref</option>
+        <option value="evs.rsid" selected="false">evs.rsid</option>
+        <option value="exac" selected="false">exac</option>
+        <option value="exac.ac" selected="false">exac.ac</option>
+        <option value="exac.ac.ac" selected="false">exac.ac.ac</option>
+        <option value="exac.ac.ac_adj" selected="false">exac.ac.ac_adj</option>
+        <option value="exac.ac.ac_afr" selected="false">exac.ac.ac_afr</option>
+        <option value="exac.ac.ac_amr" selected="false">exac.ac.ac_amr</option>
+        <option value="exac.ac.ac_eas" selected="false">exac.ac.ac_eas</option>
+        <option value="exac.ac.ac_female" selected="false">exac.ac.ac_female</option>
+        <option value="exac.ac.ac_fin" selected="false">exac.ac.ac_fin</option>
+        <option value="exac.ac.ac_male" selected="false">exac.ac.ac_male</option>
+        <option value="exac.ac.ac_nfe" selected="false">exac.ac.ac_nfe</option>
+        <option value="exac.ac.ac_oth" selected="false">exac.ac.ac_oth</option>
+        <option value="exac.ac.ac_sas" selected="false">exac.ac.ac_sas</option>
+        <option value="exac.af" selected="false">exac.af</option>
+        <option value="exac.alleles" selected="false">exac.alleles</option>
+        <option value="exac.alt" selected="false">exac.alt</option>
+        <option value="exac.an" selected="false">exac.an</option>
+        <option value="exac.an.an" selected="false">exac.an.an</option>
+        <option value="exac.an.an_adj" selected="false">exac.an.an_adj</option>
+        <option value="exac.an.an_afr" selected="false">exac.an.an_afr</option>
+        <option value="exac.an.an_amr" selected="false">exac.an.an_amr</option>
+        <option value="exac.an.an_eas" selected="false">exac.an.an_eas</option>
+        <option value="exac.an.an_female" selected="false">exac.an.an_female</option>
+        <option value="exac.an.an_fin" selected="false">exac.an.an_fin</option>
+        <option value="exac.an.an_male" selected="false">exac.an.an_male</option>
+        <option value="exac.an.an_nfe" selected="false">exac.an.an_nfe</option>
+        <option value="exac.an.an_oth" selected="false">exac.an.an_oth</option>
+        <option value="exac.an.an_sas" selected="false">exac.an.an_sas</option>
+        <option value="exac.baseqranksum" selected="false">exac.baseqranksum</option>
+        <option value="exac.chrom" selected="false">exac.chrom</option>
+        <option value="exac.clippingranksum" selected="false">exac.clippingranksum</option>
+        <option value="exac.culprit" selected="false">exac.culprit</option>
+        <option value="exac.dp" selected="false">exac.dp</option>
+        <option value="exac.filter" selected="false">exac.filter</option>
+        <option value="exac.fs" selected="false">exac.fs</option>
+        <option value="exac.het" selected="false">exac.het</option>
+        <option value="exac.het.ac_het" selected="false">exac.het.ac_het</option>
+        <option value="exac.het.het_afr" selected="false">exac.het.het_afr</option>
+        <option value="exac.het.het_amr" selected="false">exac.het.het_amr</option>
+        <option value="exac.het.het_eas" selected="false">exac.het.het_eas</option>
+        <option value="exac.het.het_fin" selected="false">exac.het.het_fin</option>
+        <option value="exac.het.het_nfe" selected="false">exac.het.het_nfe</option>
+        <option value="exac.het.het_oth" selected="false">exac.het.het_oth</option>
+        <option value="exac.het.het_sas" selected="false">exac.het.het_sas</option>
+        <option value="exac.hom" selected="false">exac.hom</option>
+        <option value="exac.hom.ac_hom" selected="false">exac.hom.ac_hom</option>
+        <option value="exac.hom.hom_afr" selected="false">exac.hom.hom_afr</option>
+        <option value="exac.hom.hom_amr" selected="false">exac.hom.hom_amr</option>
+        <option value="exac.hom.hom_eas" selected="false">exac.hom.hom_eas</option>
+        <option value="exac.hom.hom_fin" selected="false">exac.hom.hom_fin</option>
+        <option value="exac.hom.hom_nfe" selected="false">exac.hom.hom_nfe</option>
+        <option value="exac.hom.hom_oth" selected="false">exac.hom.hom_oth</option>
+        <option value="exac.hom.hom_sas" selected="false">exac.hom.hom_sas</option>
+        <option value="exac.inbreedingcoeff" selected="false">exac.inbreedingcoeff</option>
+        <option value="exac.mq" selected="false">exac.mq</option>
+        <option value="exac.mq.mq" selected="false">exac.mq.mq</option>
+        <option value="exac.mq.mq0" selected="false">exac.mq.mq0</option>
+        <option value="exac.mq.mqranksum" selected="false">exac.mq.mqranksum</option>
+        <option value="exac.multi-allelic" selected="false">exac.multi-allelic</option>
+        <option value="exac.ncc" selected="false">exac.ncc</option>
+        <option value="exac.pos" selected="false">exac.pos</option>
+        <option value="exac.qd" selected="false">exac.qd</option>
+        <option value="exac.qual" selected="false">exac.qual</option>
+        <option value="exac.readposranksum" selected="false">exac.readposranksum</option>
+        <option value="exac.ref" selected="false">exac.ref</option>
+        <option value="exac.type" selected="false">exac.type</option>
+        <option value="exac.vqslod" selected="false">exac.vqslod</option>
+        <option value="exac_nontcga" selected="false">exac_nontcga</option>
+        <option value="exac_nontcga.ac" selected="false">exac_nontcga.ac</option>
+        <option value="exac_nontcga.ac.ac" selected="false">exac_nontcga.ac.ac</option>
+        <option value="exac_nontcga.ac.ac_adj" selected="false">exac_nontcga.ac.ac_adj</option>
+        <option value="exac_nontcga.ac.ac_afr" selected="false">exac_nontcga.ac.ac_afr</option>
+        <option value="exac_nontcga.ac.ac_amr" selected="false">exac_nontcga.ac.ac_amr</option>
+        <option value="exac_nontcga.ac.ac_eas" selected="false">exac_nontcga.ac.ac_eas</option>
+        <option value="exac_nontcga.ac.ac_female" selected="false">exac_nontcga.ac.ac_female</option>
+        <option value="exac_nontcga.ac.ac_fin" selected="false">exac_nontcga.ac.ac_fin</option>
+        <option value="exac_nontcga.ac.ac_male" selected="false">exac_nontcga.ac.ac_male</option>
+        <option value="exac_nontcga.ac.ac_nfe" selected="false">exac_nontcga.ac.ac_nfe</option>
+        <option value="exac_nontcga.ac.ac_oth" selected="false">exac_nontcga.ac.ac_oth</option>
+        <option value="exac_nontcga.ac.ac_sas" selected="false">exac_nontcga.ac.ac_sas</option>
+        <option value="exac_nontcga.af" selected="false">exac_nontcga.af</option>
+        <option value="exac_nontcga.alleles" selected="false">exac_nontcga.alleles</option>
+        <option value="exac_nontcga.alt" selected="false">exac_nontcga.alt</option>
+        <option value="exac_nontcga.an" selected="false">exac_nontcga.an</option>
+        <option value="exac_nontcga.an.an" selected="false">exac_nontcga.an.an</option>
+        <option value="exac_nontcga.an.an_adj" selected="false">exac_nontcga.an.an_adj</option>
+        <option value="exac_nontcga.an.an_afr" selected="false">exac_nontcga.an.an_afr</option>
+        <option value="exac_nontcga.an.an_amr" selected="false">exac_nontcga.an.an_amr</option>
+        <option value="exac_nontcga.an.an_eas" selected="false">exac_nontcga.an.an_eas</option>
+        <option value="exac_nontcga.an.an_female" selected="false">exac_nontcga.an.an_female</option>
+        <option value="exac_nontcga.an.an_fin" selected="false">exac_nontcga.an.an_fin</option>
+        <option value="exac_nontcga.an.an_male" selected="false">exac_nontcga.an.an_male</option>
+        <option value="exac_nontcga.an.an_nfe" selected="false">exac_nontcga.an.an_nfe</option>
+        <option value="exac_nontcga.an.an_oth" selected="false">exac_nontcga.an.an_oth</option>
+        <option value="exac_nontcga.an.an_sas" selected="false">exac_nontcga.an.an_sas</option>
+        <option value="exac_nontcga.baseqranksum" selected="false">exac_nontcga.baseqranksum</option>
+        <option value="exac_nontcga.chrom" selected="false">exac_nontcga.chrom</option>
+        <option value="exac_nontcga.clippingranksum" selected="false">exac_nontcga.clippingranksum</option>
+        <option value="exac_nontcga.culprit" selected="false">exac_nontcga.culprit</option>
+        <option value="exac_nontcga.dp" selected="false">exac_nontcga.dp</option>
+        <option value="exac_nontcga.filter" selected="false">exac_nontcga.filter</option>
+        <option value="exac_nontcga.fs" selected="false">exac_nontcga.fs</option>
+        <option value="exac_nontcga.het" selected="false">exac_nontcga.het</option>
+        <option value="exac_nontcga.het.ac_het" selected="false">exac_nontcga.het.ac_het</option>
+        <option value="exac_nontcga.het.het_afr" selected="false">exac_nontcga.het.het_afr</option>
+        <option value="exac_nontcga.het.het_amr" selected="false">exac_nontcga.het.het_amr</option>
+        <option value="exac_nontcga.het.het_eas" selected="false">exac_nontcga.het.het_eas</option>
+        <option value="exac_nontcga.het.het_fin" selected="false">exac_nontcga.het.het_fin</option>
+        <option value="exac_nontcga.het.het_nfe" selected="false">exac_nontcga.het.het_nfe</option>
+        <option value="exac_nontcga.het.het_oth" selected="false">exac_nontcga.het.het_oth</option>
+        <option value="exac_nontcga.het.het_sas" selected="false">exac_nontcga.het.het_sas</option>
+        <option value="exac_nontcga.hom" selected="false">exac_nontcga.hom</option>
+        <option value="exac_nontcga.hom.ac_hom" selected="false">exac_nontcga.hom.ac_hom</option>
+        <option value="exac_nontcga.hom.hom_afr" selected="false">exac_nontcga.hom.hom_afr</option>
+        <option value="exac_nontcga.hom.hom_amr" selected="false">exac_nontcga.hom.hom_amr</option>
+        <option value="exac_nontcga.hom.hom_eas" selected="false">exac_nontcga.hom.hom_eas</option>
+        <option value="exac_nontcga.hom.hom_fin" selected="false">exac_nontcga.hom.hom_fin</option>
+        <option value="exac_nontcga.hom.hom_nfe" selected="false">exac_nontcga.hom.hom_nfe</option>
+        <option value="exac_nontcga.hom.hom_oth" selected="false">exac_nontcga.hom.hom_oth</option>
+        <option value="exac_nontcga.hom.hom_sas" selected="false">exac_nontcga.hom.hom_sas</option>
+        <option value="exac_nontcga.inbreedingcoeff" selected="false">exac_nontcga.inbreedingcoeff</option>
+        <option value="exac_nontcga.mq" selected="false">exac_nontcga.mq</option>
+        <option value="exac_nontcga.mq.mq" selected="false">exac_nontcga.mq.mq</option>
+        <option value="exac_nontcga.mq.mq0" selected="false">exac_nontcga.mq.mq0</option>
+        <option value="exac_nontcga.mq.mqranksum" selected="false">exac_nontcga.mq.mqranksum</option>
+        <option value="exac_nontcga.multi-allelic" selected="false">exac_nontcga.multi-allelic</option>
+        <option value="exac_nontcga.ncc" selected="false">exac_nontcga.ncc</option>
+        <option value="exac_nontcga.pos" selected="false">exac_nontcga.pos</option>
+        <option value="exac_nontcga.qd" selected="false">exac_nontcga.qd</option>
+        <option value="exac_nontcga.qual" selected="false">exac_nontcga.qual</option>
+        <option value="exac_nontcga.readposranksum" selected="false">exac_nontcga.readposranksum</option>
+        <option value="exac_nontcga.ref" selected="false">exac_nontcga.ref</option>
+        <option value="exac_nontcga.type" selected="false">exac_nontcga.type</option>
+        <option value="exac_nontcga.vqslod" selected="false">exac_nontcga.vqslod</option>
+        <option value="geno2mp" selected="false">geno2mp</option>
+        <option value="geno2mp.hpo_count" selected="false">geno2mp.hpo_count</option>
+        <option value="gnomad_exome" selected="false">gnomad_exome</option>
+        <option value="gnomad_exome.ac" selected="false">gnomad_exome.ac</option>
+        <option value="gnomad_exome.ac.ac" selected="false">gnomad_exome.ac.ac</option>
+        <option value="gnomad_exome.ac.ac_afr" selected="false">gnomad_exome.ac.ac_afr</option>
+        <option value="gnomad_exome.ac.ac_afr_female" selected="false">gnomad_exome.ac.ac_afr_female</option>
+        <option value="gnomad_exome.ac.ac_afr_male" selected="false">gnomad_exome.ac.ac_afr_male</option>
+        <option value="gnomad_exome.ac.ac_amr" selected="false">gnomad_exome.ac.ac_amr</option>
+        <option value="gnomad_exome.ac.ac_amr_female" selected="false">gnomad_exome.ac.ac_amr_female</option>
+        <option value="gnomad_exome.ac.ac_amr_male" selected="false">gnomad_exome.ac.ac_amr_male</option>
+        <option value="gnomad_exome.ac.ac_asj" selected="false">gnomad_exome.ac.ac_asj</option>
+        <option value="gnomad_exome.ac.ac_asj_female" selected="false">gnomad_exome.ac.ac_asj_female</option>
+        <option value="gnomad_exome.ac.ac_asj_male" selected="false">gnomad_exome.ac.ac_asj_male</option>
+        <option value="gnomad_exome.ac.ac_eas" selected="false">gnomad_exome.ac.ac_eas</option>
+        <option value="gnomad_exome.ac.ac_eas_female" selected="false">gnomad_exome.ac.ac_eas_female</option>
+        <option value="gnomad_exome.ac.ac_eas_male" selected="false">gnomad_exome.ac.ac_eas_male</option>
+        <option value="gnomad_exome.ac.ac_female" selected="false">gnomad_exome.ac.ac_female</option>
+        <option value="gnomad_exome.ac.ac_fin" selected="false">gnomad_exome.ac.ac_fin</option>
+        <option value="gnomad_exome.ac.ac_fin_female" selected="false">gnomad_exome.ac.ac_fin_female</option>
+        <option value="gnomad_exome.ac.ac_fin_male" selected="false">gnomad_exome.ac.ac_fin_male</option>
+        <option value="gnomad_exome.ac.ac_male" selected="false">gnomad_exome.ac.ac_male</option>
+        <option value="gnomad_exome.ac.ac_nfe" selected="false">gnomad_exome.ac.ac_nfe</option>
+        <option value="gnomad_exome.ac.ac_nfe_female" selected="false">gnomad_exome.ac.ac_nfe_female</option>
+        <option value="gnomad_exome.ac.ac_nfe_male" selected="false">gnomad_exome.ac.ac_nfe_male</option>
+        <option value="gnomad_exome.ac.ac_oth" selected="false">gnomad_exome.ac.ac_oth</option>
+        <option value="gnomad_exome.ac.ac_oth_female" selected="false">gnomad_exome.ac.ac_oth_female</option>
+        <option value="gnomad_exome.ac.ac_oth_male" selected="false">gnomad_exome.ac.ac_oth_male</option>
+        <option value="gnomad_exome.ac.ac_popmax" selected="false">gnomad_exome.ac.ac_popmax</option>
+        <option value="gnomad_exome.ac.ac_raw" selected="false">gnomad_exome.ac.ac_raw</option>
+        <option value="gnomad_exome.ac.ac_sas" selected="false">gnomad_exome.ac.ac_sas</option>
+        <option value="gnomad_exome.ac.ac_sas_female" selected="false">gnomad_exome.ac.ac_sas_female</option>
+        <option value="gnomad_exome.ac.ac_sas_male" selected="false">gnomad_exome.ac.ac_sas_male</option>
+        <option value="gnomad_exome.af" selected="false">gnomad_exome.af</option>
+        <option value="gnomad_exome.af.af" selected="false">gnomad_exome.af.af</option>
+        <option value="gnomad_exome.af.af_afr" selected="false">gnomad_exome.af.af_afr</option>
+        <option value="gnomad_exome.af.af_afr_female" selected="false">gnomad_exome.af.af_afr_female</option>
+        <option value="gnomad_exome.af.af_afr_male" selected="false">gnomad_exome.af.af_afr_male</option>
+        <option value="gnomad_exome.af.af_amr" selected="false">gnomad_exome.af.af_amr</option>
+        <option value="gnomad_exome.af.af_amr_female" selected="false">gnomad_exome.af.af_amr_female</option>
+        <option value="gnomad_exome.af.af_amr_male" selected="false">gnomad_exome.af.af_amr_male</option>
+        <option value="gnomad_exome.af.af_asj" selected="false">gnomad_exome.af.af_asj</option>
+        <option value="gnomad_exome.af.af_asj_female" selected="false">gnomad_exome.af.af_asj_female</option>
+        <option value="gnomad_exome.af.af_asj_male" selected="false">gnomad_exome.af.af_asj_male</option>
+        <option value="gnomad_exome.af.af_eas" selected="false">gnomad_exome.af.af_eas</option>
+        <option value="gnomad_exome.af.af_eas_female" selected="false">gnomad_exome.af.af_eas_female</option>
+        <option value="gnomad_exome.af.af_eas_male" selected="false">gnomad_exome.af.af_eas_male</option>
+        <option value="gnomad_exome.af.af_female" selected="false">gnomad_exome.af.af_female</option>
+        <option value="gnomad_exome.af.af_fin" selected="false">gnomad_exome.af.af_fin</option>
+        <option value="gnomad_exome.af.af_fin_female" selected="false">gnomad_exome.af.af_fin_female</option>
+        <option value="gnomad_exome.af.af_fin_male" selected="false">gnomad_exome.af.af_fin_male</option>
+        <option value="gnomad_exome.af.af_male" selected="false">gnomad_exome.af.af_male</option>
+        <option value="gnomad_exome.af.af_nfe" selected="false">gnomad_exome.af.af_nfe</option>
+        <option value="gnomad_exome.af.af_nfe_female" selected="false">gnomad_exome.af.af_nfe_female</option>
+        <option value="gnomad_exome.af.af_nfe_male" selected="false">gnomad_exome.af.af_nfe_male</option>
+        <option value="gnomad_exome.af.af_oth" selected="false">gnomad_exome.af.af_oth</option>
+        <option value="gnomad_exome.af.af_oth_female" selected="false">gnomad_exome.af.af_oth_female</option>
+        <option value="gnomad_exome.af.af_oth_male" selected="false">gnomad_exome.af.af_oth_male</option>
+        <option value="gnomad_exome.af.af_popmax" selected="false">gnomad_exome.af.af_popmax</option>
+        <option value="gnomad_exome.af.af_raw" selected="false">gnomad_exome.af.af_raw</option>
+        <option value="gnomad_exome.af.af_sas" selected="false">gnomad_exome.af.af_sas</option>
+        <option value="gnomad_exome.af.af_sas_female" selected="false">gnomad_exome.af.af_sas_female</option>
+        <option value="gnomad_exome.af.af_sas_male" selected="false">gnomad_exome.af.af_sas_male</option>
+        <option value="gnomad_exome.alleles" selected="false">gnomad_exome.alleles</option>
+        <option value="gnomad_exome.alt" selected="false">gnomad_exome.alt</option>
+        <option value="gnomad_exome.an" selected="false">gnomad_exome.an</option>
+        <option value="gnomad_exome.an.an" selected="false">gnomad_exome.an.an</option>
+        <option value="gnomad_exome.an.an_afr" selected="false">gnomad_exome.an.an_afr</option>
+        <option value="gnomad_exome.an.an_afr_female" selected="false">gnomad_exome.an.an_afr_female</option>
+        <option value="gnomad_exome.an.an_afr_male" selected="false">gnomad_exome.an.an_afr_male</option>
+        <option value="gnomad_exome.an.an_amr" selected="false">gnomad_exome.an.an_amr</option>
+        <option value="gnomad_exome.an.an_amr_female" selected="false">gnomad_exome.an.an_amr_female</option>
+        <option value="gnomad_exome.an.an_amr_male" selected="false">gnomad_exome.an.an_amr_male</option>
+        <option value="gnomad_exome.an.an_asj" selected="false">gnomad_exome.an.an_asj</option>
+        <option value="gnomad_exome.an.an_asj_female" selected="false">gnomad_exome.an.an_asj_female</option>
+        <option value="gnomad_exome.an.an_asj_male" selected="false">gnomad_exome.an.an_asj_male</option>
+        <option value="gnomad_exome.an.an_eas" selected="false">gnomad_exome.an.an_eas</option>
+        <option value="gnomad_exome.an.an_eas_female" selected="false">gnomad_exome.an.an_eas_female</option>
+        <option value="gnomad_exome.an.an_eas_male" selected="false">gnomad_exome.an.an_eas_male</option>
+        <option value="gnomad_exome.an.an_female" selected="false">gnomad_exome.an.an_female</option>
+        <option value="gnomad_exome.an.an_fin" selected="false">gnomad_exome.an.an_fin</option>
+        <option value="gnomad_exome.an.an_fin_female" selected="false">gnomad_exome.an.an_fin_female</option>
+        <option value="gnomad_exome.an.an_fin_male" selected="false">gnomad_exome.an.an_fin_male</option>
+        <option value="gnomad_exome.an.an_male" selected="false">gnomad_exome.an.an_male</option>
+        <option value="gnomad_exome.an.an_nfe" selected="false">gnomad_exome.an.an_nfe</option>
+        <option value="gnomad_exome.an.an_nfe_female" selected="false">gnomad_exome.an.an_nfe_female</option>
+        <option value="gnomad_exome.an.an_nfe_male" selected="false">gnomad_exome.an.an_nfe_male</option>
+        <option value="gnomad_exome.an.an_oth" selected="false">gnomad_exome.an.an_oth</option>
+        <option value="gnomad_exome.an.an_oth_female" selected="false">gnomad_exome.an.an_oth_female</option>
+        <option value="gnomad_exome.an.an_oth_male" selected="false">gnomad_exome.an.an_oth_male</option>
+        <option value="gnomad_exome.an.an_popmax" selected="false">gnomad_exome.an.an_popmax</option>
+        <option value="gnomad_exome.an.an_raw" selected="false">gnomad_exome.an.an_raw</option>
+        <option value="gnomad_exome.an.an_sas" selected="false">gnomad_exome.an.an_sas</option>
+        <option value="gnomad_exome.an.an_sas_female" selected="false">gnomad_exome.an.an_sas_female</option>
+        <option value="gnomad_exome.an.an_sas_male" selected="false">gnomad_exome.an.an_sas_male</option>
+        <option value="gnomad_exome.baseqranksum" selected="false">gnomad_exome.baseqranksum</option>
+        <option value="gnomad_exome.chrom" selected="false">gnomad_exome.chrom</option>
+        <option value="gnomad_exome.clippingranksum" selected="false">gnomad_exome.clippingranksum</option>
+        <option value="gnomad_exome.filter" selected="false">gnomad_exome.filter</option>
+        <option value="gnomad_exome.fs" selected="false">gnomad_exome.fs</option>
+        <option value="gnomad_exome.hemi" selected="false">gnomad_exome.hemi</option>
+        <option value="gnomad_exome.hemi.hemi" selected="false">gnomad_exome.hemi.hemi</option>
+        <option value="gnomad_exome.hemi.hemi_afr" selected="false">gnomad_exome.hemi.hemi_afr</option>
+        <option value="gnomad_exome.hemi.hemi_amr" selected="false">gnomad_exome.hemi.hemi_amr</option>
+        <option value="gnomad_exome.hemi.hemi_asj" selected="false">gnomad_exome.hemi.hemi_asj</option>
+        <option value="gnomad_exome.hemi.hemi_eas" selected="false">gnomad_exome.hemi.hemi_eas</option>
+        <option value="gnomad_exome.hemi.hemi_fin" selected="false">gnomad_exome.hemi.hemi_fin</option>
+        <option value="gnomad_exome.hemi.hemi_nfe" selected="false">gnomad_exome.hemi.hemi_nfe</option>
+        <option value="gnomad_exome.hemi.hemi_oth" selected="false">gnomad_exome.hemi.hemi_oth</option>
+        <option value="gnomad_exome.hemi.hemi_raw" selected="false">gnomad_exome.hemi.hemi_raw</option>
+        <option value="gnomad_exome.hemi.hemi_sas" selected="false">gnomad_exome.hemi.hemi_sas</option>
+        <option value="gnomad_exome.hom" selected="false">gnomad_exome.hom</option>
+        <option value="gnomad_exome.hom.hom" selected="false">gnomad_exome.hom.hom</option>
+        <option value="gnomad_exome.hom.hom_afr" selected="false">gnomad_exome.hom.hom_afr</option>
+        <option value="gnomad_exome.hom.hom_amr" selected="false">gnomad_exome.hom.hom_amr</option>
+        <option value="gnomad_exome.hom.hom_asj" selected="false">gnomad_exome.hom.hom_asj</option>
+        <option value="gnomad_exome.hom.hom_eas" selected="false">gnomad_exome.hom.hom_eas</option>
+        <option value="gnomad_exome.hom.hom_female" selected="false">gnomad_exome.hom.hom_female</option>
+        <option value="gnomad_exome.hom.hom_fin" selected="false">gnomad_exome.hom.hom_fin</option>
+        <option value="gnomad_exome.hom.hom_male" selected="false">gnomad_exome.hom.hom_male</option>
+        <option value="gnomad_exome.hom.hom_nfe" selected="false">gnomad_exome.hom.hom_nfe</option>
+        <option value="gnomad_exome.hom.hom_oth" selected="false">gnomad_exome.hom.hom_oth</option>
+        <option value="gnomad_exome.hom.hom_raw" selected="false">gnomad_exome.hom.hom_raw</option>
+        <option value="gnomad_exome.hom.hom_sas" selected="false">gnomad_exome.hom.hom_sas</option>
+        <option value="gnomad_exome.inbreedingcoeff" selected="false">gnomad_exome.inbreedingcoeff</option>
+        <option value="gnomad_exome.mq" selected="false">gnomad_exome.mq</option>
+        <option value="gnomad_exome.mq.mq" selected="false">gnomad_exome.mq.mq</option>
+        <option value="gnomad_exome.mq.mqranksum" selected="false">gnomad_exome.mq.mqranksum</option>
+        <option value="gnomad_exome.multi-allelic" selected="false">gnomad_exome.multi-allelic</option>
+        <option value="gnomad_exome.pos" selected="false">gnomad_exome.pos</option>
+        <option value="gnomad_exome.qd" selected="false">gnomad_exome.qd</option>
+        <option value="gnomad_exome.readposranksum" selected="false">gnomad_exome.readposranksum</option>
+        <option value="gnomad_exome.ref" selected="false">gnomad_exome.ref</option>
+        <option value="gnomad_exome.rsid" selected="false">gnomad_exome.rsid</option>
+        <option value="gnomad_exome.type" selected="false">gnomad_exome.type</option>
+        <option value="gnomad_exome.vqslod" selected="false">gnomad_exome.vqslod</option>
+        <option value="gnomad_exome.vqsr_culprit" selected="false">gnomad_exome.vqsr_culprit</option>
+        <option value="gnomad_genome" selected="false">gnomad_genome</option>
+        <option value="gnomad_genome.ac" selected="false">gnomad_genome.ac</option>
+        <option value="gnomad_genome.ac.ac" selected="false">gnomad_genome.ac.ac</option>
+        <option value="gnomad_genome.ac.ac_afr" selected="false">gnomad_genome.ac.ac_afr</option>
+        <option value="gnomad_genome.ac.ac_afr_female" selected="false">gnomad_genome.ac.ac_afr_female</option>
+        <option value="gnomad_genome.ac.ac_afr_male" selected="false">gnomad_genome.ac.ac_afr_male</option>
+        <option value="gnomad_genome.ac.ac_amr" selected="false">gnomad_genome.ac.ac_amr</option>
+        <option value="gnomad_genome.ac.ac_amr_female" selected="false">gnomad_genome.ac.ac_amr_female</option>
+        <option value="gnomad_genome.ac.ac_amr_male" selected="false">gnomad_genome.ac.ac_amr_male</option>
+        <option value="gnomad_genome.ac.ac_asj" selected="false">gnomad_genome.ac.ac_asj</option>
+        <option value="gnomad_genome.ac.ac_asj_female" selected="false">gnomad_genome.ac.ac_asj_female</option>
+        <option value="gnomad_genome.ac.ac_asj_male" selected="false">gnomad_genome.ac.ac_asj_male</option>
+        <option value="gnomad_genome.ac.ac_eas" selected="false">gnomad_genome.ac.ac_eas</option>
+        <option value="gnomad_genome.ac.ac_eas_female" selected="false">gnomad_genome.ac.ac_eas_female</option>
+        <option value="gnomad_genome.ac.ac_eas_male" selected="false">gnomad_genome.ac.ac_eas_male</option>
+        <option value="gnomad_genome.ac.ac_female" selected="false">gnomad_genome.ac.ac_female</option>
+        <option value="gnomad_genome.ac.ac_fin" selected="false">gnomad_genome.ac.ac_fin</option>
+        <option value="gnomad_genome.ac.ac_fin_female" selected="false">gnomad_genome.ac.ac_fin_female</option>
+        <option value="gnomad_genome.ac.ac_fin_male" selected="false">gnomad_genome.ac.ac_fin_male</option>
+        <option value="gnomad_genome.ac.ac_male" selected="false">gnomad_genome.ac.ac_male</option>
+        <option value="gnomad_genome.ac.ac_nfe" selected="false">gnomad_genome.ac.ac_nfe</option>
+        <option value="gnomad_genome.ac.ac_nfe_female" selected="false">gnomad_genome.ac.ac_nfe_female</option>
+        <option value="gnomad_genome.ac.ac_nfe_male" selected="false">gnomad_genome.ac.ac_nfe_male</option>
+        <option value="gnomad_genome.ac.ac_oth" selected="false">gnomad_genome.ac.ac_oth</option>
+        <option value="gnomad_genome.ac.ac_oth_female" selected="false">gnomad_genome.ac.ac_oth_female</option>
+        <option value="gnomad_genome.ac.ac_oth_male" selected="false">gnomad_genome.ac.ac_oth_male</option>
+        <option value="gnomad_genome.ac.ac_popmax" selected="false">gnomad_genome.ac.ac_popmax</option>
+        <option value="gnomad_genome.ac.ac_raw" selected="false">gnomad_genome.ac.ac_raw</option>
+        <option value="gnomad_genome.af" selected="false">gnomad_genome.af</option>
+        <option value="gnomad_genome.af.af" selected="false">gnomad_genome.af.af</option>
+        <option value="gnomad_genome.af.af_afr" selected="false">gnomad_genome.af.af_afr</option>
+        <option value="gnomad_genome.af.af_afr_female" selected="false">gnomad_genome.af.af_afr_female</option>
+        <option value="gnomad_genome.af.af_afr_male" selected="false">gnomad_genome.af.af_afr_male</option>
+        <option value="gnomad_genome.af.af_amr" selected="false">gnomad_genome.af.af_amr</option>
+        <option value="gnomad_genome.af.af_amr_female" selected="false">gnomad_genome.af.af_amr_female</option>
+        <option value="gnomad_genome.af.af_amr_male" selected="false">gnomad_genome.af.af_amr_male</option>
+        <option value="gnomad_genome.af.af_asj" selected="false">gnomad_genome.af.af_asj</option>
+        <option value="gnomad_genome.af.af_asj_female" selected="false">gnomad_genome.af.af_asj_female</option>
+        <option value="gnomad_genome.af.af_asj_male" selected="false">gnomad_genome.af.af_asj_male</option>
+        <option value="gnomad_genome.af.af_eas" selected="false">gnomad_genome.af.af_eas</option>
+        <option value="gnomad_genome.af.af_eas_female" selected="false">gnomad_genome.af.af_eas_female</option>
+        <option value="gnomad_genome.af.af_eas_male" selected="false">gnomad_genome.af.af_eas_male</option>
+        <option value="gnomad_genome.af.af_female" selected="false">gnomad_genome.af.af_female</option>
+        <option value="gnomad_genome.af.af_fin" selected="false">gnomad_genome.af.af_fin</option>
+        <option value="gnomad_genome.af.af_fin_female" selected="false">gnomad_genome.af.af_fin_female</option>
+        <option value="gnomad_genome.af.af_fin_male" selected="false">gnomad_genome.af.af_fin_male</option>
+        <option value="gnomad_genome.af.af_male" selected="false">gnomad_genome.af.af_male</option>
+        <option value="gnomad_genome.af.af_nfe" selected="false">gnomad_genome.af.af_nfe</option>
+        <option value="gnomad_genome.af.af_nfe_female" selected="false">gnomad_genome.af.af_nfe_female</option>
+        <option value="gnomad_genome.af.af_nfe_male" selected="false">gnomad_genome.af.af_nfe_male</option>
+        <option value="gnomad_genome.af.af_oth" selected="false">gnomad_genome.af.af_oth</option>
+        <option value="gnomad_genome.af.af_oth_female" selected="false">gnomad_genome.af.af_oth_female</option>
+        <option value="gnomad_genome.af.af_oth_male" selected="false">gnomad_genome.af.af_oth_male</option>
+        <option value="gnomad_genome.af.af_popmax" selected="false">gnomad_genome.af.af_popmax</option>
+        <option value="gnomad_genome.af.af_raw" selected="false">gnomad_genome.af.af_raw</option>
+        <option value="gnomad_genome.alleles" selected="false">gnomad_genome.alleles</option>
+        <option value="gnomad_genome.alt" selected="false">gnomad_genome.alt</option>
+        <option value="gnomad_genome.an" selected="false">gnomad_genome.an</option>
+        <option value="gnomad_genome.an.an" selected="false">gnomad_genome.an.an</option>
+        <option value="gnomad_genome.an.an_afr" selected="false">gnomad_genome.an.an_afr</option>
+        <option value="gnomad_genome.an.an_afr_female" selected="false">gnomad_genome.an.an_afr_female</option>
+        <option value="gnomad_genome.an.an_afr_male" selected="false">gnomad_genome.an.an_afr_male</option>
+        <option value="gnomad_genome.an.an_amr" selected="false">gnomad_genome.an.an_amr</option>
+        <option value="gnomad_genome.an.an_amr_female" selected="false">gnomad_genome.an.an_amr_female</option>
+        <option value="gnomad_genome.an.an_amr_male" selected="false">gnomad_genome.an.an_amr_male</option>
+        <option value="gnomad_genome.an.an_asj" selected="false">gnomad_genome.an.an_asj</option>
+        <option value="gnomad_genome.an.an_asj_female" selected="false">gnomad_genome.an.an_asj_female</option>
+        <option value="gnomad_genome.an.an_asj_male" selected="false">gnomad_genome.an.an_asj_male</option>
+        <option value="gnomad_genome.an.an_eas" selected="false">gnomad_genome.an.an_eas</option>
+        <option value="gnomad_genome.an.an_eas_female" selected="false">gnomad_genome.an.an_eas_female</option>
+        <option value="gnomad_genome.an.an_eas_male" selected="false">gnomad_genome.an.an_eas_male</option>
+        <option value="gnomad_genome.an.an_female" selected="false">gnomad_genome.an.an_female</option>
+        <option value="gnomad_genome.an.an_fin" selected="false">gnomad_genome.an.an_fin</option>
+        <option value="gnomad_genome.an.an_fin_female" selected="false">gnomad_genome.an.an_fin_female</option>
+        <option value="gnomad_genome.an.an_fin_male" selected="false">gnomad_genome.an.an_fin_male</option>
+        <option value="gnomad_genome.an.an_male" selected="false">gnomad_genome.an.an_male</option>
+        <option value="gnomad_genome.an.an_nfe" selected="false">gnomad_genome.an.an_nfe</option>
+        <option value="gnomad_genome.an.an_nfe_female" selected="false">gnomad_genome.an.an_nfe_female</option>
+        <option value="gnomad_genome.an.an_nfe_male" selected="false">gnomad_genome.an.an_nfe_male</option>
+        <option value="gnomad_genome.an.an_oth" selected="false">gnomad_genome.an.an_oth</option>
+        <option value="gnomad_genome.an.an_oth_female" selected="false">gnomad_genome.an.an_oth_female</option>
+        <option value="gnomad_genome.an.an_oth_male" selected="false">gnomad_genome.an.an_oth_male</option>
+        <option value="gnomad_genome.an.an_popmax" selected="false">gnomad_genome.an.an_popmax</option>
+        <option value="gnomad_genome.an.an_raw" selected="false">gnomad_genome.an.an_raw</option>
+        <option value="gnomad_genome.baseqranksum" selected="false">gnomad_genome.baseqranksum</option>
+        <option value="gnomad_genome.chrom" selected="false">gnomad_genome.chrom</option>
+        <option value="gnomad_genome.clippingranksum" selected="false">gnomad_genome.clippingranksum</option>
+        <option value="gnomad_genome.filter" selected="false">gnomad_genome.filter</option>
+        <option value="gnomad_genome.fs" selected="false">gnomad_genome.fs</option>
+        <option value="gnomad_genome.hemi" selected="false">gnomad_genome.hemi</option>
+        <option value="gnomad_genome.hemi.hemi" selected="false">gnomad_genome.hemi.hemi</option>
+        <option value="gnomad_genome.hemi.hemi_afr" selected="false">gnomad_genome.hemi.hemi_afr</option>
+        <option value="gnomad_genome.hemi.hemi_amr" selected="false">gnomad_genome.hemi.hemi_amr</option>
+        <option value="gnomad_genome.hemi.hemi_asj" selected="false">gnomad_genome.hemi.hemi_asj</option>
+        <option value="gnomad_genome.hemi.hemi_eas" selected="false">gnomad_genome.hemi.hemi_eas</option>
+        <option value="gnomad_genome.hemi.hemi_fin" selected="false">gnomad_genome.hemi.hemi_fin</option>
+        <option value="gnomad_genome.hemi.hemi_nfe" selected="false">gnomad_genome.hemi.hemi_nfe</option>
+        <option value="gnomad_genome.hemi.hemi_oth" selected="false">gnomad_genome.hemi.hemi_oth</option>
+        <option value="gnomad_genome.hemi.hemi_raw" selected="false">gnomad_genome.hemi.hemi_raw</option>
+        <option value="gnomad_genome.hom" selected="false">gnomad_genome.hom</option>
+        <option value="gnomad_genome.hom.hom" selected="false">gnomad_genome.hom.hom</option>
+        <option value="gnomad_genome.hom.hom_afr" selected="false">gnomad_genome.hom.hom_afr</option>
+        <option value="gnomad_genome.hom.hom_amr" selected="false">gnomad_genome.hom.hom_amr</option>
+        <option value="gnomad_genome.hom.hom_asj" selected="false">gnomad_genome.hom.hom_asj</option>
+        <option value="gnomad_genome.hom.hom_eas" selected="false">gnomad_genome.hom.hom_eas</option>
+        <option value="gnomad_genome.hom.hom_female" selected="false">gnomad_genome.hom.hom_female</option>
+        <option value="gnomad_genome.hom.hom_fin" selected="false">gnomad_genome.hom.hom_fin</option>
+        <option value="gnomad_genome.hom.hom_male" selected="false">gnomad_genome.hom.hom_male</option>
+        <option value="gnomad_genome.hom.hom_nfe" selected="false">gnomad_genome.hom.hom_nfe</option>
+        <option value="gnomad_genome.hom.hom_oth" selected="false">gnomad_genome.hom.hom_oth</option>
+        <option value="gnomad_genome.hom.hom_raw" selected="false">gnomad_genome.hom.hom_raw</option>
+        <option value="gnomad_genome.inbreedingcoeff" selected="false">gnomad_genome.inbreedingcoeff</option>
+        <option value="gnomad_genome.mq" selected="false">gnomad_genome.mq</option>
+        <option value="gnomad_genome.mq.mq" selected="false">gnomad_genome.mq.mq</option>
+        <option value="gnomad_genome.mq.mqranksum" selected="false">gnomad_genome.mq.mqranksum</option>
+        <option value="gnomad_genome.multi-allelic" selected="false">gnomad_genome.multi-allelic</option>
+        <option value="gnomad_genome.pos" selected="false">gnomad_genome.pos</option>
+        <option value="gnomad_genome.qd" selected="false">gnomad_genome.qd</option>
+        <option value="gnomad_genome.readposranksum" selected="false">gnomad_genome.readposranksum</option>
+        <option value="gnomad_genome.ref" selected="false">gnomad_genome.ref</option>
+        <option value="gnomad_genome.rsid" selected="false">gnomad_genome.rsid</option>
+        <option value="gnomad_genome.type" selected="false">gnomad_genome.type</option>
+        <option value="gnomad_genome.vqslod" selected="false">gnomad_genome.vqslod</option>
+        <option value="gnomad_genome.vqsr_culprit" selected="false">gnomad_genome.vqsr_culprit</option>
+        <option value="grasp" selected="false">grasp</option>
+        <option value="grasp.discovery" selected="false">grasp.discovery</option>
+        <option value="grasp.discovery.african" selected="false">grasp.discovery.african</option>
+        <option value="grasp.discovery.arab_me" selected="false">grasp.discovery.arab_me</option>
+        <option value="grasp.discovery.east_asian" selected="false">grasp.discovery.east_asian</option>
+        <option value="grasp.discovery.european" selected="false">grasp.discovery.european</option>
+        <option value="grasp.discovery.filipino" selected="false">grasp.discovery.filipino</option>
+        <option value="grasp.discovery.hispanic" selected="false">grasp.discovery.hispanic</option>
+        <option value="grasp.discovery.indian_south_asian" selected="false">grasp.discovery.indian_south_asian</option>
+        <option value="grasp.discovery.indonesian" selected="false">grasp.discovery.indonesian</option>
+        <option value="grasp.discovery.micronesian" selected="false">grasp.discovery.micronesian</option>
+        <option value="grasp.discovery.mixed" selected="false">grasp.discovery.mixed</option>
+        <option value="grasp.discovery.native" selected="false">grasp.discovery.native</option>
+        <option value="grasp.discovery.total_samples" selected="false">grasp.discovery.total_samples</option>
+        <option value="grasp.discovery.unspecified" selected="false">grasp.discovery.unspecified</option>
+        <option value="grasp.eqtl_meth_metab_study" selected="false">grasp.eqtl_meth_metab_study</option>
+        <option value="grasp.exclusively_male_female" selected="false">grasp.exclusively_male_female</option>
+        <option value="grasp.gwas_ancestry_description" selected="false">grasp.gwas_ancestry_description</option>
+        <option value="grasp.hg19" selected="false">grasp.hg19</option>
+        <option value="grasp.hg19.chr" selected="false">grasp.hg19.chr</option>
+        <option value="grasp.hg19.pos" selected="false">grasp.hg19.pos</option>
+        <option value="grasp.hugfield" selected="false">grasp.hugfield</option>
+        <option value="grasp.human_enhancer" selected="false">grasp.human_enhancer</option>
+        <option value="grasp.in_gene" selected="false">grasp.in_gene</option>
+        <option value="grasp.in_mirna" selected="false">grasp.in_mirna</option>
+        <option value="grasp.in_mirna_bs" selected="false">grasp.in_mirna_bs</option>
+        <option value="grasp.includes_male_female_only_analyses" selected="false">
+            grasp.includes_male_female_only_analyses
+        </option>
+        <option value="grasp.initial_sample_description" selected="false">grasp.initial_sample_description</option>
+        <option value="grasp.nearest_gene" selected="false">grasp.nearest_gene</option>
+        <option value="grasp.oreg_anno" selected="false">grasp.oreg_anno</option>
+        <option value="grasp.platform_snps_passing_qc" selected="false">grasp.platform_snps_passing_qc</option>
+        <option value="grasp.polyphen2" selected="false">grasp.polyphen2</option>
+        <option value="grasp.publication" selected="false">grasp.publication</option>
+        <option value="grasp.publication.journal" selected="false">grasp.publication.journal</option>
+        <option value="grasp.publication.location_within_paper" selected="false">
+            grasp.publication.location_within_paper
+        </option>
+        <option value="grasp.publication.p_value" selected="false">grasp.publication.p_value</option>
+        <option value="grasp.publication.paper_phenotype_categories" selected="false">
+            grasp.publication.paper_phenotype_categories
+        </option>
+        <option value="grasp.publication.paper_phenotype_description" selected="false">
+            grasp.publication.paper_phenotype_description
+        </option>
+        <option value="grasp.publication.phenotype" selected="false">grasp.publication.phenotype</option>
+        <option value="grasp.publication.pmid" selected="false">grasp.publication.pmid</option>
+        <option value="grasp.publication.snpid" selected="false">grasp.publication.snpid</option>
+        <option value="grasp.publication.title" selected="false">grasp.publication.title</option>
+        <option value="grasp.replication" selected="false">grasp.replication</option>
+        <option value="grasp.replication.african" selected="false">grasp.replication.african</option>
+        <option value="grasp.replication.arab_me" selected="false">grasp.replication.arab_me</option>
+        <option value="grasp.replication.east_asian" selected="false">grasp.replication.east_asian</option>
+        <option value="grasp.replication.european" selected="false">grasp.replication.european</option>
+        <option value="grasp.replication.filipino" selected="false">grasp.replication.filipino</option>
+        <option value="grasp.replication.hispanic" selected="false">grasp.replication.hispanic</option>
+        <option value="grasp.replication.indian_south_asian" selected="false">grasp.replication.indian_south_asian
+        </option>
+        <option value="grasp.replication.indonesian" selected="false">grasp.replication.indonesian</option>
+        <option value="grasp.replication.micronesian" selected="false">grasp.replication.micronesian</option>
+        <option value="grasp.replication.mixed" selected="false">grasp.replication.mixed</option>
+        <option value="grasp.replication.native" selected="false">grasp.replication.native</option>
+        <option value="grasp.replication.total_samples" selected="false">grasp.replication.total_samples</option>
+        <option value="grasp.replication.unspecified" selected="false">grasp.replication.unspecified</option>
+        <option value="grasp.replication_sample_description" selected="false">grasp.replication_sample_description
+        </option>
+        <option value="grasp.rna_edit" selected="false">grasp.rna_edit</option>
+        <option value="grasp.sift" selected="false">grasp.sift</option>
+        <option value="grasp.srsid" selected="false">grasp.srsid</option>
+        <option value="grasp.uniprot" selected="false">grasp.uniprot</option>
+        <option value="gwassnps" selected="false">gwassnps</option>
+        <option value="gwassnps.genename" selected="false">gwassnps.genename</option>
+        <option value="gwassnps.pubmed" selected="false">gwassnps.pubmed</option>
+        <option value="gwassnps.pvalue" selected="false">gwassnps.pvalue</option>
+        <option value="gwassnps.pvalue_desc" selected="false">gwassnps.pvalue_desc</option>
+        <option value="gwassnps.region" selected="false">gwassnps.region</option>
+        <option value="gwassnps.risk_allele" selected="false">gwassnps.risk_allele</option>
+        <option value="gwassnps.risk_allele_freq" selected="false">gwassnps.risk_allele_freq</option>
+        <option value="gwassnps.rsid" selected="false">gwassnps.rsid</option>
+        <option value="gwassnps.title" selected="false">gwassnps.title</option>
+        <option value="gwassnps.trait" selected="false">gwassnps.trait</option>
+        <option value="hg19" selected="false">hg19</option>
+        <option value="hg19.end" selected="false">hg19.end</option>
+        <option value="hg19.start" selected="false">hg19.start</option>
+        <option value="mutdb" selected="false">mutdb</option>
+        <option value="mutdb.alt" selected="false">mutdb.alt</option>
+        <option value="mutdb.chrom" selected="false">mutdb.chrom</option>
+        <option value="mutdb.cosmic_id" selected="false">mutdb.cosmic_id</option>
+        <option value="mutdb.hg19" selected="false">mutdb.hg19</option>
+        <option value="mutdb.hg19.end" selected="false">mutdb.hg19.end</option>
+        <option value="mutdb.hg19.start" selected="false">mutdb.hg19.start</option>
+        <option value="mutdb.mutpred_score" selected="false">mutdb.mutpred_score</option>
+        <option value="mutdb.ref" selected="false">mutdb.ref</option>
+        <option value="mutdb.rsid" selected="false">mutdb.rsid</option>
+        <option value="mutdb.strand" selected="false">mutdb.strand</option>
+        <option value="mutdb.uniprot_id" selected="false">mutdb.uniprot_id</option>
+        <option value="observed" selected="false">observed</option>
+        <option value="snpedia" selected="false">snpedia</option>
+        <option value="snpedia.text" selected="false">snpedia.text</option>
+        <option value="snpeff" selected="false">snpeff</option>
+        <option value="snpeff.ann" selected="false">snpeff.ann</option>
+        <option value="snpeff.ann.cdna" selected="false">snpeff.ann.cdna</option>
+        <option value="snpeff.ann.cdna.length" selected="false">snpeff.ann.cdna.length</option>
+        <option value="snpeff.ann.cdna.position" selected="false">snpeff.ann.cdna.position</option>
+        <option value="snpeff.ann.cds" selected="false">snpeff.ann.cds</option>
+        <option value="snpeff.ann.cds.length" selected="false">snpeff.ann.cds.length</option>
+        <option value="snpeff.ann.cds.position" selected="false">snpeff.ann.cds.position</option>
+        <option value="snpeff.ann.distance_to_feature" selected="false">snpeff.ann.distance_to_feature</option>
+        <option value="snpeff.ann.effect" selected="false">snpeff.ann.effect</option>
+        <option value="snpeff.ann.feature_id" selected="false">snpeff.ann.feature_id</option>
+        <option value="snpeff.ann.feature_type" selected="false">snpeff.ann.feature_type</option>
+        <option value="snpeff.ann.gene_id" selected="false">snpeff.ann.gene_id</option>
+        <option value="snpeff.ann.genename" selected="false">snpeff.ann.genename</option>
+        <option value="snpeff.ann.hgvs_c" selected="false">snpeff.ann.hgvs_c</option>
+        <option value="snpeff.ann.hgvs_p" selected="false">snpeff.ann.hgvs_p</option>
+        <option value="snpeff.ann.protein" selected="false">snpeff.ann.protein</option>
+        <option value="snpeff.ann.protein.length" selected="false">snpeff.ann.protein.length</option>
+        <option value="snpeff.ann.protein.position" selected="false">snpeff.ann.protein.position</option>
+        <option value="snpeff.ann.putative_impact" selected="false">snpeff.ann.putative_impact</option>
+        <option value="snpeff.ann.rank" selected="false">snpeff.ann.rank</option>
+        <option value="snpeff.ann.total" selected="false">snpeff.ann.total</option>
+        <option value="snpeff.ann.transcript_biotype" selected="false">snpeff.ann.transcript_biotype</option>
+        <option value="snpeff.lof" selected="false">snpeff.lof</option>
+        <option value="snpeff.lof.gene_id" selected="false">snpeff.lof.gene_id</option>
+        <option value="snpeff.lof.genename" selected="false">snpeff.lof.genename</option>
+        <option value="snpeff.lof.number_of_transcripts_in_gene" selected="false">
+            snpeff.lof.number_of_transcripts_in_gene
+        </option>
+        <option value="snpeff.lof.percent_of_transcripts_affected" selected="false">
+            snpeff.lof.percent_of_transcripts_affected
+        </option>
+        <option value="snpeff.nmd" selected="false">snpeff.nmd</option>
+        <option value="snpeff.nmd.gene_id" selected="false">snpeff.nmd.gene_id</option>
+        <option value="snpeff.nmd.genename" selected="false">snpeff.nmd.genename</option>
+        <option value="snpeff.nmd.number_of_transcripts_in_gene" selected="false">
+            snpeff.nmd.number_of_transcripts_in_gene
+        </option>
+        <option value="snpeff.nmd.percent_of_transcripts_affected" selected="false">
+            snpeff.nmd.percent_of_transcripts_affected
+        </option>
+        <option value="vcf" selected="false">vcf</option>
+        <option value="vcf.alt" selected="false">vcf.alt</option>
+        <option value="vcf.position" selected="false">vcf.position</option>
+        <option value="vcf.ref" selected="false">vcf.ref</option>
+        <option value="wellderly" selected="false">wellderly</option>
+        <option value="wellderly.alt" selected="false">wellderly.alt</option>
+        <option value="wellderly.chrom" selected="false">wellderly.chrom</option>
+        <option value="wellderly.coding_impact" selected="false">wellderly.coding_impact</option>
+        <option value="wellderly.gene" selected="false">wellderly.gene</option>
+        <option value="wellderly.hg19" selected="false">wellderly.hg19</option>
+        <option value="wellderly.hg19.end" selected="false">wellderly.hg19.end</option>
+        <option value="wellderly.hg19.start" selected="false">wellderly.hg19.start</option>
+        <option value="wellderly.polyphen" selected="false">wellderly.polyphen</option>
+        <option value="wellderly.pos" selected="false">wellderly.pos</option>
+        <option value="wellderly.ref" selected="false">wellderly.ref</option>
+        <option value="wellderly.sift" selected="false">wellderly.sift</option>
+        <option value="wellderly.vartype" selected="false">wellderly.vartype</option>
+    </xml>
+</macros>
