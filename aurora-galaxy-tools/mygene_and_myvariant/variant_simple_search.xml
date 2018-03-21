@@ -1,4 +1,4 @@
-<tool id="variant_ids_search" name="variant: ids search" version="1.0.0">
+<tool id="variant_simple_search" name="variant: ids search" version="1.0.0">
     <description>
         some description
     </description>

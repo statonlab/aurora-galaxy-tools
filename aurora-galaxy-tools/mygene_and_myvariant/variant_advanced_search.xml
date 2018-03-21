@@ -1,4 +1,4 @@
-<tool id="variant_advanced_search" name="variant:advanced_search" version="1.0.0">
+<tool id="variant_advanced_search" name="variant:advanced search" version="1.0.0">
     <description>
         some description
     </description>
@@ -34,12 +34,61 @@
 
     ]]></command>
     <inputs>
-        <expand macro="AND_operator" />
-        <expand macro="OR_operator" />
-        <param type="select" name="return_fields" label="Returned fields" optional="False" multiple="True">
-            <option value="all">ALL_FIELDS</option>
-            <expand macro="fields"/>
-        </param>
+        <section name="boolean_operators" title="Boolean operators">
+            <repeat name="AND_operator_repeat" title="AND" min="1" default="1">
+                <param type="select" name="field" label="" optional="False" multiple="FALSE">
+                    <expand macro="fields"/>
+                </param>
+                <param type="text" name="variant_query" label="Search keywords" optional="False">
+                    <sanitizer>
+                        <valid initial="string.printable"/>
+                    </sanitizer>
+                </param>
+            </repeat>
+            <repeat name="OR_operator_repeat" title="OR" min="0" default="0">
+                <param type="select" name="field" label="OR" optional="False" multiple="FALSE">
+                    <expand macro="fields"/>
+                </param>
+                <param type="text" name="variant_query" label="Search keywords" optional="False">
+                    <sanitizer>
+                        <valid initial="string.printable"/>
+                    </sanitizer>
+                </param>
+            </repeat>
+            <repeat name="NOT_operator_repeat" title="NOT" min="0" default="0">
+                <param type="select" name="field" label="OR" optional="False" multiple="FALSE">
+                    <expand macro="fields"/>
+                </param>
+                <param type="text" name="variant_query" label="Search keywords" optional="False">
+                    <sanitizer>
+                        <valid initial="string.printable"/>
+                    </sanitizer>
+                </param>
+            </repeat>
+        </section>
+
+        <section name="check_field_operators" title="Check field operators">
+            <repeat name="HAS_FIELD_operator_repeat" title="HAS FIELD" min="0" default="0">
+                <param type="select" name="field" label="OR" optional="False" multiple="FALSE">
+                    <expand macro="fields"/>
+                </param>
+                <param type="text" name="variant_query" label="Search keywords" optional="False">
+                    <sanitizer>
+                        <valid initial="string.printable"/>
+                    </sanitizer>
+                </param>
+            </repeat>
+            <repeat name="MISS_FIELD_operator_repeat" title="MISS FIELD" min="0" default="0">
+                <param type="select" name="field" label="OR" optional="False" multiple="FALSE">
+                    <expand macro="fields"/>
+                </param>
+                <param type="text" name="variant_query" label="Search keywords" optional="False">
+                    <sanitizer>
+                        <valid initial="string.printable"/>
+                    </sanitizer>
+                </param>
+            </repeat>
+        </section>
     </inputs>
     <outputs>
         <data format="html" name="report" label="${tool.name} report"/>
