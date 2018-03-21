@@ -12,6 +12,7 @@ library(getopt)
 library(rmarkdown)
 library(jsonlite)
 library(DT)
+library(httr)
 #------------------------------------------------
 
 

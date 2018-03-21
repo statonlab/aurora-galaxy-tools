@@ -1,27 +1,38 @@
 ---
-title: 'HTML report title'
+title: ''
 output:
     html_document:
-      number_sections: true
-      toc: true
       theme: cosmo
       highlight: tango
-      code_folding: hide
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(
-  echo = TRUE,
+  echo = FALSE,
   error = TRUE
 )
 ```
 
 
-# Code for computational analysis
+# [myvariant.info](myvariant.info): ids search
 
 ```{r}
-opt
-```
+ids = gsub('\\s+', '', opt$X_q)
+req = POST('http://myvariant.info/v1/variant?',
+           add_headers(
+             'accept' = "application/json",
+             'Content-Type' = "application/x-www-form-urlencoded"
+           ),
+           body = list(ids = ids, 
+                       dotfield='true',
+                       fields = opt$X_f), encode = 'form')
 
+
+json = content(req, as = 'text')
+df = t(as.data.frame(fromJSON(json)))
+colnames(df) = strsplit(ids, ',')[[1]]
+df = data.frame(fields = rownames(df), df)
+datatable(df)
+```
 
 

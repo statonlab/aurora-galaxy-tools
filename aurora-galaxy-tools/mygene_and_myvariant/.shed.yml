@@ -1,0 +1,10 @@
+---
+name: mygene_and_myvariant
+owner: mingchen0919
+description: an interface to the http:/mygene.info and http:/myvariant.info web services
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Web Services: Web Services
+...

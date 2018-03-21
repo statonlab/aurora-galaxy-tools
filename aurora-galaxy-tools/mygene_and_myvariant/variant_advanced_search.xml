@@ -1,4 +1,4 @@
-<tool id="variant_ids_search" name="variant: ids search" version="1.0.0">
+<tool id="variant_advanced_search" name="variant:advanced_search" version="1.0.0">
     <description>
         some description
     </description>
@@ -31,14 +31,11 @@
 			-f '$return_fields'
 
 
-        
+
     ]]></command>
     <inputs>
-        <param type="text" name="variant_query" label="Search keywords" optional="False">
-            <sanitizer>
-                <valid initial="string.printable"/>
-            </sanitizer>
-        </param>
+        <expand macro="AND_operator" />
+        <expand macro="OR_operator" />
         <param type="select" name="return_fields" label="Returned fields" optional="False" multiple="True">
             <option value="all">ALL_FIELDS</option>
             <expand macro="fields"/>

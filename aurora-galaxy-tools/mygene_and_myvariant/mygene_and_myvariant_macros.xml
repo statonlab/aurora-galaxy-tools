@@ -1436,4 +1436,24 @@
         <option value="wellderly.sift" selected="false">wellderly.sift</option>
         <option value="wellderly.vartype" selected="false">wellderly.vartype</option>
     </xml>
+    <xml name="AND_operator">
+        <repeat name="AND_operator_repeat" title="Field paths" min="1" max="20" default="0">
+            <expand macros="fields" />
+            <param type="text" name="variant_query" label="Search keywords" optional="False">
+                <sanitizer>
+                    <valid initial="string.printable"/>
+                </sanitizer>
+            </param>
+        </repeat>
+    </xml>
+    <xml name="OR_operator">
+        <repeat name="OR_operator_repeat" title="Field paths" min="1" max="20" default="0">
+            <expand macros="fields" />
+            <param type="text" name="variant_query" label="Search keywords" optional="False">
+                <sanitizer>
+                    <valid initial="string.printable"/>
+                </sanitizer>
+            </param>
+        </repeat>
+    </xml>
 </macros>
