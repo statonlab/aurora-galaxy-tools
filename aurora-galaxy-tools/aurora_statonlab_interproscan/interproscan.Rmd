@@ -1,0 +1,70 @@
+---
+title: 'InterProScan analysis'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  error = TRUE
+)
+```
+
+
+# InterProScan job script
+
+```{bash echo=FALSE}
+# create two directorys: tempdir and output-dir
+mkdir -p ${X_d}/temp_dir
+mkdir -p ${X_d}/output_dir
+
+#---- build job script ----
+cat >temp.sh <<EOL
+/opt/main/InterProScan/5.28-67.0/interproscan.sh \\
+  -i ${X_A} \\
+  -f ${X_B} \\
+  --disable-precalc ${X_C} \\
+  --iprlookup ${X_D} \\
+  --goterms ${X_E} \\
+  --pathways ${X_F} \\
+  --tempdir ${X_d}/temp_dir \\
+  --output-dir ${X_d}/output_dir > /dev/null 2>&1
+  
+EOL
+
+# remove empty input lines
+grep -v 'None' temp.sh |\
+  grep -v 'NO_ARGUMENT_NO' |\
+  sed 's/NO_ARGUMENT_YES//g' > job-script.sh
+  
+# copy job-script.sh to OUTPUT_DIR
+cp job-script.sh ${X_d}/job-script.sh
+```
+
+```{r echo=FALSE}
+# display job script
+job_script = paste0(opt$X_d, '/job-script.sh')
+tags$code(tags$pre(readChar(job_script, file.info(job_script)$size )))
+```
+
+```{bash echo=FALSE}
+#run job-script.sh
+sh job-script.sh
+```
+
+
+```{r, 'display output directory contents', results='asis', echo=FALSE}
+## after the job is done, we list all files from the output directory.
+## full relative path to the output directory needs to be displayed.
+
+cat('##All output files')
+cat('\n\n')
+all_files = list.files(path = OUTPUT_DIR, 
+                       full.names = TRUE, 
+                       recursive = TRUE)
+
+for (f in sub(OUTPUT_DIR, '.', all_files) ) {
+  cat('* [', f, '](', f, ')\n')
+}
+cat('\n')
+```
