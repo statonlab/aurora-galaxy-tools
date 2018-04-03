@@ -1,0 +1,10 @@
+---
+name: statonlab_interprocan
+owner: mingchen0919
+description: nucleotide and protein sequences search
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Sequence Analysis: Sequence Analysis
+...
