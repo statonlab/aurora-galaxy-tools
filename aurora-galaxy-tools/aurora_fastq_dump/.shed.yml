@@ -1,0 +1,11 @@
+---
+name: aurora_fastq_dump
+owner: mingchen0919
+description: Download reads from NCBI SRA by accessions with fastq-dump from the SRA
+  toolkit
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Sequence Analysis: Sequence Analysis
+...

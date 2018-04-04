@@ -1,0 +1,55 @@
+<tool id="fastq_dump_se" name="aurora fastq-dump (single end)" version="1.0.0">
+    <description>Download reads from NCBI SRA by accessions with fastq-dump from the SRA toolkit</description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+        <requirement type="package" version="0.6.2">parallel-fastq-dump</requirement>
+    </requirements>
+    <stdio>
+        <regex match="XXX" source="stderr" level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command><![CDATA[export TOOL_DIR='${__tool_directory__}' &&
+
+Rscript '${__tool_directory__}/'fastq_dump_se_render.R
+
+	-o '$report'
+	-d '$report.files_path'
+	-s '$sink_message'
+	-A '$accessions'
+]]></command>
+    <inputs>
+        <param type="text" name="accessions" label="SRR/DRR/ERR accessions (single end reads)"
+               help="A list of SRR/DRR/ERR accessions separated space (e.g. SRR6077558 ERR343809)" optional="True"/>
+    </inputs>
+    <outputs>
+        <data name="report" format="html" label="${tool.name}" hidden="false"/>
+        <data name="sink_message" format="txt" label="${tool.name} warnings and errors"
+              from_work_dir="warnings_and_errors.txt" hidden="false"/>
+        <collection name="list_collection" type="list" label="${tool.name} list collection">
+            <discover_datasets pattern="__name_and_ext__" directory="single-end-reads" visible="false"/>
+        </collection>
+    </outputs>
+    <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation>
+    </citations>
+</tool>

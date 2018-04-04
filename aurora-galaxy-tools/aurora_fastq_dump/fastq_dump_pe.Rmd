@@ -1,0 +1,72 @@
+---
+title: 'Download reads from NCBI SRA'
+output: 
+  html_document:
+    highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+```{bash}
+# build job-script
+mkdir -p ${WORKING_DIR}/paired-end-reads
+
+# paired-end.sh
+mkdir -p ${X_d}/paired-end-reads
+cat <<EOF >${X_d}/paired-end.sh
+if [ "${X_A}" ];then
+  fastq-dump \\
+    --split-files \\
+    ${X_A} \\
+    -O ${WORKING_DIR}/paired-end-reads > ${X_d}/paired-end-log.txt 2>&1
+else
+  echo "No accessions are provided" > ${X_d}/paired-end-log.txt 2>&1
+fi
+EOF
+```
+
+
+```{bash, 'run jobs', echo=FALSE}
+# run job script, always use absolute path. 
+# we want to run all jobs within the working path.
+sh ${X_d}/paired-end.sh
+```
+
+```{r}
+# rename paired-end reads files so that all files have the name pattern BASENAME_forward.EXT and BASENAME_reverse.EXT
+from_files = list.files(paste0(working_dir, '/paired-end-reads'), full.names = TRUE)
+to_files = str_replace_all(from_files, c('_1', '_2'), c('_forward', '_reverse'))
+file.rename(from = from_files, to = to_files)
+```
+
+
+
+```{bash, 'display script', results='asis', echo=FALSE}
+echo '## Job script'
+echo ''
+echo ''
+echo '```bash'
+cat ${X_d}/paired-end.sh
+echo '```'
+```
+
+
+```{r, 'display output directory contents', results='asis', echo=FALSE}
+## after the job is done, we list all files from the output directory.
+## full relative path to the output directory needs to be displayed.
+
+cat('##All output files')
+cat('\n\n')
+all_files = list.files(path = opt$X_d, 
+                       full.names = TRUE, 
+                       recursive = TRUE)
+
+for (f in sub(Sys.getenv('X_d'), '.', all_files) ) {
+  cat('* [', f, '](', f, ')\n')
+}
+cat('\n')
+```
+
