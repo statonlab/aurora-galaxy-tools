@@ -1,4 +1,4 @@
-<tool id="rmarkdown_fastq_dump_pe" name="fastq-dump-pe" version="1.0.1">
+<tool id="rmarkdown_fastq_dump_pe" name="fastq-dump-pe" version="1.0.2">
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
         <requirement type="package" version="1.20.0">r-getopt</requirement>
