@@ -5,7 +5,7 @@
 #' is data types. The fourth column are variable names used in the tool XML. These three columns are required.
 #' @param gtg_name the name of a running GTG.
 getopt_specification_matrix = function(specification_file, gtg_name = 'gtg', tool_dir = Sys.getenv('TOOL_DIR')) {
-  df = read.csv(paste0(tool_dir, specification_file),
+  df = read.csv(paste0(tool_dir, '/', specification_file),
                 header = TRUE, stringsAsFactors = FALSE)
   # check if there are duplicated short flags
   short_flags = df[, 1]
