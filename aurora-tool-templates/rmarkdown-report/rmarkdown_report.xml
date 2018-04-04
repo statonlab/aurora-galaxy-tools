@@ -16,18 +16,14 @@
 
         Rscript '${__tool_directory__}/rmarkdown_report_render.R'
 
-			-e $echo
 			-o $report
 			-d $report.files_path
 			-s $sink_message
-			-t '${__tool_directory__}'
 
 
         
     ]]></command>
     <inputs>
-        <param type="boolean" name="echo" truevalue="TRUE" falsevalue="FALSE" checked="false"
-               label="Display analysis code in report?"/>
     </inputs>
     <outputs>
         <data format="html" name="report" label="tool report"/>
