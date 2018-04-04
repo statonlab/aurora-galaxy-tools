@@ -19,12 +19,19 @@ knitr::opts_chunk$set(
 
 # Code for computational analysis
 
-```{r 'step 1'}
+```{r, 'display output directory contents', results='asis', echo=FALSE}
+## after the job is done, we list all files from the output directory.
+## full relative path to the output directory needs to be displayed.
 
+cat('##All output files')
+cat('\n\n')
+all_files = list.files(path = Sys.getenv('REPORT_FILES_PATH'), 
+                       full.names = TRUE, 
+                       recursive = TRUE)
+
+for (f in sub(Sys.getenv('REPORT_FILES_PATH'), '.', all_files) ) {
+  cat('* [', f, '](', f, ')\n')
+}
+cat('\n')
 ```
-
-```{r 'ste[ 2'}
-
-```
-
 
