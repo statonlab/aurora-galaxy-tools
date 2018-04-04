@@ -22,7 +22,7 @@ Rscript '${__tool_directory__}/'fastq_dump_pe_render.R
 ]]></command>
     <inputs>
         <param type="text" name="accessions" label="SRR/DRR/ERR accessions (paired end reads)"
-               help="A list of SRR/DRR/ERR accessions separated by comma or space (e.g. SRR6077558 ERR343809)"
+               help="A list of SRR/DRR/ERR accessions separated by space (e.g. SRR6077558 SRR6933269)"
                optional="True"/>
     </inputs>
     <outputs>

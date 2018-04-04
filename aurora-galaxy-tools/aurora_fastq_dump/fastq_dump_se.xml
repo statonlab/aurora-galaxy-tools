@@ -21,7 +21,7 @@ Rscript '${__tool_directory__}/'fastq_dump_se_render.R
 ]]></command>
     <inputs>
         <param type="text" name="accessions" label="SRR/DRR/ERR accessions (single end reads)"
-               help="A list of SRR/DRR/ERR accessions separated space (e.g. SRR6077558 ERR343809)" optional="True"/>
+               help="A list of SRR/DRR/ERR accessions separated by space (e.g. SRR6906022 SRR6906023)" optional="True"/>
     </inputs>
     <outputs>
         <data name="report" format="html" label="${tool.name}" hidden="false"/>
