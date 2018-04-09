@@ -1,0 +1,10 @@
+---
+name: statonlab_fasta_splitter
+owner: mingchen0919
+description: split one fasta file into multiple smaller fasta files
+long_description: 'This tool is a simplified wrapper of an online script: http://iubio.bio.indiana.edu/gmod/genogrid/scripts/split_multifasta.pl'
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Sequence Analysis: Sequence Analysis
+...

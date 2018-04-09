@@ -1,0 +1,52 @@
+---
+title: 'FASTA splitter'
+output: 
+  html_document:
+    highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+
+```{bash}
+# build job-script
+mkdir -p ${WORKING_DIR}/fasta_files
+
+# single-end.sh
+cat <<EOF >${X_d}/job-script.sh
+cd ${WORKING_DIR}/fasta_files && \\
+  cp ${X_A} input.fasta && \\
+  ${X_t}/split.pl input.fasta ${X_B} > ${X_d}/fasta_splitter-log.txt 2>&1
+EOF
+```
+
+```{bash, 'run jobs', echo=FALSE}
+# run job script, always use absolute path. 
+# we want to run all jobs within the working path.
+sh ${X_d}/job-script.sh
+```
+
+```{bash}
+# remove original input fasta
+rm ${WORKING_DIR}/fasta_files/input.fasta
+mv ${WORKING_DIR}/fasta_files/out ${X_d}/split-out.txt
+```
+
+```{r, 'display output directory contents', results='asis', echo=FALSE}
+## after the job is done, we list all files from the output directory.
+## full relative path to the output directory needs to be displayed.
+
+cat('##All output files')
+cat('\n\n')
+all_files = list.files(path = opt$X_d, 
+                       full.names = TRUE, 
+                       recursive = TRUE)
+
+for (f in sub(opt$X_d, '.', all_files) ) {
+  cat('* [', f, '](', f, ')\n')
+}
+cat('\n')
+```
+

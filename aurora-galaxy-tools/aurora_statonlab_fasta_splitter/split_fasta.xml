@@ -1,0 +1,41 @@
+<tool id="statonlab_fasta_splitter" name="statonlab_fasta_splitter" version="1.0.0">
+  <description>Split a single FASTA file into multiple smaller FASTA files&#xD;
+    </description>
+  <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement><requirement type="package" version="1.20.0">r-getopt</requirement><requirement type="package" version="1.6">r-rmarkdown</requirement><requirement type="package" version="5.22.2.1">perl</requirement></requirements>
+  <stdio>
+        <regex match="XXX" source="stderr" level="warning" description="Check the warnings_and_errors.txt file for more details."/></stdio>
+  <command><![CDATA[export TOOL_DIR='${__tool_directory__}' &&
+
+Rscript '${__tool_directory__}/'split_fasta_render.R
+
+	-o '$report'
+	-d '$report.files_path'
+	-s '$sink_message'
+	-A '$fasta_input'
+	-B '$number'
+]]></command>
+  <inputs>
+    <param type="data" name="fasta_input" label="FASTA input" optional="False" format="fasta,fa" multiple="False"/><param type="integer" name="number" label="Number" help="The number of files the FASTA file will be split into" optional="False" value="200" min="1"/></inputs>
+  <outputs>
+        <data name="report" format="html" label="${tool.name} report on ${on_string}" hidden="false"/><data name="sink_message" format="txt" label="${tool.name} log on ${on_string}" from_work_dir="warnings_and_errors.txt" hidden="false"/><collection name="list_collection" type="list" label="${tool.name} on ${on_string}"><discover_datasets pattern="__name_and_ext__" directory="fasta_files" visible="false"/></collection></outputs>
+  <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation></citations>
+</tool>
