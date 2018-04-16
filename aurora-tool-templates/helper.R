@@ -26,3 +26,30 @@ getopt_specification_matrix = function(specification_file, gtg_name = 'gtg', too
   
   as.matrix(df2)
 }
+
+
+
+#' \code{file_tree} generate file tree of a directory in the format of HTML lists.
+#' 
+#' @param dir the path to the directory for generating the file tree.
+file_tree = function(dir = '.'){
+  files = list.files(path = dir, recursive = FALSE, full.names = TRUE)
+  # files also include directorys, need to remove directorys
+  files = files[!dir.exists(files)]
+  dirs = list.dirs(path = dir, recursive = FALSE, full.names = TRUE)
+  tags$ul(
+    {
+      if (length(files) > 0) {
+        lapply(files, tags$li)
+      }
+    },
+    {
+      if (length(dirs) > 0) {
+        lapply(dirs, function(x){
+          tags$li(x, file_tree(x))
+          
+        })
+      }
+    }
+  )
+}
