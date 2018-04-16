@@ -2,36 +2,95 @@
 title: 'HTML report title'
 output:
     html_document:
-      number_sections: true
-      toc: true
-      theme: cosmo
-      highlight: tango
-      code_folding: hide
+      highlight: pygments
 ---
 
+<link rel="stylesheet" href="vakata-jstree-3.3.5/dist/themes/default/style.min.css"/>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
+
+<script>
+  $(function () {
+    // create an instance when the DOM is ready
+    $('#jstree').jstree();
+    $('[data-jtree-clickable]').on('click', function() {
+      var link = $(this).find('a').attr('href')
+      if(link && link.length !== 0 && link !== '#') {
+        window.location.href = link
+      }
+    });
+  });
+</script>
+
+
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE,
-  error = TRUE
-)
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
 ```
 
 
-# Code for computational analysis
 
-```{r, 'display output directory contents', results='asis', echo=FALSE}
-## after the job is done, we list all files from the output directory.
-## full relative path to the output directory needs to be displayed.
 
-cat('##All output files')
-cat('\n\n')
-all_files = list.files(path = Sys.getenv('REPORT_FILES_PATH'), 
-                       full.names = TRUE, 
-                       recursive = TRUE)
 
-for (f in sub(Sys.getenv('REPORT_FILES_PATH'), '.', all_files) ) {
-  cat('* [', f, '](', f, ')\n')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Output
+
+```{bash, echo=FALSE}
+# copy jstree directory to output directory
+cp -r ${X_t}/vakata-jstree-3.3.5 ${X_d}
+```
+
+```{r, echo=FALSE}
+output_dir = tail(strsplit(opt$X_d, '/')[[1]], 1)
+file_tree = function(dir = '.'){
+  files = list.files(path = dir, recursive = FALSE, full.names = TRUE)
+  # files also include directorys, need to remove directorys
+  files = files[!dir.exists(files)]
+  dirs = list.dirs(path = dir, recursive = FALSE, full.names = TRUE)
+  tags$ul(
+    {
+      if (length(files) > 0) {
+        lapply(files, function(x){
+          path_end = tail(strsplit(x, '/')[[1]],1)
+          href_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
+          li_item = tags$li(tags$a(path_end, href=href_path))
+          li_item$attribs = list('data-jstree'='{"icon":"jstree-file"}', 'data-jtree-clickable'='true')
+          li_item
+        })
+      }
+    },
+    {
+      if (length(dirs) > 0) {
+        lapply(dirs, function(x){
+          x_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
+          li_item = tags$li(x_path, file_tree(x_path))
+          li_item$attribs = list('data-jstree'='{"icon":"jstree-folder"}')
+          li_item
+        })
+      }
+    }
+  )
 }
-cat('\n')
+```
+
+```{r, echo=FALSE}
+tags$div(
+  id="jstree",
+  file_tree(opt$X_d)
+)
 ```
 
