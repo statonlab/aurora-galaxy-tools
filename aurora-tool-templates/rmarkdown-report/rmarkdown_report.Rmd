@@ -5,10 +5,26 @@ output:
       highlight: pygments
 ---
 
-<link rel="stylesheet" href="vakata-jstree-3.3.5/dist/themes/default/style.min.css"/>
+```{r, echo=FALSE}
+# to make the css theme to work, <link></link> tags cannot be added directly 
+# as <script></script> tags as below.
+# it has to be added using a code chunk with the htmltool functions!!!
+css_link = tags$link()
+css_link$attribs = list(rel="stylesheet", href="vakata-jstree-3.3.5/dist/themes/default/style.min.css")
+css_link
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# below is to add jQuery and jstree javascripts
+```
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
 
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# javascript code below is to build the file tree interface
+```
 <script>
   $(function () {
     // create an instance when the DOM is ready
@@ -21,7 +37,6 @@ output:
     });
   });
 </script>
-
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE, error = TRUE)
@@ -55,7 +70,9 @@ cp -r ${X_t}/vakata-jstree-3.3.5 ${X_d}
 ```
 
 ```{r, echo=FALSE}
+# get the OUTPUT_DIR folder data: dataset_NUMBER_files
 output_dir = tail(strsplit(opt$X_d, '/')[[1]], 1)
+# define a recursive function to build html string of the file tree
 file_tree = function(dir = '.'){
   files = list.files(path = dir, recursive = FALSE, full.names = TRUE)
   # files also include directorys, need to remove directorys
@@ -77,7 +94,7 @@ file_tree = function(dir = '.'){
       if (length(dirs) > 0) {
         lapply(dirs, function(x){
           x_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
-          li_item = tags$li(x_path, file_tree(x_path))
+          li_item = tags$li(x_path, file_tree(x))
           li_item$attribs = list('data-jstree'='{"icon":"jstree-folder"}')
           li_item
         })
@@ -88,6 +105,7 @@ file_tree = function(dir = '.'){
 ```
 
 ```{r, echo=FALSE}
+# create a div container to store the file tree interface
 tags$div(
   id="jstree",
   file_tree(opt$X_d)
