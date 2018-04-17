@@ -1,0 +1,95 @@
+---
+title: 'Aurora Data'
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, echo=FALSE}
+# to make the css theme to work, <link></link> tags cannot be added directly 
+# as <script></script> tags as below.
+# it has to be added using a code chunk with the htmltool functions!!!
+css_link = tags$link()
+css_link$attribs = list(rel="stylesheet", href="vakata-jstree-3.3.5/dist/themes/default/style.min.css")
+css_link
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# below is to add jQuery and jstree javascripts
+```
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# javascript code below is to build the file tree interface
+# see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
+```
+<script>
+  $(function () {
+    // create an instance when the DOM is ready
+    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+     window.open( data.node.a_attr.href, data.node.a_attr.target )
+    });
+  });
+</script>
+
+
+```{r, echo=FALSE}
+# create symbolic links for each collected datasets
+for (i in 1:nrow(data_paths_and_names)) {
+  command = paste0('ln -s ', data_paths_and_names[i, 'data_path'], ' ',
+                  '${REPORT_FILES_PATH}/', data_paths_and_names[i, 'data_name'])
+  system(command = command, intern = TRUE)
+}
+```
+
+
+```{r, echo=FALSE}
+# get the OUTPUT_DIR folder data: dataset_NUMBER_files
+output_dir = tail(strsplit(Sys.getenv('REPORT_FILES_PATH'), '/')[[1]], 1)
+# define a recursive function to build html string of the file tree
+file_tree = function(dir = '.'){
+  files = list.files(path = dir, recursive = FALSE, full.names = TRUE)
+  # files also include directorys, need to remove directorys
+  files = files[!dir.exists(files)]
+  dirs = list.dirs(path = dir, recursive = FALSE, full.names = TRUE)
+  jstree_index = grep(pattern = 'vakata-jstree-3.3.5', x = dirs)
+  dirs = dirs[-jstree_index]
+  tags$ul(
+    {
+      if (length(files) > 0) {
+        lapply(files, function(x){
+          path_end = tail(strsplit(x, '/')[[1]],1)
+          href_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
+          li_item = tags$li(tags$a(path_end, href=href_path))
+          li_item$attribs = list('data-jstree'='{"icon":"jstree-file"}')
+          li_item
+        })
+      }
+    },
+    {
+      if (length(dirs) > 0) {
+        lapply(dirs, function(x){
+          x_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
+          li_item = tags$li(x_path, file_tree(x))
+          li_item$attribs = list('data-jstree'='{"icon":"jstree-folder"}')
+          li_item
+        })
+      }
+    }
+  )
+}
+```
+
+```{r, echo=FALSE}
+# create a div container to store the file tree interface
+tags$div(
+  id="jstree",
+  file_tree(Sys.getenv('REPORT_FILES_PATH'))
+)
+```
+

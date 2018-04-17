@@ -1,0 +1,89 @@
+<tool id="aurora_data" name="aurora_data" version="1.0.0">
+    <description>Collect data for other aurora galaxy tools.</description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+    </requirements>
+    <stdio>
+        <regex match="XXX" source="stderr" level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command><![CDATA[
+        ############ first, create a directory to store all files
+        mkdir -p $report.files_path &&
+
+        ############ copy jstree directory
+        cp -r ${__tool_directory__}/vakata-jstree-3.3.5 $report.files_path/vakata-jstree-3.3.5 &&
+
+
+        ############ create a file to store r markdown rendering logs
+        touch $report.files_path/.r_rendering.log.txt &&
+
+        ############ save the tool installation directory to an environment variable
+        export TOOL_INSTALL_DIR='${__tool_directory__}' &&
+
+        #########################
+        ##
+        ## save data path and name pairs into a file
+        ##
+        #########################
+
+        ## first line will be the header
+        echo 'data_path|data_name' > '$report.files_path/.data_paths_and_names.txt' &&
+
+        ####################################################
+        ## loop through repeats to get option/argument pairs
+        ####################################################
+
+
+        ############ option_argument_path_relative_to_a_tool
+        #for i in $data_repeat:
+             #set $item = str($i.data) + "|" + str($i.data_name)
+             echo '$item' >> '$report.files_path/.data_paths_and_names.txt' &&
+        #end for
+
+
+        ############ export two important variables
+        ## '$report'
+        ## '$report.files_path'
+        #######################
+        export REPORT='$report' &&
+        export REPORT_FILES_PATH='$report.files_path' &&
+
+        ############ run render R script to render R markdowns
+        Rscript '${__tool_directory__}/aurora_data_render.R'
+
+        
+    ]]></command>
+    <inputs>
+        <repeat name="data_repeat" title="data" min="1" default="1">
+            <param type="data" name="data" label="Data from history"/>
+            <param type="text" name="data_name" label="data name" help="data name has to be unique."/>
+        </repeat>
+    </inputs>
+    <outputs>
+        <data name="report" format="html" label="${tool.name} on ${on_string}" hidden="false"/>
+    </outputs>
+    <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation>
+    </citations>
+</tool>

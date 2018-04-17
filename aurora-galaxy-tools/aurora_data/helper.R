@@ -32,37 +32,24 @@ getopt_specification_matrix = function(specification_file, gtg_name = 'gtg', too
 #' \code{file_tree} generate file tree of a directory in the format of HTML lists.
 #' 
 #' @param dir the path to the directory for generating the file tree.
-#' @param output_dir the REPORT_FILES_PATH folder name, which has the name style: dataset_NUMBER_files.
-# define a recursive function to build html string of the file tree
-file_tree = function(dir = '.', output_dir){
+file_tree = function(dir = '.'){
   files = list.files(path = dir, recursive = FALSE, full.names = TRUE)
   # files also include directorys, need to remove directorys
   files = files[!dir.exists(files)]
   dirs = list.dirs(path = dir, recursive = FALSE, full.names = TRUE)
-  # hide vakata-jstree-3.3.5 folder
-  jstree_index = grep(pattern = 'vakata-jstree-3.3.5', x = dirs)
-  dirs = dirs[-jstree_index]
   tags$ul(
-  {
-    if (length(files) > 0) {
-      lapply(files, function(x){
-        path_end = tail(strsplit(x, '/')[[1]],1)
-        href_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
-        li_item = tags$li(tags$a(path_end, href=href_path))
-        li_item$attribs = list('data-jstree'='{"icon":"jstree-file"}')
-        li_item
-      })
+    {
+      if (length(files) > 0) {
+        lapply(files, tags$li)
+      }
+    },
+    {
+      if (length(dirs) > 0) {
+        lapply(dirs, function(x){
+          tags$li(x, file_tree(x))
+          
+        })
+      }
     }
-  },
-  {
-    if (length(dirs) > 0) {
-      lapply(dirs, function(x){
-        x_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
-        li_item = tags$li(x_path, file_tree(x))
-        li_item$attribs = list('data-jstree'='{"icon":"jstree-folder"}')
-        li_item
-      })
-    }
-  }
   )
 }
