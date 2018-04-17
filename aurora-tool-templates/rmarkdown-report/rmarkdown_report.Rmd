@@ -24,16 +24,13 @@ css_link
 ```{r, eval=FALSE, echo=FALSE}
 # this code chunk is purely for adding comments
 # javascript code below is to build the file tree interface
+# see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
 ```
 <script>
   $(function () {
     // create an instance when the DOM is ready
-    $('#jstree').jstree();
-    $('[data-jtree-clickable]').on('click', function() {
-      var link = $(this).find('a').attr('href')
-      if(link && link.length !== 0 && link !== '#') {
-        window.location.href = link
-      }
+    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+     window.open( data.node.a_attr.href, data.node.a_attr.target )
     });
   });
 </script>
@@ -85,7 +82,7 @@ file_tree = function(dir = '.'){
           path_end = tail(strsplit(x, '/')[[1]],1)
           href_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
           li_item = tags$li(tags$a(path_end, href=href_path))
-          li_item$attribs = list('data-jstree'='{"icon":"jstree-file"}', 'data-jtree-clickable'='true')
+          li_item$attribs = list('data-jstree'='{"icon":"jstree-file"}')
           li_item
         })
       }
