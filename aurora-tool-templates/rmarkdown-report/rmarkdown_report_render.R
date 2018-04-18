@@ -13,8 +13,8 @@ library(rmarkdown)
 # load helper functions
 source(paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/helper.R'))
 # import getopt specification matrix from a csv file
-opt = getopt(getopt_specification_matrix('getopt_specification.csv'))
-opt$X_t = Sys.getenv('TOOL_INSTALL_DIR')
+opt = getopt(getopt_specification_matrix('getopt_specification.csv', 
+                                         tool_dir=Sys.getenv('TOOL_INSTALL_DIR')))
 # define a unix variable versions for all input values. this is useful when we 
 # want to use input values by other programming language in r markdown
 do.call(Sys.setenv, opt[-1])
@@ -25,15 +25,16 @@ do.call(Sys.setenv, opt[-1])
 # NOTICE: 
 #       we should copy all rmarkdown files from tool install directory to current working directory.
 #       we should render rmarkdown files in the current working directory.
-system(command = 'cp -r ${TOOL_INSTALL_DIR}/*.Rmd .')
-for (rmd_file in list.files(pattern = "\\.Rmd$")) {
-  render(rmd_file)
-}
+file.copy(from = paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/vakata-jstree-3.3.5'),
+          to = Sys.getenv('REPORT_FILES_PATH'), recursive = TRUE)
+system(command = 'cp -r ${TOOL_INSTALL_DIR}/*.Rmd ${REPORT_FILES_PATH}')
+# render Rmd files in order
+render(input = paste0(Sys.getenv('REPORT_FILES_PATH'), '/rmarkdown_report.Rmd'))
 #------------------------------------------
 
 
 #---------------- copy the output html to REPORT ----
-system(command = 'cp ACTUAL_HTML_FILE ${REPORT}')
+system(command = 'cp rmarkdown_report.html ${REPORT}')
 #==============the end==============
 
 

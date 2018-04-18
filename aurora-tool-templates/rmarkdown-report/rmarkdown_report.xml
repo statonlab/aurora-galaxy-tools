@@ -24,9 +24,6 @@
         export REPORT='$report' &&
         export REPORT_FILES_PATH='$report.files_path' &&
 
-        ############ copy jstree directory
-        cp -r ${__tool_directory__}/vakata-jstree-3.3.5 $report.files_path/vakata-jstree-3.3.5 &&
-
         ############ create a hidden file to store r markdown rendering log
         touch $report.files_path/.r_rendering.log.txt &&
 
@@ -35,9 +32,9 @@
 
         ############ finally run the render.R script
         Rscript '${__tool_directory__}/rmarkdown_report_render.R'
-
-			-o $report
-			-d $report.files_path
+        
+            -o $report
+            -d $report.files_path
 
 
     ]]></command>
