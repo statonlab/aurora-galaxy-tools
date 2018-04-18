@@ -23,18 +23,22 @@ do.call(Sys.setenv, opt[-1])
 
 #-----------------render Rmd files --------------
 # NOTICE: 
-#       we should copy all rmarkdown files from tool install directory to current working directory.
-#       we should render rmarkdown files in the current working directory.
+#       we should copy all rmarkdown files from tool install directory to REPORT_FILES_PATH directory.
+#       and render rmarkdown files in the REPORT_FILES_PATH directory.
 file.copy(from = paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/vakata-jstree-3.3.5'),
           to = Sys.getenv('REPORT_FILES_PATH'), recursive = TRUE)
 system(command = 'cp -r ${TOOL_INSTALL_DIR}/*.Rmd ${REPORT_FILES_PATH}')
 # render Rmd files in order
 render(input = paste0(Sys.getenv('REPORT_FILES_PATH'), '/rmarkdown_report.Rmd'))
+# add more lines below if there are more Rmd files to be rendered
+
 #------------------------------------------
 
 
 #---------------- copy the output html to REPORT ----
-system(command = 'cp rmarkdown_report.html ${REPORT}')
+system(command = 'cp ${REPORT_FILES_PATH}/rmarkdown_report.html ${REPORT}')
+# add more lines below if there are more output html files
+
 #==============the end==============
 
 
