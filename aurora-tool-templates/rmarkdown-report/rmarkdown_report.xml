@@ -41,7 +41,7 @@
     <inputs>
     </inputs>
     <outputs>
-        <data format="html" name="report" label="${tool_name} on ${on_string}"/>
+        <data format="html" name="report" label="${tool_name} report on ${on_string}"/>
     </outputs>
     <citations>
         <citation type="bibtex"><![CDATA[
