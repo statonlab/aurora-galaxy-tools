@@ -1,0 +1,3 @@
+short flag,argument mask,data type,variable name
+o,1,character,report
+d,1,character,report.files_path
