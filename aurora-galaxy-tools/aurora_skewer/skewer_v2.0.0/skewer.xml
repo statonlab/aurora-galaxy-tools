@@ -1,0 +1,165 @@
+<tool id="aurora_skewer" name="aurora_skewer" version="2.0.0">
+    <description>A fast and accurate adapter trimmer for next-generation sequencing single or paired end reads.
+    </description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+        <requirement type="package" version="0.2.2">skewer</requirement>
+    </requirements>
+    <stdio>
+        <regex match="XXX" source="stderr" level="warning"
+               description="Check the warnings_and_errors.txt file for more details."/>
+    </stdio>
+    <command><![CDATA[
+
+        ######### each aurora tool generates a html file and have an files path directory associated with it.
+        mkdir -p $report.files_path &&
+
+        ######### three important paths:
+        #########   1. path to tool installation directory
+        #########   2. path to report html
+        #########   3. path to files_path directory associated with the report output.
+        export TOOL_INSTALL_DIR='${__tool_directory__}' &&
+        export REPORT='$report' &&
+        export REPORT_FILES_PATH='$report.files_path' &&
+
+        ############ create a hidden file to store r markdown rendering log
+        touch $report.files_path/.r_rendering.log.txt &&
+
+Rscript '${__tool_directory__}/'skewer_render.R
+
+	-o '$report'
+	-d '$report.files_path'
+	-A '$first_reads'
+	-B '$second_reads'
+	-x '$adapter_first_reads'
+	-y '$adapter_second_reads'
+	-m '$trimming_mode'
+	-r '$maximum_allowed_error_rate'
+	-D '$maximum_allowed_indel_error_rate'
+	-q '$quality_trimming_3_end'
+	-Q '$mean_quality'
+	-l '$minimum_read_length'
+	-j '$advanced_options.junction_adapter'
+	-M '$advanced_options.tab_adapter'
+	-b '$advanced_options.barcode'
+	-c '$advanced_options.cut'
+	-n '$advanced_options.filter_degenerative_reads'
+	-u '$advanced_options.filter_undetermined_mate_pair_reads'
+	-f '$advanced_options.format'
+	-z '$advanced_options.compress'
+	-E '$advanced_options.qiime'
+	-F '$advanced_options.quiet'
+	-i '$advanced_options.intelligent'
+	-1 '$trimmed_r1'
+	-2 '$trimmed_r2'
+	-3 '$trimmed_s'
+]]></command>
+    <inputs>
+        <param type="data" name="first_reads" label="First reads" optional="False" format="fastq,fastqsanger"
+               multiple="False"/>
+        <param type="data" name="second_reads" label="Second reads"
+               help="If it is single end reads, ignore this input field and use the &quot;first reads&quot; field only."
+               optional="True" format="fastq,fastqsanger" multiple="False"/>
+        <param type="data" name="adapter_first_reads" argument="-x" label="Adapter sequence/file for the first reads."
+               optional="True" format="fasta,fa" multiple="False"/>
+        <param type="data" name="adapter_second_reads" argument="-y" label="Adapter sequence/file for the second reads"
+               optional="True" format="fasta,fa" multiple="False"/>
+        <param type="select" name="trimming_mode" argument="-m" label="trimming mode" optional="False" multiple="False">
+            <option value="None" selected="true">--select a model--</option>
+            <option value="head" selected="false">5&#x2019; end trimming (single end reads)</option>
+            <option value="tail" selected="false">3&#x2019; end trimming (single end reads)</option>
+            <option value="any" selected="false">anywhere adapter detection and trimming (single end reads)</option>
+            <option value="pe" selected="false">paired-end trimming</option>
+            <option value="mp" selected="false">mate-pair trimming</option>
+            <option value="ap" selected="false">amplicon trimming</option>
+        </param>
+        <param type="float" name="maximum_allowed_error_rate" argument="-r" label="Maximum allowed error rate"
+               optional="False" value="0.1" min="0" max="0.5"/>
+        <param type="float" name="maximum_allowed_indel_error_rate" argument="-d"
+               label="Maximum allowed indel error rate"
+               help="The valid range of indel error rate is [0,  maximum allowed error rate]" optional="False"
+               value="0.03" min="0"/>
+        <param type="integer" name="quality_trimming_3_end" argument="-q" label="3&#x2019; end quality trimming"
+               optional="False" value="0"/>
+        <param type="integer" name="mean_quality" argument="-Q" label="Reads filtering by average quality"
+               optional="False" value="0"/>
+        <param type="integer" name="minimum_read_length" argument="-l"
+               label="Minimum read length allowed after trimming" optional="False" value="18"/>
+        <section name="advanced_options" title="Advanced options" expanded="False">
+            <param type="data" name="junction_adapter" argument="-j"
+                   label="Junction adapter sequence/file for Nextera Mate Pair reads" optional="True" format="fasta,fa"
+                   multiple="False"/>
+            <param type="text" name="tab_adapter" argument="-M"
+                   label="TAB delimited file indicates valid forward/reverse adapter pairing" optional="True"/>
+            <param type="boolean" name="barcode" argument="-b"
+                   label="Whether to demultiplex reads according to adapters/primers" optional="False" checked="False"
+                   truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>
+            <param type="text" name="cut" argument="-c"
+                   label="To hard clip off the 5&#x2019; leading bases of the forward primer and reverse primer respectively as the barcodes in amplicon mode"
+                   optional="False" value="0, 0"/>
+            <param type="boolean" name="filter_degenerative_reads" argument="-n"
+                   label="Whether to filter out highly degenerative reads" optional="False" checked="False"
+                   truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>
+            <param type="boolean" name="filter_undetermined_mate_pair_reads" argument="-u"
+                   label="Whether to filter out undetermined mate-pair reads" optional="False" checked="False"
+                   truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>
+            <param type="select" name="format" argument="-f" label="Format of FASTQ quality value" optional="False"
+                   multiple="False">
+                <option value="sanger" selected="false">sanger</option>
+                <option value="solexa" selected="false">solexa</option>
+                <option value="auto" selected="true">auto</option>
+            </param>
+            <param type="boolean" name="compress" argument="-z" label="Whether to compress output in GZIP format"
+                   optional="False" truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>
+            <param type="boolean" name="qiime" argument="-qiime" label="Whether to prepare files required by QIIME"
+                   optional="False" truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>
+            <param type="boolean" name="quiet" argument="--quiet" label="Whether in quiet mode" optional="False"
+                   truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>
+            <param type="boolean" name="intelligent" argument="-i" label="Whether to intelligently redistribute reads"
+                   optional="False" checked="False" truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>
+        </section>
+    </inputs>
+    <outputs>
+        <data name="report" format="html" label="${tool.name} report on ${on_string}" hidden="false"/>
+        <data name="trimmed_r1" format="fastq" label="${tool.name} trimmed first reads on ${on_string}" hidden="false"/>
+        <data name="trimmed_r2" format="fastq" label="${tool.name} trimmed second reads on ${on_string}"
+              hidden="false"/>
+        <data name="trimmed_s" format="fastq" label="${tool.name} trimmed single end reads on ${on_string}"
+              hidden="false"/>
+    </outputs>
+    <help>
+        <![CDATA[Read the `tool manual <http://download2.nust.na/pub4/sourceforge/s/project/sk/skewer/skewer_manual.pdf>`_ if you are not sure what parameter values to use.]]></help>
+    <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[@article{jiang2014skewer,
+  title={Skewer: a fast and accurate adapter trimmer for next-generation sequencing paired-end reads},
+  author={Jiang, Hongshan and Lei, Rong and Ding, Shou-Wei and Zhu, Shuifang},
+  journal={BMC bioinformatics},
+  volume={15},
+  number={1},
+  pages={182},
+  year={2014},
+  publisher={BioMed Central}
+}]]></citation>
+    </citations>
+</tool>
