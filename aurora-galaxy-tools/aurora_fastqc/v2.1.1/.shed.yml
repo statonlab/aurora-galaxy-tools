@@ -1,0 +1,11 @@
+---
+name: aurora_fastqc
+owner: mingchen0919
+description: Evaluate short reads with FastQC software on a single or a paired of
+  untrimmed and trimmed reads files
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Sequence Analysis: Sequence Analysis
+...
