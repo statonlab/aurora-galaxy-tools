@@ -10,6 +10,7 @@ options(stringsAsFactors = FALSE)
 # import libraries
 library(getopt)
 library(rmarkdown)
+library(htmltools)
 # load helper functions
 source(paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/helper.R'))
 # import getopt specification matrix from a csv file
