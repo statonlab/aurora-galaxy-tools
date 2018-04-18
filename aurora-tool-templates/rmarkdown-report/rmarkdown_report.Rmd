@@ -68,36 +68,3 @@ tags$div(
 )
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-# Output
-
-```{r, echo=FALSE}
-# get the OUTPUT_DIR folder data: dataset_NUMBER_files
-report_files_path = Sys.getenv('REPORT_FILES_PATH')
-output_dir = tail(strsplit(report_files_path, '/')[[1]], 1)
-
-# create a div container to store the file tree interface
-tags$div(
-  id="jstree",
-  file_tree(report_files_path)
-)
-```
-
