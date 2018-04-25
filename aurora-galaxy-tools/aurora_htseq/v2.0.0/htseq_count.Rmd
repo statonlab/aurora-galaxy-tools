@@ -47,7 +47,7 @@ css_link
 * htseq-count analysis: [htseq-count.sh](htseq-count.sh)
 
 ```{bash, echo=FALSE}
-sh ${TOOL_INSTALL_DIR}/run_htseq-count.sh
+sh ${TOOL_INSTALL_DIR}/shell-script-template.sh
 ```
 
 
@@ -62,12 +62,7 @@ kable(head(count_data))
 
 ```{r, echo=FALSE}
 # save count data as an R object
-save(count_data, file = paste0(opt$X_d, '/counts.RData'))
-```
-
-```{bash, echo=FALSE}
-# expose counts.RData to galaxy history
-cp ${X_d}/counts.RData ${X_O}
+save(count_data, file = paste0(Sys.getenv('REPORT_FILES_PATH'), '/counts.RData'))
 ```
 
 -----------------------------------------

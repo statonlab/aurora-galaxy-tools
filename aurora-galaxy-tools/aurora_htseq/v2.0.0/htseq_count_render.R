@@ -38,10 +38,8 @@ render(input = paste0(Sys.getenv('REPORT_FILES_PATH'), '/htseq_count.Rmd'))
 #------------------------------------------
 
 
-#---------------- copy the output html to REPORT ----
-system(command = 'cp ${REPORT_FILES_PATH}/htseq_count.html ${REPORT}')
-# add more lines below if there are more output html files
-
+#--------- expose outputs to galaxy history ----
+system(command = 'sh ${TOOL_INSTALL_DIR}/expose-outputs.sh')
 #==============the end==============
 
 
