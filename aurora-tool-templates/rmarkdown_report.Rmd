@@ -43,15 +43,7 @@ css_link
 
 
 
-
-
-
-
-
-
-
-
-
+HERE IS WHERE YOU PUT YOUR R MARKDOWN CONTENT!!!
 
 
 
