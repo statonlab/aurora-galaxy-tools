@@ -40,6 +40,14 @@ css_link
   });
 </script>
 
+```{css}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
 ----------------------
 
 
@@ -49,14 +57,14 @@ css_link
 # Run FastQC
 
 ```{bash}
-sh ${TOOL_INSTALL_DIR}/run-fastqc.sh
+sh ${TOOL_INSTALL_DIR}/shell-script-template.sh
 ```
 
-
-```{r}
+```{r echo=FALSE,results='asis'}
 # display fastqc job script
-fastqc_sh = paste0(opt$X_d, '/fastqc.sh')
-tags$code(tags$pre(readChar(fastqc_sh, file.info(fastqc_sh)$size )))
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/fastqc.sh')), sep = '\n')
+cat('\n```')
 ```
 
 # Fastqc Output Visualization
@@ -392,11 +400,6 @@ knitr::kable(kc_1)
 kc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Kmer Content')
 knitr::kable(kc_2)
 ```
-
-
-
-
-
 
 
 

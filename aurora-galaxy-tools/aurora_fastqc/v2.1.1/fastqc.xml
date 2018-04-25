@@ -71,7 +71,7 @@
 
     </inputs>
     <outputs>
-        <data format="html" name="report"/>
+        <data format="html" name="report" label="${tool.name} on ${on_string}"/>
     </outputs>
     <citations>
         <citation type="bibtex"><![CDATA[
