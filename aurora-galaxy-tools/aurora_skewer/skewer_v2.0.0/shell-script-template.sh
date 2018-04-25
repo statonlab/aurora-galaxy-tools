@@ -1,8 +1,11 @@
-#--- build skewer job script ---
-## change directory to output dir
-cd ${X_d}
+# SHELL_SCRIPT file name
+SHELL_SCRIPT='skewer.sh'
 
-cat >temp.sh <<EOL
+# run SHELL_SCRIPT within tool outputs directory
+cd ${REPORT_FILES_PATH}
+
+# build job-script.sh
+cat >temp.sh <<EOF
 skewer \\
 	${X_A} \\
 	${X_B} \\
@@ -25,35 +28,21 @@ skewer \\
 	-qiime ${X_E} \\
 	-quiet ${X_F} \\
 	-i ${X_i} \\
-	-o trim > /dev/null 2>&1
-
-EOL
+	-o trim > /dev/null 2>&1 
+EOF
 
 # remove empty input lines
 grep -v '\-M  \\' temp.sh |\
   grep -v 'None' |\
   grep -v 'NO_ARGUMENT_NO' |\
-  sed 's/NO_ARGUMENT_YES//g' > skewer-job.sh
+  sed 's/NO_ARGUMENT_YES//g' > ${SHELL_SCRIPT}
 
-sh skewer-job.sh
+rm temp.sh
 
-# expose files to galaxy history
-if [ -e trim-trimmed-pair1.fastq ]; then
-  cp trim-trimmed-pair1.fastq ${X_1}
-fi
-
-if [ -e trim-trimmed-pair2.fastq ]; then
-  cp trim-trimmed-pair2.fastq ${X_2}
-fi
-
-if [ -e trim-trimmed.fastq ]; then
-  cp trim-trimmed.fastq ${X_3}
-fi
+# run SHELL_SCRIPT
+sh ${SHELL_SCRIPT}
 
 # rename log file
 if [ -e trim-trimmed.log ]; then
   cp trim-trimmed.log trim-trimmed.txt
 fi
-
-# remove temp.sh
-rm temp.sh

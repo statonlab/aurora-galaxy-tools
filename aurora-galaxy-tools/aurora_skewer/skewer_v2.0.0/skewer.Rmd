@@ -39,17 +39,31 @@ css_link
     });
   });
 </script>
------------------------------------------
 
-
-
-```{bash echo=FALSE}
-sh ${TOOL_INSTALL_DIR}/run-skewer-job.sh
+```{css}
+# code chunks scrollable
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
 ```
+-----------------------------------------
 
 ## Job script
 
-* [skewer-job.sh](skewer-job.sh)
+```{bash echo=FALSE}
+sh ${TOOL_INSTALL_DIR}/shell-script-template.sh
+```
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/skewer.sh')), sep = '\n')
+cat('\n```')
+```
+
 
 -----------------------------------------
 ## Output
