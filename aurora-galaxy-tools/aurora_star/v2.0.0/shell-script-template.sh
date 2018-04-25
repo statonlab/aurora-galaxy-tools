@@ -1,4 +1,5 @@
-cd ${X_d}
+# run SHELL_SCRIPT within tool outputs directory
+cd ${REPORT_FILES_PATH}
 
 #--------- index genome --------
 # create genome directory for genome indexes
@@ -44,7 +45,3 @@ sh sam2bam.sh
 #----- evaluate mapping -------
 echo "samtools flagstat Aligned.out.sorted.bam > flagstat.txt" > flagstat.sh
 sh flagstat.sh
-
-
-#====== expose outputs to galaxy history =======
-cp Aligned.out.sorted.bam ${X_S}

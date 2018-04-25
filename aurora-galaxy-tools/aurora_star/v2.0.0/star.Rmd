@@ -5,6 +5,15 @@ output:
       highlight: pygments
 ---
 
+```{css echo=FALSE}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
+
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_knit$set(progress = FALSE)
 knitr::opts_chunk$set(error = TRUE, echo = FALSE)
@@ -41,21 +50,57 @@ css_link
 </script>
 -----------------------------------------
 
-```{bash, echo=FALSE}
-sh ${TOOL_INSTALL_DIR}/run-star.sh
-```
 
 ## Job scripts
 
-* Index genome: [index-genome.sh](index-genome.sh)
-* Mapping: [mapping.sh](mapping.sh)
-* SAM to sorted BAM: [sam2bam.sh](sam2bam.sh)
-* Evaluate mapping: [flagstat.sh](flagstat.sh)
+```{bash, echo=FALSE}
+sh ${TOOL_INSTALL_DIR}/shell-script-template.sh
+```
 
-## Mapping evaluation
+### Index genome
 
-```{r, echo=FALSE}
-readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/flagstat.txt'))
+```{r echo=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/index-genome.sh')), sep = '\n')
+cat('\n```')
+```
+
+### Mapping
+
+```{r echo=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/mapping.sh')), sep = '\n')
+cat('\n```')
+```
+
+### SAM to sorted BAM
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/sam2bam.sh')), sep = '\n')
+cat('\n```')
+```
+
+### Mapping evaluation
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/flagstat.sh')), sep = '\n')
+cat('\n```')
+```
+
+
+### Mapping evaluation results
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/flagstat.txt')), sep = '\n')
+cat('\n```')
 ```
 
 
