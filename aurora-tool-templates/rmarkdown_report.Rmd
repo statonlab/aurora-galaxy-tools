@@ -5,6 +5,17 @@ output:
       highlight: pygments
 ---
 
+```{css echo=FALSE}
+# code chunks scrollable
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
+
+
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_knit$set(progress = FALSE)
 knitr::opts_chunk$set(error = TRUE, echo = FALSE)
@@ -39,16 +50,6 @@ css_link
     });
   });
 </script>
-
-```{css}
-# code chunks scrollable
-pre code, pre, code {
-  white-space: pre !important;
-  overflow-x: scroll !important;
-  word-break: keep-all !important;
-  word-wrap: initial !important;
-}
-```
 -----------------------------------------
 
 
