@@ -12,7 +12,7 @@ STAR \\
   --genomeFastaFiles $( echo ${X_A} | sed 's/,/ /g' ) \\
   --sjdbGTFfile ${X_B} \\
   --sjdbOverhang ${X_C} \\
-  > /dev/null 2>&1
+  > genome-indexing.log.txt 2>&1
 EOF
 
 grep -v None temp.sh > index-genome.sh
@@ -27,7 +27,7 @@ STAR \\
   --readFilesIn \\
   ${X_F} \\
   ${X_R} \\
-  > /dev/null 2>&1
+  > mapping.log.txt 2>&1
 EOF
 
 grep -v None temp.sh > mapping.sh
