@@ -1,11 +1,10 @@
 ---
-name: aurora_skewer
+name: aurora_star
 owner: mingchen0919
-description: A fast and accurate adapter trimmer for next-generation sequencing paired-end
-  reads.
+description: ultrafasta universal RNA-Seq aligner
 long_description: ""
 remote_repository_url: ""
 type: unrestricted
 categories:
-  Sequence Analysis: Sequence Analysis
+  RNA: RNA
 ...
