@@ -1,9 +1,19 @@
 ---
-title: 'htseq-count analysis'
+title: 'htseq-count analysis report'
 output:
     html_document:
       highlight: pygments
 ---
+
+```{css echo=FALSE}
+# code chunks scrollable
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_knit$set(progress = FALSE)
@@ -44,26 +54,33 @@ css_link
 
 ## Job script
 
-* htseq-count analysis: [htseq-count.sh](htseq-count.sh)
-
 ```{bash, echo=FALSE}
 sh ${TOOL_INSTALL_DIR}/shell-script-template.sh
 ```
 
+```{r echo=FALSE, comment='', results='asis'}
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/htseq-count.sh')), sep = '\n')
+cat('\n```')
+```
 
 ## Counts
+
+Only the first few rows are displayed. 
 
 ```{r, echo=FALSE}
 count_data = read.table(paste0(opt$X_d, '/counts.txt'), row.names = 1)
 sample_names = trimws(strsplit(opt$X_B, ',')[[1]])
 colnames(count_data) = rep(sample_names, length = ncol(count_data))
 kable(head(count_data))
+
+# modify column names
+count_data = data.frame(feature_id = rownames(count_data), count_data)
+write.csv(count_data, 
+          file = paste0(Sys.getenv('REPORT_FILES_PATH'), '/count_data.csv'),
+          quote = FALSE, row.names = FALSE)
 ```
 
-```{r, echo=FALSE}
-# save count data as an R object
-save(count_data, file = paste0(Sys.getenv('REPORT_FILES_PATH'), '/counts.RData'))
-```
 
 -----------------------------------------
 ## Output

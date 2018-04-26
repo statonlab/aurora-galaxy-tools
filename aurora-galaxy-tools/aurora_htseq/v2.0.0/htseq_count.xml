@@ -42,7 +42,6 @@
 			-i $idattr
 			-m $mode
 			-c $count
-			-O $count_rdata
 
     ]]></command>
     <inputs>
@@ -86,8 +85,7 @@
     </inputs>
     <outputs>
         <data name="report" format="html" label="${tool.name} report on ${on_string}" hidden="false"/>
-        <data name="count" format="txt" label="${tool.name} txt count on ${on_string}" hidden="false"/>
-        <data name="count_rdata" format="rdata" label="${tool.name} rdata count data on ${on_string}"/>
+        <data name="count" format="csv" label="${tool.name} txt count on ${on_string}" hidden="false"/>
     </outputs>
     <citations>
         <citation type="bibtex"><![CDATA[

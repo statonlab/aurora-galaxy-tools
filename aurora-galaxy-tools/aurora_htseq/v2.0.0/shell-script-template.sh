@@ -6,7 +6,6 @@ cd ${REPORT_FILES_PATH}
 
 # build job-script.sh
 cat >${SHELL_SCRIPT} <<EOF
-#------------ BELOW IS WHERE YOU WRITE YOUR OWN SHELL SCRIPT --------------
 
   htseq-count \\
     $(echo ${X_A} | sed 's/,/ /g') \\
@@ -21,7 +20,6 @@ cat >${SHELL_SCRIPT} <<EOF
     
   grep -v '__no_feature\|__ambiguous\|__too_low_aQual\|__not_aligned\|__alignment_not_unique' htseq-counts-raw.txt > counts.txt
 
-#------------ END OF SHELL SCRIPT ------------------------------------------  
 EOF
 
 # run SHELL_SCRIPT

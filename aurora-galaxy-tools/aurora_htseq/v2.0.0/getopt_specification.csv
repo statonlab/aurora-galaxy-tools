@@ -12,4 +12,3 @@ T,1,character,feature_type
 i,1,character,idattr
 m,1,character,mode
 c,1,character,count
-O,1,character,count_rdata
