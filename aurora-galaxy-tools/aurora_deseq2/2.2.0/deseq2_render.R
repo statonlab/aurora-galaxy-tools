@@ -1,69 +1,54 @@
 ##============ Sink warnings and errors to a file ==============
 ## use the sink() function to wrap all code within it.
 ##==============================================================
-zz = file('warnings_and_errors.txt')
+zz = file(paste0(Sys.getenv('REPORT_FILES_PATH'), '/.r_rendering.log.txt'))
 sink(zz)
 sink(zz, type = 'message')
 
-#------------import libraries--------------------
+#============== preparation ====================================
 options(stringsAsFactors = FALSE)
+# import libraries
+#------------------------------------------------------------------
+# ADD MORE LIBRARIES HERE IF YOUR TOOL DEPENDS ON OTHER R LIBRARIES
+#------------------------------------------------------------------
+library('getopt')
+library('rmarkdown')
+library('htmltools')
+library('ggplot2')
+library('plotly')
+library('DESeq2')
+library('pheatmap')
+library('DT')
 
-library(getopt)
-library(rmarkdown)
-library(ggplot2)
-library(plotly)
-library(htmltools)
-library(DESeq2)
-library(pheatmap)
-library(DT)
-#------------------------------------------------
-
-
-#------------get arguments into R--------------------
-# library(dplyr)
-# getopt_specification_matrix(extract_short_flags('deseq2.xml')) %>%
-#   write.table(file = 'spec.txt', sep = ',', row.names = FALSE, col.names = TRUE, quote = FALSE)
-
-
-spec_matrix = as.matrix(
-  data.frame(stringsAsFactors=FALSE,
-              long_flags = c("X_e", "X_o", "X_d", "X_s", "X_t", "X_A", "X_B",
-                             "X_C", "X_D", "X_E", "X_F", "X_G", "X_H", "X_I", "X_J"),
-             short_flags = c("e", "o", "d", "s", "t", "A", "B", "C", "D", "E",
-                             "F", "G", "H", "I", "J"),
-     argument_mask_flags = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
-                             1L, 1L),
-         data_type_flags = c("character", "character", "character", "character",
-                             "character", "character", "character", "character",
-                             "character", "character", "character", "character",
-                             "character", "double", "character")
-  )
-)
-opt = getopt(spec_matrix)
-#----------------------------------------------------
-
-
-#-----------using passed arguments in R 
-#           to define system environment variables---
+# load helper functions
+source(paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/helper.R'))
+# import getopt specification matrix from a csv file
+opt = getopt(getopt_specification_matrix('getopt_specification.csv', 
+                                         tool_dir=Sys.getenv('TOOL_INSTALL_DIR')))
+# define environment variables for all input values. this is useful when we 
+# want to use input values by other programming language in r markdown
 do.call(Sys.setenv, opt[-1])
-#----------------------------------------------------
+#===============================================================
 
-#---------- often used variables ----------------
-# OUTPUT_DIR: path to the output associated directory, which stores all outputs
-# TOOL_DIR: path to the tool installation directory
-OUTPUT_DIR = opt$X_d
-TOOL_DIR =   opt$X_t
-RMD_NAME = 'deseq2.Rmd'
-OUTPUT_REPORT = opt$X_o
 
-# create the output associated directory to store all outputs
-dir.create(OUTPUT_DIR, recursive = TRUE)
+#======================== render Rmd files =========================
+# NOTICE: 
+#       we should copy all rmarkdown files from tool install directory to REPORT_FILES_PATH directory.
+#       and render rmarkdown files in the REPORT_FILES_PATH directory.
+file.copy(from = paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/vakata-jstree-3.3.5'),
+          to = Sys.getenv('REPORT_FILES_PATH'), recursive = TRUE)
+system(command = 'cp -r ${TOOL_INSTALL_DIR}/*.Rmd ${REPORT_FILES_PATH}')
 
-#-----------------render Rmd--------------
-render(paste0(TOOL_DIR, '/', RMD_NAME), output_file = OUTPUT_REPORT)
-#------------------------------------------
+#----------------BELOW IS WHERE YOU NEED TO CUSTOMIZE ---------------------
+render(input = paste0(Sys.getenv('REPORT_FILES_PATH'), '/deseq2.Rmd'))
+# add more lines below if there are more Rmd files to be rendered
 
-#==============the end==============
+#===============================================================
+
+
+#============== expose outputs to galaxy history ===============
+system(command = 'sh ${TOOL_INSTALL_DIR}/expose-outputs.sh')
+#===============================================================
 
 
 ##--------end of code rendering .Rmd templates----------------
