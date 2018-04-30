@@ -13,6 +13,12 @@ sink(zz, type = 'message')
 library('getopt')
 library('rmarkdown')
 library('htmltools')
+library('plyr')
+library('dplyr')
+library('stringr')
+library('DT')
+library('reshape2')
+library('plotly')
 #------------------------------------------------------------------
 options(stringsAsFactors = FALSE)
 
@@ -104,7 +110,7 @@ file_tree = function(dir = '.') {
 
 
 # import getopt specification matrix from a csv file
-opt = getopt(getopt_specification_matrix('command_line_arguments.csv',
+opt = getopt(getopt_specification_matrix('command-line-arguments.csv',
                                          tool_dir = Sys.getenv('TOOL_INSTALL_DIR')))
 # define environment variables for all input values. this is useful when we
 # want to use input values by other programming language in r markdown
@@ -132,15 +138,15 @@ if (file.exists(paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/_site.yml'))) {
   system(command = 'cp -r ${TOOL_INSTALL_DIR}/rmarkdown_report.Rmd ${REPORT_FILES_PATH}')
   # add a few lines to 'rmarkdown_report.Rmd' to generate file tree outputs
   jstree_lines = '
-
+  
   ## Outputs
-
+  
   ```{r, echo=FALSE}
   # create a div container to store the file tree interface
   library(htmltools)
   tags$div(
-    id="jstree",
-    file_tree(Sys.getenv(\'REPORT_FILES_PATH\'))
+  id="jstree",
+  file_tree(Sys.getenv(\'REPORT_FILES_PATH\'))
   )
   ```
   '
@@ -152,7 +158,7 @@ if (file.exists(paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/_site.yml'))) {
 
 
 #============== expose outputs to galaxy history ===============
-system(command = 'sh ${TOOL_INSTALL_DIR}/expose-outputs.sh')
+system(command = 'sh ${TOOL_INSTALL_DIR}/expose-outputs-to-galaxy-history.sh')
 #===============================================================
 
 

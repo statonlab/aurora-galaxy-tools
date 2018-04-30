@@ -1,4 +1,4 @@
-<tool name="Tool report" id='aurora_tool_report' version="1.0.0">
+<tool name="aurora_tool" id='aurora_tool_report' version="1.0.0">
     <description>
         some description
     </description>
@@ -61,6 +61,13 @@
             volume={29},
             year={2015},
             publisher={CRC Press}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @online{jstree,
+            author={Bozhanov, Ivan},
+            year = 2018,
+            url = {https://www.jstree.com/}
             }
         ]]></citation>
     </citations>

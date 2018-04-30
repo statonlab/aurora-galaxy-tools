@@ -1,0 +1,35 @@
+name: "FastQC Website"
+output_dir: "."
+navbar:
+    title: "FastQC"
+    type: inverse
+    left:
+        - text: "Evaluation Overview"
+          href: 01_evaluation_overview.html
+        - text: "Evaluation by data module"
+          menu:
+            - text: "Per Base Sequence Quality"
+              href: 02_per_base_sequence_quality.html
+            - text: "Per Tile Sequence Quality"
+              href: 03_per_tile_sequence_quality.html
+            - text: "Per Sequence Quality Score"
+              href: 04_per_sequence_quality_score.html
+            - text: "Per Base Sequence Content"
+              href: 05_per_base_sequence_content.html
+            - text: "Per Sequence GC Content"
+              href: 06_per_sequence_gc_content.html
+            - text: "Per Base N Content"
+              href: 07_per_base_n_content.html
+            - text: "Sequence Length Distribution"
+              href: 08_sequence_length_distribution.html
+            - text: "Sequence Duplication Levels"
+              href: 09_sequence_duplication_levels.html
+            - text: "Adapter Content"
+              href: 10_adapter_content.html
+            - text: "Kmer Content"
+              href: 11_kmer_content.html
+
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

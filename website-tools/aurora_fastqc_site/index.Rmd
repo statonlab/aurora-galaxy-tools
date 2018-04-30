@@ -1,9 +1,4 @@
----
-title: 'Aurora Tool Report'
-output:
-    html_document:
-      highlight: pygments
----
+
 
 ```{css echo=FALSE}
 # code chunks scrollable
@@ -15,11 +10,6 @@ pre code, pre, code {
 }
 ```
 
-
-```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_knit$set(progress = FALSE)
-knitr::opts_chunk$set(error = TRUE, echo = FALSE)
-```
 
 ```{r, echo=FALSE}
 # to make the css theme to work, <link></link> tags cannot be added directly 
@@ -37,10 +27,11 @@ css_link
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
 
----
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
 # javascript code below is to build the file tree interface
 # see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
----
+```
 <script>
   $(function () {
     // create an instance when the DOM is ready
@@ -50,9 +41,12 @@ css_link
   });
 </script>
 
----
-# ADD YOUR DATA ANALYSIS CODE AND MARKUP TEXT BELOW TO EXTEND THIS R MARKDOWN FILE
----
+## Outputs
 
-
-
+```{r, echo=FALSE}
+# create a div container to store the file tree interface
+tags$div(
+  id="jstree",
+  file_tree(Sys.getenv('REPORT_FILES_PATH'))
+)
+```
