@@ -2,15 +2,15 @@
 cd ${REPORT_FILES_PATH}
 
 #========== build and run job 1 script ============
-cat >job_1_script.sh <<EOF
+cat >job-1-script.sh <<EOF
 #------------ BELOW IS WHERE YOU WRITE YOUR OWN SHELL SCRIPT --------------
 
 
 #------------ END OF SHELL SCRIPT ------------------------------------------  
 EOF
 
-# run SHELL_SCRIPT
-sh job_1_script.sh
+# run job 1 script
+sh job-1-script.sh
 
 
 #========== build and run job 2 script ============
@@ -21,5 +21,5 @@ cat >job_2_script.sh <<EOF
 #------------ END OF SHELL SCRIPT ------------------------------------------  
 EOF
 
-# run SHELL_SCRIPT
+# run job 2 script
 sh job_2_script.sh

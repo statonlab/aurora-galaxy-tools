@@ -9,3 +9,16 @@ fi
 if [ -e "index.html" ]; then
   cp index.html ${REPORT}
 fi
+
+
+if [ -e trim-trimmed-pair1.fastq ]; then
+  cp trim-trimmed-pair1.fastq ${X_1}
+fi
+
+if [ -e trim-trimmed-pair2.fastq ]; then
+  cp trim-trimmed-pair2.fastq ${X_2}
+fi
+
+if [ -e trim-trimmed.fastq ]; then
+  cp trim-trimmed.fastq ${X_3}
+fi

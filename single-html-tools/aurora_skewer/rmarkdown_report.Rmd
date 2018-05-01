@@ -1,5 +1,5 @@
 ---
-title: 'Aurora Tool Report'
+title: 'Aurora Skewer Report'
 output:
     html_document:
       highlight: pygments
@@ -53,5 +53,17 @@ css_link
 # ADD YOUR DATA ANALYSIS CODE AND MARKUP TEXT BELOW TO EXTEND THIS R MARKDOWN FILE
 ---
 
+## Job script
+
+```{bash echo=FALSE}
+sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh
+```
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/job-1-script.sh')), sep = '\n')
+cat('\n```')
+```
 
 

@@ -7,10 +7,6 @@
         <requirement type="package" version="1.20.0">r-getopt</requirement>
         <requirement type="package" version="1.6">r-rmarkdown</requirement>
     </requirements>
-    <stdio>
-        <regex match="XXX" source="stderr" level="warning"
-               description="Check the warnings_and_errors.txt file for more details."/>
-    </stdio>
     <command><![CDATA[
 
         ######### each aurora tool generates a html file and have an files path directory associated with it.
@@ -26,9 +22,6 @@
 
         ############ create a hidden file to store r markdown rendering log
         touch $report.files_path/.r_rendering.log.txt &&
-
-
-
 
         ############ finally run the render.R script
         Rscript '${__tool_directory__}/rmarkdown_report_render.R'
