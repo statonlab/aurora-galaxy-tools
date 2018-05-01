@@ -1,17 +1,19 @@
-name: "Aurora Tool Website"
+name: "Aurora DESeq2"
 output_dir: "."
 navbar:
-    title: "Aurora Tool"
+    title: "Aurora DESeq2"
     type: inverse
     left:
-        - text: "Job 1"
-          href: 01_rmarkdown.html
-        - text: "Job 2"
+        - text: "Differential Expression Analysis"
           menu:
-            - text: "Sub-job 1"
-              href: 02_rmarkdown.html
-            - text: "Sub-job 2"
-              href: 03_rmarkdown.html
+            - text: "DESeq2 analysis"
+              href: 01_deseq2_analysis.html
+            - text: "MA plot"
+              href: 02_ma_plot.html
+            - text: "Count matrix heatmap"
+              href: 03_count_matrix_heatmap.html
+            - text: "PCA plot"
+              href: 04_pca_plot.html
 
 output:
   html_document:

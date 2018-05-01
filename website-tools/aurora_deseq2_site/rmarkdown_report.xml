@@ -1,4 +1,4 @@
-<tool name="aurora_deseq2" id='aurora_deseq2_report' version="2.2.1">
+<tool name="aurora_deseq2_site" id='aurora_deseq2_site_report' version="2.2.1">
     <description>
         Differential analysis of count data with the DESeq2 package
     </description>

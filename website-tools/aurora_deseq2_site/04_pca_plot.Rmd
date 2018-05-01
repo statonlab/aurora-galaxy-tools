@@ -1,0 +1,20 @@
+---
+title: 'Principle component analysis plot'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+```{r}
+vsd <- vst(dds, blind=FALSE)
+p = plotPCA(vsd, intgroup=c(opt$X_D)) + 
+  scale_color_discrete(name = 'Group') +
+  theme_classic()
+ggplotly(p)
+```
+
