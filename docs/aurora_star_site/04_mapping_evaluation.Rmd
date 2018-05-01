@@ -1,0 +1,28 @@
+---
+title: 'Mapping evaluation'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/flagstat.sh')), sep = '\n')
+cat('\n```')
+```
+
+
+### Mapping evaluation results
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/flagstat.txt')), sep = '\n')
+cat('\n```')
+```

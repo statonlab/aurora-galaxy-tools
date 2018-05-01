@@ -1,0 +1,12 @@
+name: "Aurora Skewer"
+output_dir: "."
+navbar:
+    title: "Aurora Skewer"
+    type: inverse
+    left:
+        - text: "Skewer Analysis"
+          href: 01_skewer_analysis.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

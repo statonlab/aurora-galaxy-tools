@@ -1,0 +1,21 @@
+name: "Aurora DESeq2"
+output_dir: "."
+navbar:
+    title: "Aurora DESeq2"
+    type: inverse
+    left:
+        - text: "Differential Expression Analysis"
+          menu:
+            - text: "DESeq2 analysis"
+              href: 01_deseq2_analysis.html
+            - text: "MA plot"
+              href: 02_ma_plot.html
+            - text: "Count matrix heatmap"
+              href: 03_count_matrix_heatmap.html
+            - text: "PCA plot"
+              href: 04_pca_plot.html
+
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

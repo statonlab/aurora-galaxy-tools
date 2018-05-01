@@ -17,7 +17,7 @@ tools:
 
 
 # reads quality evaluation
-- name: aurora_fastqc_report
+- name: aurora_fastqc
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/

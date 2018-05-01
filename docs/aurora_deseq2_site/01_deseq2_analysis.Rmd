@@ -1,0 +1,44 @@
+---
+title: 'DESeq2 analysis'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+```{r echo=FALSE}
+# import count data
+count_data = read.csv(opt$X_A, row.names = 1, header = TRUE)
+# import column data
+coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data), ]
+```
+
+```{r echo=FALSE}
+dds = DESeqDataSetFromMatrix(countData = count_data,
+                             colData = coldata,
+                             design = formula(opt$X_C))
+dds = DESeq(dds, test = opt$X_G, fitType = opt$X_H)
+## Differential expression test results
+res = results(dds, contrast = c(opt$X_D, opt$X_E, opt$X_F), alpha = opt$X_I)
+res
+```
+
+
+```{r echo=FALSE}
+# save all padj sorted res to tool output directory
+padj_sorted_res = res[order(res$padj), ]
+write.table(padj_sorted_res,
+            file = paste0(opt$X_d, '/padj-sorted-genes.txt'),
+            quote = FALSE)
+
+# save significant genes to a file in tool output directory
+sig_res = res[(res$padj < opt$X_I) & !is.na(res$padj), ]
+sig_res_sorted = sig_res[order(sig_res$padj), ]
+write.table(sig_res_sorted, 
+            file = paste0(opt$X_d, '/padj-sorted-significant-genes.txt'), 
+            quote = FALSE)
+```

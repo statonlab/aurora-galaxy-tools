@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Short reads evaluation with FastQC</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">FastQC</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="01_evaluation_overview.html">Evaluation Overview</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Evaluation by data module
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="02_per_base_sequence_quality.html">Per Base Sequence Quality</a>
+    </li>
+    <li>
+      <a href="03_per_tile_sequence_quality.html">Per Tile Sequence Quality</a>
+    </li>
+    <li>
+      <a href="04_per_sequence_quality_score.html">Per Sequence Quality Score</a>
+    </li>
+    <li>
+      <a href="05_per_base_sequence_content.html">Per Base Sequence Content</a>
+    </li>
+    <li>
+      <a href="06_per_sequence_gc_content.html">Per Sequence GC Content</a>
+    </li>
+    <li>
+      <a href="07_per_base_n_content.html">Per Base N Content</a>
+    </li>
+    <li>
+      <a href="08_sequence_length_distribution.html">Sequence Length Distribution</a>
+    </li>
+    <li>
+      <a href="09_sequence_duplication_levels.html">Sequence Duplication Levels</a>
+    </li>
+    <li>
+      <a href="10_adapter_content.html">Adapter Content</a>
+    </li>
+    <li>
+      <a href="11_kmer_content.html">Kmer Content</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Short reads evaluation with <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a></h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#run-fastqc"><span class="toc-section-number">1</span> Run FastQC</a></li>
+<li><a href="#fastqc-output-visualization"><span class="toc-section-number">2</span> Fastqc Output Visualization</a><ul>
+<li><a href="#overview"><span class="toc-section-number">2.1</span> Overview</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="run-fastqc" class="section level1">
+<h1><span class="header-section-number">1</span> Run FastQC</h1>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">
+<span class="kw">cp</span> /export/galaxy-central/database/files/000/dataset_26.dat read_1.fq
+<span class="kw">cp</span> /export/galaxy-central/database/files/000/dataset_22.dat read_2.fq
+
+<span class="kw">fastqc</span> \
+  -q \
+  /export/galaxy-central/database/job_working_directory/000/18/dataset_27_files/read_1.fq <span class="kw">&gt;</span> read_1.log.txt <span class="kw">2&gt;&amp;1</span>
+  
+<span class="kw">fastqc</span> \
+  -q \
+  /export/galaxy-central/database/job_working_directory/000/18/dataset_27_files/read_2.fq <span class="kw">&gt;</span> read_2.log.txt <span class="kw">2&gt;&amp;1</span></code></pre></div>
+</div>
+<div id="fastqc-output-visualization" class="section level1">
+<h1><span class="header-section-number">2</span> Fastqc Output Visualization</h1>
+<div id="overview" class="section level2">
+<h2><span class="header-section-number">2.1</span> Overview</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">MODULE</th>
+<th align="left">Pre-trimming</th>
+<th align="left">Post-trimming</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Basic Statistics</td>
+<td align="left">PASS</td>
+<td align="left">PASS</td>
+</tr>
+<tr class="even">
+<td align="left">Per base sequence quality</td>
+<td align="left">PASS</td>
+<td align="left">PASS</td>
+</tr>
+<tr class="odd">
+<td align="left">Per tile sequence quality</td>
+<td align="left">PASS</td>
+<td align="left">PASS</td>
+</tr>
+<tr class="even">
+<td align="left">Per sequence quality scores</td>
+<td align="left">PASS</td>
+<td align="left">PASS</td>
+</tr>
+<tr class="odd">
+<td align="left">Per base sequence content</td>
+<td align="left">FAIL (X)</td>
+<td align="left">FAIL (X)</td>
+</tr>
+<tr class="even">
+<td align="left">Per sequence GC content</td>
+<td align="left">FAIL (X)</td>
+<td align="left">FAIL (X)</td>
+</tr>
+<tr class="odd">
+<td align="left">Per base N content</td>
+<td align="left">PASS</td>
+<td align="left">PASS</td>
+</tr>
+<tr class="even">
+<td align="left">Sequence Length Distribution</td>
+<td align="left">WARN (!)</td>
+<td align="left">WARN (!)</td>
+</tr>
+<tr class="odd">
+<td align="left">Sequence Duplication Levels</td>
+<td align="left">PASS</td>
+<td align="left">PASS</td>
+</tr>
+<tr class="even">
+<td align="left">Overrepresented sequences</td>
+<td align="left">FAIL (X)</td>
+<td align="left">FAIL (X)</td>
+</tr>
+<tr class="odd">
+<td align="left">Adapter Content</td>
+<td align="left">PASS</td>
+<td align="left">PASS</td>
+</tr>
+<tr class="even">
+<td align="left">Kmer Content</td>
+<td align="left">WARN (!)</td>
+<td align="left">WARN (!)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

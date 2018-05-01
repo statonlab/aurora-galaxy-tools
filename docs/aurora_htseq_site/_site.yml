@@ -1,0 +1,13 @@
+name: "Aurora HTSeq-count"
+output_dir: "."
+navbar:
+    title: "Aurora HTSeq-count"
+    type: inverse
+    left:
+        - text: "HTSeq-count analysis"
+          href: 01_htseq_count_analysis.html
+
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

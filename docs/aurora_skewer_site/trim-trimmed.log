@@ -1,0 +1,55 @@
+skewer v0.2.2 [April 4, 2016]
+COMMAND LINE:	skewer /export/galaxy-central/database/files/000/dataset_22.dat -m head -r 0.1 -d 0.03 -q 0 -Q 0 -l 18 -f auto -o trim
+Input file:	/export/galaxy-central/database/files/000/dataset_22.dat
+trimmed:	trim-trimmed.fastq
+
+Parameters used:
+-- 5' end adapter sequence (-x):	AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+-- maximum error ratio allowed (-r):	0.100
+-- maximum indel error ratio allowed (-d):	0.030
+-- minimum read length allowed after trimming (-l):	18
+-- file format (-f):		Sanger/Illumina 1.8+ FASTQ (auto detected)
+-- minimum overlap length for adapter detection (-k):	3
+Tue May  1 17:03:06 2018 >> started
+
+Tue May  1 17:03:08 2018 >> done (1.442s)
+250000 reads processed; of these:
+     0 ( 0.00%) short reads filtered out after trimming by size control
+     0 ( 0.00%) empty reads filtered out after trimming by size control
+250000 (100.00%) reads available; of these:
+  7839 ( 3.14%) trimmed reads available after processing
+242161 (96.86%) untrimmed reads available after processing
+
+Length distribution of reads after trimming:
+length	count	percentage
+ 21	     4	  0.00%
+ 22	     0	  0.00%
+ 23	     0	  0.00%
+ 24	     0	  0.00%
+ 25	     0	  0.00%
+ 26	     0	  0.00%
+ 27	     0	  0.00%
+ 28	     0	  0.00%
+ 29	     0	  0.00%
+ 30	     0	  0.00%
+ 31	     0	  0.00%
+ 32	     0	  0.00%
+ 33	     1	  0.00%
+ 34	     0	  0.00%
+ 35	   307	  0.12%
+ 36	     4	  0.00%
+ 37	    12	  0.00%
+ 38	     6	  0.00%
+ 39	    10	  0.00%
+ 40	     8	  0.00%
+ 41	    18	  0.01%
+ 42	    15	  0.01%
+ 43	    36	  0.01%
+ 44	    82	  0.03%
+ 45	   345	  0.14%
+ 46	  1131	  0.45%
+ 47	  3029	  1.21%
+ 48	  8763	  3.51%
+ 49	 13554	  5.42%
+ 50	 68679	 27.47%
+ 51	153996	 61.60%

@@ -1,0 +1,35 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_knit$set(progress = FALSE)
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+### Per sequence quality score
+
+```{r 'Per sequence quality score', fig.width=10}
+## reads 1
+psqs_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per sequence quality scores')
+psqs_1$trim = 'before'
+
+## reads 2
+psqs_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per sequence quality scores')
+psqs_2$trim = 'after'
+
+comb_psqs = rbind(psqs_1, psqs_2)
+comb_psqs$trim = factor(levels = c('before', 'after'), comb_psqs$trim)
+
+p = ggplot(data = comb_psqs) + 
+  geom_line(mapping = aes(x = X.Quality, y = Count), color = 'red') + 
+  facet_grid(. ~ trim) + 
+  scale_x_continuous(name = 'Mean Sequence Qaulity (Phred Score)',
+                     limits = c(min(comb_psqs$X.Quality), max(comb_psqs$X.Quality))) +
+  scale_y_continuous(name = '') +
+  theme(panel.background = element_rect(fill = NA),
+        axis.line = element_line(),
+        panel.grid.major.y = element_line(color = 'blue', size = 0.1))
+p
+```
+

@@ -1,0 +1,32 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_knit$set(progress = FALSE)
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+### Per sequence GC content
+
+```{r 'Per sequence GC content', fig.width=10}
+## reads 1
+psGCc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per sequence GC content')
+psGCc_1$trim = 'before'
+
+## reads 2
+psGCc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Per sequence GC content')
+psGCc_2$trim = 'after'
+
+comb_psGCc = rbind(psGCc_1, psGCc_2)
+comb_psGCc$trim = factor(levels = c('before', 'after'), comb_psGCc$trim)
+
+p = ggplot(data = comb_psGCc, aes(x = X.GC.Content, y = Count)) +
+  geom_line(color = 'red') +
+  facet_grid(. ~ trim) +
+  xlab('Mean Sequence Qaulity (Phred Score)') +
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme_classic()
+ggplotly(p)
+```

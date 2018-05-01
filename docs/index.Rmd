@@ -1,64 +1,26 @@
 ---
-weight: 1
 title: "Aurora Galaxy Tool Examples"
-output: 
-  html_document:
-    toc: true
+output: html_document
 ---
-
-<style>
-pre code, pre, code {
-  white-space: pre !important;
-  overflow-x: scroll !important;
-  word-break: keep-all !important;
-  word-wrap: initial !important;
-}
-</style>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-## [rmarkdown_fastqc_report](fastqc_report/fastqc_report_html.html)
+## Single HTML reports
 
-```{r}
-knitr::include_graphics('images/rmarkdown_fastqc_report.png')
-```
+* [aurora_skewer](aurora_skewer/rmarkdown_report.html)
+* [aurora_fastqc](aurora_fastqc/rmarkdown_report.html)
+* [aurora_star](aurora_star/rmarkdown_report.html)
+* [aurora_htseq](aurora_htseq/rmarkdown_report.html)
+* [aurora_deseq2](aurora_deseq2/rmarkdown_report.html)
 
-## [rmarkdown_fastqc_site](fastqc_site/index.html)
+## Website reports
 
-```{r}
-knitr::include_graphics('images/rmarkdown_fastqc_site.png')
-```
-
-## [rmarkdown_wgcna:construct_network](wgcna/WGCNA__construct_network_html.html)
-
-```{r}
-knitr::include_graphics('images/rmarkdown_wgcna_construct_network.png')
-```
-
-## [rmarkdown_wgcna:eigengene_visualization](wgcna/WGCNA__eigengene_visualization_html.html)
-
-```{r}
-knitr::include_graphics('images/rmarkdown_wgcna_eigengene_visualization.png')
-```
-
-## [rmarkdown_deseq2:analysis](deseq2/DESeq_Analysis_html.html)
-
-```{r}
-knitr::include_graphics('images/rmarkdown_deseq2_analysis.png')
-```
-
-## [rmarkdown_deseq2:results](deseq2/DESeq_results_report_html.html)
-
-```{r}
-knitr::include_graphics('images/rmarkdown_deseq2_results.png')
-```
-
-## [rmarkdown_samtools_flagstat](samtools_flagstat/samtools_flagstat_report_html.html)
-
-```{r}
-knitr::include_graphics('images/rmarkdown_samtools_flagstat.png')
-```
+* [aurora_skewer_site](aurora_skewer_site/index.html)
+* [aurora_fastqc_site](aurora_fastqc_site/index.html)
+* [aurora_star_site](aurora_star_site/index.html)
+* [aurora_htseq_site](aurora_htseq_site/index.html)
+* [aurora_deseq2_site](aurora_deseq2_site/index.html)
 

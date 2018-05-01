@@ -1,0 +1,45 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_knit$set(progress = FALSE)
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+### Sequence Duplication Levels
+
+```{r 'Sequence Duplication Levels', fig.width=10}
+## reads 1
+sdl_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Sequence Duplication Levels', header = FALSE, comment.char = '#')
+names(sdl_1) = c('Duplication_Level', 'Percentage_of_deduplicated', 'Percentage_of_total')
+sdl_1$id = 1:length(sdl_1$Duplication_Level)
+
+melt_sdl_1 = melt(sdl_1, id=c('Duplication_Level', 'id'))
+melt_sdl_1$trim = 'before'
+
+
+## reads 2
+sdl_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Sequence Duplication Levels', header = FALSE, comment.char = '#')
+names(sdl_2) = c('Duplication_Level', 'Percentage_of_deduplicated', 'Percentage_of_total')
+sdl_2$id = 1:length(sdl_2$Duplication_Level)
+
+melt_sdl_2 = melt(sdl_2, id=c('Duplication_Level', 'id'))
+melt_sdl_2$trim = 'after'
+
+comb_sdl = rbind(melt_sdl_1, melt_sdl_2)
+comb_sdl$trim = factor(levels = c('before', 'after'), comb_sdl$trim)
+
+p = ggplot(data = comb_sdl) +
+  geom_line(mapping = aes(x = id, y = value, color = variable)) +
+  scale_x_continuous(breaks = sdl_2$id, labels = sdl_2$Duplication_Level) +
+  facet_grid(. ~ trim) +
+  xlab('Sequence Duplication Level') +
+  ylab('') + 
+  scale_color_discrete(name = '') +
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line())
+p
+```

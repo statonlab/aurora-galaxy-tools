@@ -1,0 +1,33 @@
+---
+title: 'MA-plot'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+```{r warning=FALSE}
+log_fold_change = res$log2FoldChange
+base_mean = res$baseMean
+significant = res$padj
+significant[significant < 0.1] = 'yes'
+significant[significant != 'yes'] = 'no'
+
+maplot_df = data.frame(log_fold_change, base_mean, significant)
+maplot_df = maplot_df[!is.na(maplot_df$significant), ]
+p = ggplot(data = maplot_df) +
+  geom_point(mapping = aes(log(base_mean), log_fold_change, color = significant),
+             size = 0.5) +
+  scale_color_manual(name = 'Significant',
+                     values = c('no' = 'black', 'yes' = 'red'),
+                     labels = c('No', 'Yes')) +
+  xlab('Log base mean') +
+  ylab('Log fold change') +
+  theme_classic()
+
+plotly::ggplotly(p)
+```

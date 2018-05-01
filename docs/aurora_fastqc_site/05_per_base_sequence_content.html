@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.0/htmlwidgets.js"></script>
+<link href="site_libs/plotlyjs-1.16.3/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotlyjs-1.16.3/plotly-latest.min.js"></script>
+<script src="site_libs/plotly-binding-4.5.6/plotly.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">FastQC</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="01_evaluation_overview.html">Evaluation Overview</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Evaluation by data module
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="02_per_base_sequence_quality.html">Per Base Sequence Quality</a>
+    </li>
+    <li>
+      <a href="03_per_tile_sequence_quality.html">Per Tile Sequence Quality</a>
+    </li>
+    <li>
+      <a href="04_per_sequence_quality_score.html">Per Sequence Quality Score</a>
+    </li>
+    <li>
+      <a href="05_per_base_sequence_content.html">Per Base Sequence Content</a>
+    </li>
+    <li>
+      <a href="06_per_sequence_gc_content.html">Per Sequence GC Content</a>
+    </li>
+    <li>
+      <a href="07_per_base_n_content.html">Per Base N Content</a>
+    </li>
+    <li>
+      <a href="08_sequence_length_distribution.html">Sequence Length Distribution</a>
+    </li>
+    <li>
+      <a href="09_sequence_duplication_levels.html">Sequence Duplication Levels</a>
+    </li>
+    <li>
+      <a href="10_adapter_content.html">Adapter Content</a>
+    </li>
+    <li>
+      <a href="11_kmer_content.html">Kmer Content</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="per-base-sequence-content" class="section level3">
+<h3>Per base sequence content</h3>
+<div id="htmlwidget-2dd2a675f6c8dc82479c" style="width:960px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2dd2a675f6c8dc82479c">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[29.0109934119626,18.4833098411071,20.9753050330961,22.9237410302409,21.3316087903639,17.2868772699788,14.3908572526909,18.0424301640185,18.9181829830856,18.0296884197544,21.6819900051256,20.4774794976935,18.9173387581192,18.509738595592,19.0419938572922,19.4452230880739,19.1726899589549,19.1667100504988,19.4772691779423,19.4359463095848,19.4339441312148,19.4098284506095,19.2036007752559,19.1847799971168,19.3795376366046,19.2571680281916,19.2381005774514,19.0764523789501,19.4636220926507,19.0671653745114,19.3047935605302,19.1044668530192,18.6702549438931,18.5705818275022,18.4687535043173,18.2756079587325,18.3632110988289,18.4325835496171,18.2996483301691,18.4771724066107,18.3650580016663,18.2122999022546,18.5381487490736,18.6029273296231,18.4585601256944,18.5244348831236,18.6274549332516,18.3099856321839,18.4994221708596,17.9913236390418,19.871944725837],"text":["id: 1<br>value: 29.01<br>variable: G","id: 2<br>value: 18.48<br>variable: G","id: 3<br>value: 20.98<br>variable: G","id: 4<br>value: 22.92<br>variable: G","id: 5<br>value: 21.33<br>variable: G","id: 6<br>value: 17.29<br>variable: G","id: 7<br>value: 14.39<br>variable: G","id: 8<br>value: 18.04<br>variable: G","id: 9<br>value: 18.92<br>variable: G","id: 10<br>value: 18.03<br>variable: G","id: 11<br>value: 21.68<br>variable: G","id: 12<br>value: 20.48<br>variable: G","id: 13<br>value: 18.92<br>variable: G","id: 14<br>value: 18.51<br>variable: G","id: 15<br>value: 19.04<br>variable: G","id: 16<br>value: 19.45<br>variable: G","id: 17<br>value: 19.17<br>variable: G","id: 18<br>value: 19.17<br>variable: G","id: 19<br>value: 19.48<br>variable: G","id: 20<br>value: 19.44<br>variable: G","id: 21<br>value: 19.43<br>variable: G","id: 22<br>value: 19.41<br>variable: G","id: 23<br>value: 19.2<br>variable: G","id: 24<br>value: 19.18<br>variable: G","id: 25<br>value: 19.38<br>variable: G","id: 26<br>value: 19.26<br>variable: G","id: 27<br>value: 19.24<br>variable: G","id: 28<br>value: 19.08<br>variable: G","id: 29<br>value: 19.46<br>variable: G","id: 30<br>value: 19.07<br>variable: G","id: 31<br>value: 19.3<br>variable: G","id: 32<br>value: 19.1<br>variable: G","id: 33<br>value: 18.67<br>variable: G","id: 34<br>value: 18.57<br>variable: G","id: 35<br>value: 18.47<br>variable: G","id: 36<br>value: 18.28<br>variable: G","id: 37<br>value: 18.36<br>variable: G","id: 38<br>value: 18.43<br>variable: G","id: 39<br>value: 18.3<br>variable: G","id: 40<br>value: 18.48<br>variable: G","id: 41<br>value: 18.37<br>variable: G","id: 42<br>value: 18.21<br>variable: G","id: 43<br>value: 18.54<br>variable: G","id: 44<br>value: 18.6<br>variable: G","id: 45<br>value: 18.46<br>variable: G","id: 46<br>value: 18.52<br>variable: G","id: 47<br>value: 18.63<br>variable: G","id: 48<br>value: 18.31<br>variable: G","id: 49<br>value: 18.5<br>variable: G","id: 50<br>value: 17.99<br>variable: G","id: 51<br>value: 19.87<br>variable: G"],"key":null,"type":"scatter","mode":"lines","name":"G","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","legendgroup":"G","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text"},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[28.6645707763471,17.8149827011789,20.5107156586366,23.0314582265505,21.4497373141978,17.2597166494478,14.2811378780113,17.90788377755,18.8437019477191,17.9715530497181,21.7748910814967,20.5087134802665,18.9506521382205,18.480907227063,19.0655433111225,19.3963687620634,19.156271899089,19.1435596777036,19.516512031138,19.4395502306509,19.4035110199898,19.4199288826243,19.1612474372117,19.2024923116351,19.3483928063719,19.2396405631818,19.2281817380928,19.07574635084,19.4665139598584,19.0704640471576,19.284861881993,19.1061631492531,18.6587426813933,18.5878310459309,18.447157955442,18.3020749480362,18.3733299157348,18.4182700780211,18.3060908155132,18.4719218136666,18.3429866935839,18.2370260580447,18.5462484477026,18.5781929766931,18.4518062394083,18.5322012573576,18.6554952150999,18.3042508475122,18.4926535415958,18.016528206311,19.8353862888977],"text":["id: 1<br>value: 28.66<br>variable: G","id: 2<br>value: 17.81<br>variable: G","id: 3<br>value: 20.51<br>variable: G","id: 4<br>value: 23.03<br>variable: G","id: 5<br>value: 21.45<br>variable: G","id: 6<br>value: 17.26<br>variable: G","id: 7<br>value: 14.28<br>variable: G","id: 8<br>value: 17.91<br>variable: G","id: 9<br>value: 18.84<br>variable: G","id: 10<br>value: 17.97<br>variable: G","id: 11<br>value: 21.77<br>variable: G","id: 12<br>value: 20.51<br>variable: G","id: 13<br>value: 18.95<br>variable: G","id: 14<br>value: 18.48<br>variable: G","id: 15<br>value: 19.07<br>variable: G","id: 16<br>value: 19.4<br>variable: G","id: 17<br>value: 19.16<br>variable: G","id: 18<br>value: 19.14<br>variable: G","id: 19<br>value: 19.52<br>variable: G","id: 20<br>value: 19.44<br>variable: G","id: 21<br>value: 19.4<br>variable: G","id: 22<br>value: 19.42<br>variable: G","id: 23<br>value: 19.16<br>variable: G","id: 24<br>value: 19.2<br>variable: G","id: 25<br>value: 19.35<br>variable: G","id: 26<br>value: 19.24<br>variable: G","id: 27<br>value: 19.23<br>variable: G","id: 28<br>value: 19.08<br>variable: G","id: 29<br>value: 19.47<br>variable: G","id: 30<br>value: 19.07<br>variable: G","id: 31<br>value: 19.28<br>variable: G","id: 32<br>value: 19.11<br>variable: G","id: 33<br>value: 18.66<br>variable: G","id: 34<br>value: 18.59<br>variable: G","id: 35<br>value: 18.45<br>variable: G","id: 36<br>value: 18.3<br>variable: G","id: 37<br>value: 18.37<br>variable: G","id: 38<br>value: 18.42<br>variable: G","id: 39<br>value: 18.31<br>variable: G","id: 40<br>value: 18.47<br>variable: G","id: 41<br>value: 18.34<br>variable: G","id: 42<br>value: 18.24<br>variable: G","id: 43<br>value: 18.55<br>variable: G","id: 44<br>value: 18.58<br>variable: G","id: 45<br>value: 18.45<br>variable: G","id: 46<br>value: 18.53<br>variable: G","id: 47<br>value: 18.66<br>variable: G","id: 48<br>value: 18.3<br>variable: G","id: 49<br>value: 18.49<br>variable: G","id: 50<br>value: 18.02<br>variable: G","id: 51<br>value: 19.84<br>variable: G"],"key":null,"type":"scatter","mode":"lines","name":"G","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","legendgroup":"G","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text"},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[11.2128797132502,14.9534693746797,20.0102511943042,27.2076018708355,30.139591875961,33.0520928854309,22.2550134546386,23.1804202972834,22.596184648898,35.5432131888022,27.6232541004613,23.7582489748847,25.8247302957736,26.3482669144029,26.2282412394335,26.5118812119076,27.0425468014816,26.7723630305676,27.1007940671213,26.7855426704254,26.293407227063,26.9241242331534,27.050663932982,26.749531482757,27.2340289207383,27.1956591382348,26.9087530734669,27.0801046009187,26.9722720574101,26.7111712693022,27.1230627527932,27.5936501325559,27.2673026247287,28.2551582724593,28.2612178203547,28.3077280445997,29.0655388410951,29.2659969880483,29.3079554284524,29.6566447963982,29.932945587387,30.0330892367843,30.163251407167,30.0730430044194,29.8540245456805,30.2807121757,30.0535035339749,29.4258588035528,29.3012288923037,26.4763735326082,0],"text":["id: 1<br>value: 11.21<br>variable: A","id: 2<br>value: 14.95<br>variable: A","id: 3<br>value: 20.01<br>variable: A","id: 4<br>value: 27.21<br>variable: A","id: 5<br>value: 30.14<br>variable: A","id: 6<br>value: 33.05<br>variable: A","id: 7<br>value: 22.26<br>variable: A","id: 8<br>value: 23.18<br>variable: A","id: 9<br>value: 22.6<br>variable: A","id: 10<br>value: 35.54<br>variable: A","id: 11<br>value: 27.62<br>variable: A","id: 12<br>value: 23.76<br>variable: A","id: 13<br>value: 25.82<br>variable: A","id: 14<br>value: 26.35<br>variable: A","id: 15<br>value: 26.23<br>variable: A","id: 16<br>value: 26.51<br>variable: A","id: 17<br>value: 27.04<br>variable: A","id: 18<br>value: 26.77<br>variable: A","id: 19<br>value: 27.1<br>variable: A","id: 20<br>value: 26.79<br>variable: A","id: 21<br>value: 26.29<br>variable: A","id: 22<br>value: 26.92<br>variable: A","id: 23<br>value: 27.05<br>variable: A","id: 24<br>value: 26.75<br>variable: A","id: 25<br>value: 27.23<br>variable: A","id: 26<br>value: 27.2<br>variable: A","id: 27<br>value: 26.91<br>variable: A","id: 28<br>value: 27.08<br>variable: A","id: 29<br>value: 26.97<br>variable: A","id: 30<br>value: 26.71<br>variable: A","id: 31<br>value: 27.12<br>variable: A","id: 32<br>value: 27.59<br>variable: A","id: 33<br>value: 27.27<br>variable: A","id: 34<br>value: 28.26<br>variable: A","id: 35<br>value: 28.26<br>variable: A","id: 36<br>value: 28.31<br>variable: A","id: 37<br>value: 29.07<br>variable: A","id: 38<br>value: 29.27<br>variable: A","id: 39<br>value: 29.31<br>variable: A","id: 40<br>value: 29.66<br>variable: A","id: 41<br>value: 29.93<br>variable: A","id: 42<br>value: 30.03<br>variable: A","id: 43<br>value: 30.16<br>variable: A","id: 44<br>value: 30.07<br>variable: A","id: 45<br>value: 29.85<br>variable: A","id: 46<br>value: 30.28<br>variable: A","id: 47<br>value: 30.05<br>variable: A","id: 48<br>value: 29.43<br>variable: A","id: 49<br>value: 29.3<br>variable: A","id: 50<br>value: 26.48<br>variable: A","id: 51<br>value: 0<br>variable: A"],"key":null,"type":"scatter","mode":"lines","name":"A","line":{"width":1.88976377952756,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","legendgroup":"A","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text"},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[10.1896313502473,16.5331881086622,19.1023833931317,27.5483726294208,30.4142907483342,33.4006070653436,21.7292414146591,22.9970207585853,22.596184648898,35.9647296258329,27.6504837262942,23.648930035879,25.7859897403861,26.3158316248078,26.230939261917,26.5339057031419,27.016518169987,26.7960978422798,27.0735643322508,26.7699256791389,26.2998141978473,26.9361064838544,27.0754580984111,26.7635187083547,27.2472078839985,27.1639890439045,26.9291452094729,27.1129087159362,26.9237854202374,26.7167502282593,27.1670791385345,27.5743862880942,27.2624606537288,28.2149450743089,28.2510402607961,28.3339941448098,29.0999166960367,29.2731379868309,29.3466201521202,29.6683489545782,29.9410383971416,29.9765657860476,30.1305932780515,30.0537604255967,29.9242409067053,30.3649061790032,30.1845776212669,29.8920176830103,29.2537901000168,26.458620734674,0],"text":["id: 1<br>value: 10.19<br>variable: A","id: 2<br>value: 16.53<br>variable: A","id: 3<br>value: 19.1<br>variable: A","id: 4<br>value: 27.55<br>variable: A","id: 5<br>value: 30.41<br>variable: A","id: 6<br>value: 33.4<br>variable: A","id: 7<br>value: 21.73<br>variable: A","id: 8<br>value: 23<br>variable: A","id: 9<br>value: 22.6<br>variable: A","id: 10<br>value: 35.96<br>variable: A","id: 11<br>value: 27.65<br>variable: A","id: 12<br>value: 23.65<br>variable: A","id: 13<br>value: 25.79<br>variable: A","id: 14<br>value: 26.32<br>variable: A","id: 15<br>value: 26.23<br>variable: A","id: 16<br>value: 26.53<br>variable: A","id: 17<br>value: 27.02<br>variable: A","id: 18<br>value: 26.8<br>variable: A","id: 19<br>value: 27.07<br>variable: A","id: 20<br>value: 26.77<br>variable: A","id: 21<br>value: 26.3<br>variable: A","id: 22<br>value: 26.94<br>variable: A","id: 23<br>value: 27.08<br>variable: A","id: 24<br>value: 26.76<br>variable: A","id: 25<br>value: 27.25<br>variable: A","id: 26<br>value: 27.16<br>variable: A","id: 27<br>value: 26.93<br>variable: A","id: 28<br>value: 27.11<br>variable: A","id: 29<br>value: 26.92<br>variable: A","id: 30<br>value: 26.72<br>variable: A","id: 31<br>value: 27.17<br>variable: A","id: 32<br>value: 27.57<br>variable: A","id: 33<br>value: 27.26<br>variable: A","id: 34<br>value: 28.21<br>variable: A","id: 35<br>value: 28.25<br>variable: A","id: 36<br>value: 28.33<br>variable: A","id: 37<br>value: 29.1<br>variable: A","id: 38<br>value: 29.27<br>variable: A","id: 39<br>value: 29.35<br>variable: A","id: 40<br>value: 29.67<br>variable: A","id: 41<br>value: 29.94<br>variable: A","id: 42<br>value: 29.98<br>variable: A","id: 43<br>value: 30.13<br>variable: A","id: 44<br>value: 30.05<br>variable: A","id: 45<br>value: 29.92<br>variable: A","id: 46<br>value: 30.36<br>variable: A","id: 47<br>value: 30.18<br>variable: A","id: 48<br>value: 29.89<br>variable: A","id: 49<br>value: 29.25<br>variable: A","id: 50<br>value: 26.46<br>variable: A","id: 51<br>value: 0<br>variable: A"],"key":null,"type":"scatter","mode":"lines","name":"A","line":{"width":1.88976377952756,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","legendgroup":"A","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text"},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[13.8388834377941,34.13553946694,22.4569229598722,20.524330471553,24.6744457970272,27.0907831351836,41.5484046642747,33.443186186571,35.968733982573,29.8630104073648,28.1205952075859,32.7356163505894,33.6859978055246,34.0814806509482,33.483363833306,32.6675262892336,32.7115827410151,32.5759183689815,32.3285027249757,32.9954991030241,32.7444259354177,32.3825503355705,32.9699988787622,32.7409460043888,32.0022265204211,32.6077206471248,32.4890476457444,32.3469931240514,32.6784455692958,32.6111680656116,32.1384806375395,32.2559329771812,32.3729886024141,31.6913366653851,31.9597744421127,31.5533786165134,31.1105237019593,31.2269697843571,30.6605625115154,30.1817715718554,30.4701019034801,30.2293813194033,29.9052540913006,30.0994875370123,29.8371904735184,29.5020710249165,30.0329407590486,30.2842541797283,30.2587743249135,32.5637479005182,46.520688849061],"text":["id: 1<br>value: 13.84<br>variable: T","id: 2<br>value: 34.14<br>variable: T","id: 3<br>value: 22.46<br>variable: T","id: 4<br>value: 20.52<br>variable: T","id: 5<br>value: 24.67<br>variable: T","id: 6<br>value: 27.09<br>variable: T","id: 7<br>value: 41.55<br>variable: T","id: 8<br>value: 33.44<br>variable: T","id: 9<br>value: 35.97<br>variable: T","id: 10<br>value: 29.86<br>variable: T","id: 11<br>value: 28.12<br>variable: T","id: 12<br>value: 32.74<br>variable: T","id: 13<br>value: 33.69<br>variable: T","id: 14<br>value: 34.08<br>variable: T","id: 15<br>value: 33.48<br>variable: T","id: 16<br>value: 32.67<br>variable: T","id: 17<br>value: 32.71<br>variable: T","id: 18<br>value: 32.58<br>variable: T","id: 19<br>value: 32.33<br>variable: T","id: 20<br>value: 33<br>variable: T","id: 21<br>value: 32.74<br>variable: T","id: 22<br>value: 32.38<br>variable: T","id: 23<br>value: 32.97<br>variable: T","id: 24<br>value: 32.74<br>variable: T","id: 25<br>value: 32<br>variable: T","id: 26<br>value: 32.61<br>variable: T","id: 27<br>value: 32.49<br>variable: T","id: 28<br>value: 32.35<br>variable: T","id: 29<br>value: 32.68<br>variable: T","id: 30<br>value: 32.61<br>variable: T","id: 31<br>value: 32.14<br>variable: T","id: 32<br>value: 32.26<br>variable: T","id: 33<br>value: 32.37<br>variable: T","id: 34<br>value: 31.69<br>variable: T","id: 35<br>value: 31.96<br>variable: T","id: 36<br>value: 31.55<br>variable: T","id: 37<br>value: 31.11<br>variable: T","id: 38<br>value: 31.23<br>variable: T","id: 39<br>value: 30.66<br>variable: T","id: 40<br>value: 30.18<br>variable: T","id: 41<br>value: 30.47<br>variable: T","id: 42<br>value: 30.23<br>variable: T","id: 43<br>value: 29.91<br>variable: T","id: 44<br>value: 30.1<br>variable: T","id: 45<br>value: 29.84<br>variable: T","id: 46<br>value: 29.5<br>variable: T","id: 47<br>value: 30.03<br>variable: T","id: 48<br>value: 30.28<br>variable: T","id: 49<br>value: 30.26<br>variable: T","id: 50<br>value: 32.56<br>variable: T","id: 51<br>value: 46.52<br>variable: T"],"key":null,"type":"scatter","mode":"lines","name":"T","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","legendgroup":"T","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text"},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[13.4640261118565,33.624983982573,21.4801704254229,19.7378748077909,24.2571918247053,26.9551428365489,42.128235520246,33.7483181701691,36.1004773193234,29.7603792926704,27.9355939261917,32.7724564325987,33.6981463016134,34.1327364172219,33.4323744233726,32.6366920015057,32.715987586345,32.596072212344,32.3977783739844,32.991895181958,32.7476294208098,32.3519989748847,32.9698712198872,32.722001537673,32.0313469832333,32.6172093991767,32.4536885016138,32.3332599163046,32.6935398612824,32.6014352304218,32.1591901134898,32.3050738857074,32.3504441222878,31.7015150119543,31.9615373833086,31.5303192320169,31.1592867899138,31.2436918246047,30.6078799700406,30.2026756388689,30.4585546396212,30.2822120295632,29.8862316228017,30.1182569123409,29.7383486841315,29.4565474353991,29.9170563840113,30.0321289668001,30.1780947186694,32.4758800464774,46.4074849565201],"text":["id: 1<br>value: 13.46<br>variable: T","id: 2<br>value: 33.62<br>variable: T","id: 3<br>value: 21.48<br>variable: T","id: 4<br>value: 19.74<br>variable: T","id: 5<br>value: 24.26<br>variable: T","id: 6<br>value: 26.96<br>variable: T","id: 7<br>value: 42.13<br>variable: T","id: 8<br>value: 33.75<br>variable: T","id: 9<br>value: 36.1<br>variable: T","id: 10<br>value: 29.76<br>variable: T","id: 11<br>value: 27.94<br>variable: T","id: 12<br>value: 32.77<br>variable: T","id: 13<br>value: 33.7<br>variable: T","id: 14<br>value: 34.13<br>variable: T","id: 15<br>value: 33.43<br>variable: T","id: 16<br>value: 32.64<br>variable: T","id: 17<br>value: 32.72<br>variable: T","id: 18<br>value: 32.6<br>variable: T","id: 19<br>value: 32.4<br>variable: T","id: 20<br>value: 32.99<br>variable: T","id: 21<br>value: 32.75<br>variable: T","id: 22<br>value: 32.35<br>variable: T","id: 23<br>value: 32.97<br>variable: T","id: 24<br>value: 32.72<br>variable: T","id: 25<br>value: 32.03<br>variable: T","id: 26<br>value: 32.62<br>variable: T","id: 27<br>value: 32.45<br>variable: T","id: 28<br>value: 32.33<br>variable: T","id: 29<br>value: 32.69<br>variable: T","id: 30<br>value: 32.6<br>variable: T","id: 31<br>value: 32.16<br>variable: T","id: 32<br>value: 32.31<br>variable: T","id: 33<br>value: 32.35<br>variable: T","id: 34<br>value: 31.7<br>variable: T","id: 35<br>value: 31.96<br>variable: T","id: 36<br>value: 31.53<br>variable: T","id: 37<br>value: 31.16<br>variable: T","id: 38<br>value: 31.24<br>variable: T","id: 39<br>value: 30.61<br>variable: T","id: 40<br>value: 30.2<br>variable: T","id: 41<br>value: 30.46<br>variable: T","id: 42<br>value: 30.28<br>variable: T","id: 43<br>value: 29.89<br>variable: T","id: 44<br>value: 30.12<br>variable: T","id: 45<br>value: 29.74<br>variable: T","id: 46<br>value: 29.46<br>variable: T","id: 47<br>value: 29.92<br>variable: T","id: 48<br>value: 30.03<br>variable: T","id: 49<br>value: 30.18<br>variable: T","id: 50<br>value: 32.48<br>variable: T","id: 51<br>value: 46.41<br>variable: T"],"key":null,"type":"scatter","mode":"lines","name":"T","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","legendgroup":"T","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text"},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[45.9372434369931,32.4276813172732,36.5575208127275,29.3443266273706,23.8543535366479,22.5702467094067,21.8057246283957,25.3339633521271,22.5168983854434,16.5640879840786,22.5741606868273,23.0286551768324,21.5719331405826,21.0605138390569,21.2464010699684,21.3753694107848,21.0731804985484,21.4850085499521,21.0934340299607,20.7830119169657,21.5282227063045,21.2834969806667,20.775736413,21.3247425157374,21.384206922236,20.9394521864488,21.3640987033374,21.4964498960799,20.8856602806433,21.6104952905747,21.433663049137,21.0459500372438,21.6894538289641,21.4829232346533,21.3102542332153,21.8632853801544,21.4607263581167,21.0744496779775,21.7318337298631,21.6844112251356,21.2318945074665,21.5252295415578,21.3933457524588,21.2245421289451,21.8502248551067,21.69278191626,21.2861007737248,21.979901384535,21.9405746119232,22.9685549278317,33.607366425102],"text":["id: 1<br>value: 45.94<br>variable: C","id: 2<br>value: 32.43<br>variable: C","id: 3<br>value: 36.56<br>variable: C","id: 4<br>value: 29.34<br>variable: C","id: 5<br>value: 23.85<br>variable: C","id: 6<br>value: 22.57<br>variable: C","id: 7<br>value: 21.81<br>variable: C","id: 8<br>value: 25.33<br>variable: C","id: 9<br>value: 22.52<br>variable: C","id: 10<br>value: 16.56<br>variable: C","id: 11<br>value: 22.57<br>variable: C","id: 12<br>value: 23.03<br>variable: C","id: 13<br>value: 21.57<br>variable: C","id: 14<br>value: 21.06<br>variable: C","id: 15<br>value: 21.25<br>variable: C","id: 16<br>value: 21.38<br>variable: C","id: 17<br>value: 21.07<br>variable: C","id: 18<br>value: 21.49<br>variable: C","id: 19<br>value: 21.09<br>variable: C","id: 20<br>value: 20.78<br>variable: C","id: 21<br>value: 21.53<br>variable: C","id: 22<br>value: 21.28<br>variable: C","id: 23<br>value: 20.78<br>variable: C","id: 24<br>value: 21.32<br>variable: C","id: 25<br>value: 21.38<br>variable: C","id: 26<br>value: 20.94<br>variable: C","id: 27<br>value: 21.36<br>variable: C","id: 28<br>value: 21.5<br>variable: C","id: 29<br>value: 20.89<br>variable: C","id: 30<br>value: 21.61<br>variable: C","id: 31<br>value: 21.43<br>variable: C","id: 32<br>value: 21.05<br>variable: C","id: 33<br>value: 21.69<br>variable: C","id: 34<br>value: 21.48<br>variable: C","id: 35<br>value: 21.31<br>variable: C","id: 36<br>value: 21.86<br>variable: C","id: 37<br>value: 21.46<br>variable: C","id: 38<br>value: 21.07<br>variable: C","id: 39<br>value: 21.73<br>variable: C","id: 40<br>value: 21.68<br>variable: C","id: 41<br>value: 21.23<br>variable: C","id: 42<br>value: 21.53<br>variable: C","id: 43<br>value: 21.39<br>variable: C","id: 44<br>value: 21.22<br>variable: C","id: 45<br>value: 21.85<br>variable: C","id: 46<br>value: 21.69<br>variable: C","id: 47<br>value: 21.29<br>variable: C","id: 48<br>value: 21.98<br>variable: C","id: 49<br>value: 21.94<br>variable: C","id: 50<br>value: 22.97<br>variable: C","id: 51<br>value: 33.61<br>variable: C"],"key":null,"type":"scatter","mode":"lines","name":"C","line":{"width":1.88976377952756,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","legendgroup":"C","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text"},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],"y":[47.6817717615491,32.0268452075859,38.9067305228088,29.6822943362378,23.8787801127627,22.3845334486597,21.8613851870835,25.3467772936955,22.4596360840595,16.3033380317786,22.6390312660174,23.0699000512558,21.56521181978,21.0705247309072,21.2711430035879,21.433033533289,21.111222344579,21.4642702676726,21.0121452626268,20.7986289082522,21.5490453613532,21.2919656586366,20.79342324449,21.3119874423373,21.3730523263963,20.9791609937371,21.3889845508205,21.4780850169193,20.9161607586218,21.6113504941614,21.3888688659827,21.0143766769453,21.7283525425901,21.4957088678059,21.3402644004533,21.8336116751371,21.3674665983147,21.0649001105433,21.739409062326,21.6570535928863,21.2574202696532,21.5041961263445,21.4369266514441,21.2497896853693,21.8856041697549,21.6463451282401,21.2428707796219,21.7716025026774,22.075461639718,23.0489710125376,33.7571287545822],"text":["id: 1<br>value: 47.68<br>variable: C","id: 2<br>value: 32.03<br>variable: C","id: 3<br>value: 38.91<br>variable: C","id: 4<br>value: 29.68<br>variable: C","id: 5<br>value: 23.88<br>variable: C","id: 6<br>value: 22.38<br>variable: C","id: 7<br>value: 21.86<br>variable: C","id: 8<br>value: 25.35<br>variable: C","id: 9<br>value: 22.46<br>variable: C","id: 10<br>value: 16.3<br>variable: C","id: 11<br>value: 22.64<br>variable: C","id: 12<br>value: 23.07<br>variable: C","id: 13<br>value: 21.57<br>variable: C","id: 14<br>value: 21.07<br>variable: C","id: 15<br>value: 21.27<br>variable: C","id: 16<br>value: 21.43<br>variable: C","id: 17<br>value: 21.11<br>variable: C","id: 18<br>value: 21.46<br>variable: C","id: 19<br>value: 21.01<br>variable: C","id: 20<br>value: 20.8<br>variable: C","id: 21<br>value: 21.55<br>variable: C","id: 22<br>value: 21.29<br>variable: C","id: 23<br>value: 20.79<br>variable: C","id: 24<br>value: 21.31<br>variable: C","id: 25<br>value: 21.37<br>variable: C","id: 26<br>value: 20.98<br>variable: C","id: 27<br>value: 21.39<br>variable: C","id: 28<br>value: 21.48<br>variable: C","id: 29<br>value: 20.92<br>variable: C","id: 30<br>value: 21.61<br>variable: C","id: 31<br>value: 21.39<br>variable: C","id: 32<br>value: 21.01<br>variable: C","id: 33<br>value: 21.73<br>variable: C","id: 34<br>value: 21.5<br>variable: C","id: 35<br>value: 21.34<br>variable: C","id: 36<br>value: 21.83<br>variable: C","id: 37<br>value: 21.37<br>variable: C","id: 38<br>value: 21.06<br>variable: C","id: 39<br>value: 21.74<br>variable: C","id: 40<br>value: 21.66<br>variable: C","id: 41<br>value: 21.26<br>variable: C","id: 42<br>value: 21.5<br>variable: C","id: 43<br>value: 21.44<br>variable: C","id: 44<br>value: 21.25<br>variable: C","id: 45<br>value: 21.89<br>variable: C","id: 46<br>value: 21.65<br>variable: C","id: 47<br>value: 21.24<br>variable: C","id: 48<br>value: 21.77<br>variable: C","id: 49<br>value: 22.08<br>variable: C","id: 50<br>value: 23.05<br>variable: C","id: 51<br>value: 33.76<br>variable: C"],"key":null,"type":"scatter","mode":"lines","name":"C","line":{"width":1.88976377952756,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","legendgroup":"C","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text"}],"layout":{"margin":{"t":42.3013698630137,"r":18.9954337899543,"b":44.5662100456621,"l":28.4931506849315},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.494292237442922],"type":"linear","autorange":false,"tickmode":"array","range":[-1.5,53.5],"ticktext":["0","10","20","30","40","50"],"tickvals":[0,10,20,30,40,50],"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":"","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"hoverformat":".2f"},"annotations":[{"text":"Position in read (bp)","x":0.5,"y":-0.0353881278538813,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"top","annotationType":"axis"},{"text":"before","x":0.247146118721461,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"after","x":0.752853881278539,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"yaxis":{"domain":[0,1],"type":"linear","autorange":false,"tickmode":"array","range":[-5,105],"ticktext":["0","25","50","75","100"],"tickvals":[0,25,50,75,100],"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.494292237442922,"y0":0,"y1":1},{"type":"rect","fillcolor":"rgba(255,255,255,1)","line":{"color":"rgba(0,0,0,1)","width":1.32835201328352,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":0.494292237442922,"y0":1,"y1":1.05196850393701},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.505707762557078,"x1":1,"y0":0,"y1":1},{"type":"rect","fillcolor":"rgba(255,255,255,1)","line":{"color":"rgba(0,0,0,1)","width":1.32835201328352,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0.505707762557078,"x1":1,"y0":1,"y1":1.05196850393701}],"xaxis2":{"type":"linear","autorange":false,"tickmode":"array","range":[-1.5,53.5],"ticktext":["0","10","20","30","40","50"],"tickvals":[0,10,20,30,40,50],"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"domain":[0.505707762557078,1],"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":"","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.93503937007874},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"modeBarButtonsToRemove":["sendDataToCloud"]},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":[]}</script>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

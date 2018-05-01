@@ -1,0 +1,15 @@
+### STAR   --runMode genomeGenerate   --genomeDir /export/galaxy-central/database/job_working_directory/000/23/dataset_32_files/genomeDir   --genomeFastaFiles /export/galaxy-central/database/files/000/dataset_31.dat      --sjdbGTFfile /export/galaxy-central/database/files/000/dataset_30.dat   --sjdbOverhang 100
+versionGenome	20201
+genomeFastaFiles	/export/galaxy-central/database/files/000/dataset_31.dat 
+genomeSAindexNbases	14
+genomeChrBinNbits	18
+genomeSAsparseD	1
+sjdbOverhang	100
+sjdbFileChrStartEnd	- 
+sjdbGTFfile	/export/galaxy-central/database/files/000/dataset_30.dat
+sjdbGTFchrPrefix	-
+sjdbGTFfeatureExon	exon
+sjdbGTFtagExonParentTranscript	transcript_id
+sjdbGTFtagExonParentGene	gene_id
+sjdbInsertSave	Basic
+genomeFileSizes	6291456 44907385

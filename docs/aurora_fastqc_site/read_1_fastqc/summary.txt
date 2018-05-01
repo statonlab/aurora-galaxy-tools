@@ -1,0 +1,12 @@
+PASS	Basic Statistics	read_1.fq
+PASS	Per base sequence quality	read_1.fq
+PASS	Per tile sequence quality	read_1.fq
+PASS	Per sequence quality scores	read_1.fq
+FAIL	Per base sequence content	read_1.fq
+FAIL	Per sequence GC content	read_1.fq
+PASS	Per base N content	read_1.fq
+WARN	Sequence Length Distribution	read_1.fq
+PASS	Sequence Duplication Levels	read_1.fq
+FAIL	Overrepresented sequences	read_1.fq
+PASS	Adapter Content	read_1.fq
+WARN	Kmer Content	read_1.fq

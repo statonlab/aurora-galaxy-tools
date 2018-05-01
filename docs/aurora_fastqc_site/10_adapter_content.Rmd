@@ -1,0 +1,42 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_knit$set(progress = FALSE)
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+### Adapter Content
+
+```{r 'Adapter Content', fig.width=10}
+## reads 1
+ac_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Adapter Content')
+ac_1$id = 1:length(ac_1$X.Position)
+
+melt_ac_1 = melt(ac_1, id=c('X.Position', 'id'))
+melt_ac_1$trim = 'before'
+
+## reads 2
+ac_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Adapter Content')
+ac_2$id = 1:length(ac_2$X.Position)
+
+melt_ac_2 = melt(ac_2, id=c('X.Position', 'id'))
+melt_ac_2$trim = 'after'
+
+comb_ac = rbind(melt_ac_1, melt_ac_2)
+comb_ac$trim = factor(levels = c('before', 'after'), comb_ac$trim)
+
+p = ggplot(data = comb_ac, aes(x = id, y = value, color = variable)) +
+  geom_line() +
+  facet_grid(. ~ trim) +
+  xlim(min(comb_ac$id), max(comb_ac$id)) + 
+  ylim(0, 1) +
+  xlab('Position in read (bp)') +
+  ylab('') +
+  scale_color_discrete(name = '') +
+  theme(axis.text.x = element_text(size = 5),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line())
+ggplotly(p)
+```
