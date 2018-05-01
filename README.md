@@ -16,7 +16,7 @@ Galaxy analysis reports better organized, data visualization more interactive an
 
 ### Website report tools
 
-<img src="images/aurora_star_site.gif" width=100 />
+<img src="images/aurora_star_site.gif" width="100%" />
 
 ### [More examples](https://statonlab.github.io/aurora-galaxy-tools/)
 
