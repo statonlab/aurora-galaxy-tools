@@ -12,7 +12,11 @@ Galaxy analysis reports better organized, data visualization more interactive an
 * Output a single HTML report
 * Output a website report
 
+**Both types use a clickable file tree to display tool outputs**.
+
 ### Single HTML report tools
+
+<img src="images/aurora_star.gif" width="100%" />
 
 ### Website report tools
 
@@ -37,4 +41,6 @@ docker run --rm -d \
 The Galaxy instance will be available at http://127.0.0.1:8080/. Please refer to [this page](https://github.com/bgruening/docker-galaxy-stable/blob/master/README.md) for more details
 about how to use the Docker image.
 
+## Develop Aurora Galaxy Tools
 
+Coming soon...
