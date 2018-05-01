@@ -1,0 +1,8 @@
+name: aurora_star_site
+owner: mingchen0919
+description: ultrafast universal RNA-seq aligner
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  - RNA

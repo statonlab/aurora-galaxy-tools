@@ -1,0 +1,36 @@
+---
+title: 'HTSeq-count Analysis'
+output:
+    html_document:
+      highlight: pygments
+---
+
+## Job script
+
+```{bash, echo=FALSE}
+sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh
+```
+
+```{r echo=FALSE, comment='', results='asis'}
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/htseq-count.sh')), sep = '\n')
+cat('\n```')
+```
+
+## Counts
+
+Only the first few rows are displayed. 
+
+```{r, echo=FALSE}
+count_data = read.table(paste0(opt$X_d, '/counts.txt'), row.names = 1)
+sample_names = trimws(strsplit(opt$X_B, ',')[[1]])
+colnames(count_data) = rep(sample_names, length = ncol(count_data))
+kable(head(count_data))
+
+# modify column names
+count_data = data.frame(feature_id = rownames(count_data), count_data)
+write.csv(count_data, 
+          file = paste0(Sys.getenv('REPORT_FILES_PATH'), '/count_data.csv'),
+          quote = FALSE, row.names = FALSE)
+```
+

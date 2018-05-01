@@ -1,4 +1,4 @@
-<tool name="aurora_htseq" id='aurora_htseq_report' version="2.0.1">
+<tool name="aurora_htseq_site" id='aurora_htseq_site_report' version="2.0.1">
     <description>
         counting reads in features
     </description>

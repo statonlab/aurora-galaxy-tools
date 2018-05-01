@@ -1,0 +1,53 @@
+
+
+```{css echo=FALSE}
+# code chunks scrollable
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
+
+
+```{r, echo=FALSE}
+# to make the css theme to work, <link></link> tags cannot be added directly 
+# as <script></script> tags as below.
+# it has to be added using a code chunk with the htmltool functions!!!
+css_link = tags$link()
+css_link$attribs = list(rel="stylesheet", href="vakata-jstree-3.3.5/dist/themes/default/style.min.css")
+css_link
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# below is to add jQuery and jstree javascripts
+```
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# javascript code below is to build the file tree interface
+# see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
+```
+<script>
+  $(function () {
+    // create an instance when the DOM is ready
+    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+     window.open( data.node.a_attr.href, data.node.a_attr.target )
+    });
+  });
+</script>
+
+## Outputs
+
+```{r, echo=FALSE}
+# create a div container to store the file tree interface
+library(htmltools)
+tags$div(
+  id="jstree",
+  file_tree(Sys.getenv('REPORT_FILES_PATH'))
+)
+```

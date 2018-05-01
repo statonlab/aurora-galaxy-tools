@@ -1,0 +1,21 @@
+name: "Aurora STAR"
+output_dir: "."
+navbar:
+    title: "Aurora STAR"
+    type: inverse
+    left:
+        - text: "RNA-Seq alignment"
+          menu:
+            - text: "Index genome"
+              href: 01_index_genome.html
+            - text: "Mapping"
+              href: 02_mapping.html
+            - text: "SAM to sorted BAM"
+              href: 03_sam_to_sorted_bam.html
+            - text: "Mapping evaluation"
+              href: 04_mapping_evaluation.html
+
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

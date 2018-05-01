@@ -1,6 +1,6 @@
 <tool name="aurora_htseq" id='aurora_htseq_report' version="2.0.1">
     <description>
-        counting reads in features
+        some description
     </description>
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>

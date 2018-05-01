@@ -1,0 +1,26 @@
+---
+title: 'Skewer Analysis'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+## Job script
+
+```{bash echo=FALSE}
+sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh
+```
+
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/job-1-script.sh')), sep = '\n')
+cat('\n```')
+```
+
+

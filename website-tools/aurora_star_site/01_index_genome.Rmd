@@ -1,0 +1,22 @@
+---
+title: 'Index genome'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+
+```{bash, echo=FALSE}
+sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh
+```
+
+```{r echo=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/index-genome.sh')), sep = '\n')
+cat('\n```')
+```

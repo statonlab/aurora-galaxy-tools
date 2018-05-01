@@ -1,4 +1,4 @@
-<tool name="aurora_star" id='aurora_star_report' version="2.0.1">
+<tool name="aurora_star_site" id='aurora_star_site_report' version="2.0.1">
     <description>
         ultrafast universal RNA-seq aligner
     </description>
