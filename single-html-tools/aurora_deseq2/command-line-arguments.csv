@@ -1,0 +1,13 @@
+short flag,argument mask,data type,variable name
+o,1,character,report
+d,1,character,report.files_path
+A,1,character,count_data
+B,1,character,column_data
+C,1,character,design_formula
+D,1,character,treatment_name
+E,1,character,treated
+F,1,character,untreated
+G,1,character,test_type
+H,1,character,fit_type
+I,1,character,alpha
+J,1,character,significant_genes
