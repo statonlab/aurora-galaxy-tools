@@ -10,4 +10,6 @@ if [ -e "index.html" ]; then
   cp index.html ${REPORT}
 fi
 
-cp count_data.csv ${X_c}
+if [ -e "count_data.csv" ];then
+  cp count_data.csv ${X_c}
+fi

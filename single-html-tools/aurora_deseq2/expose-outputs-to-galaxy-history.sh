@@ -10,4 +10,6 @@ if [ -e "index.html" ]; then
   cp index.html ${REPORT}
 fi
 
-cp padj-sorted-significant-genes.txt ${X_J}
+if [ -e "padj-sorted-significant-genes.txt" ]; then
+  cp padj-sorted-significant-genes.txt ${X_J}
+fi

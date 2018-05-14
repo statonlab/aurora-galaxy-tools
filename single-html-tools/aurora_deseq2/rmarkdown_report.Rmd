@@ -59,7 +59,7 @@ css_link
 # import count data
 count_data = read.csv(opt$X_A, row.names = 1, header = TRUE)
 # import column data
-coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data), ]
+coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data),,drop=FALSE]
 ```
 
 ```{r echo=FALSE}

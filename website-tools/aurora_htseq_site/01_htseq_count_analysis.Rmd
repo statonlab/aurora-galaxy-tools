@@ -8,7 +8,7 @@ output:
 ## Job script
 
 ```{bash, echo=FALSE}
-sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh
+sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh > ${REPORT_FILES_PATH}/log.txt 2>&1
 ```
 
 ```{r echo=FALSE, comment='', results='asis'}
