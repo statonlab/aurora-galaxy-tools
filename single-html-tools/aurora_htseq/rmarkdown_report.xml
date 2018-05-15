@@ -54,7 +54,7 @@
             <option value="sam" selected="false">SAM</option>
             <option value="bam" selected="true">BAM</option>
         </param>
-        <param type="data" name="gff" label="GFF file" optional="False" format="gff, gff3"/>
+        <param type="data" name="gff" label="GFF file" optional="False" format="gff,gff3"/>
         <param type="select" name="order" argument="-r" label="Order"
                help="Use this option to indicate how the input data has been sorted. The default is name.&#13;&#10;&#13;&#10;"
                optional="False" multiple="False">
