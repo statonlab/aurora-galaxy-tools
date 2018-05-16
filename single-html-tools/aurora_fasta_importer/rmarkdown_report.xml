@@ -1,6 +1,6 @@
 <tool name="aurora_fasta_importer" id='aurora_fasta_importer_report' version="1.0.0">
     <description>
-        some description
+        Import fasta to galaxy by copying uploaded fasta or downloading fasta from an URL.
     </description>
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
@@ -30,6 +30,7 @@
             -d $report.files_path
             
             -f $upload_fasta
+            -e $url_ext
             -O $output_fasta
 
 
@@ -37,6 +38,11 @@
     <inputs>
         <param type="data" name="upload_fasta" format="txt,fa,fna,fasta" label="Fasta file or Fasta URL"
                help="A fasta file or a txt file. If it is txt file, it should only has one line, which is an URL to a downloadable fasta file."/>
+        <param type="select" name="url_ext" label="URL fasta format">
+            <option value="fasta" selected="true">.fa, .fasta</option>
+            <option value="gz">.gz</option>
+            <option value="twobit">.2bit</option>
+        </param>
     </inputs>
     <outputs>
         <data format="html" name="report" label="${tool.name} report on ${on_string}"/>
