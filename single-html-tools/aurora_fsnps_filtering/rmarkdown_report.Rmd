@@ -1,0 +1,127 @@
+---
+title: 'Filter fSNPS matrix'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+```{css echo=FALSE}
+# code chunks scrollable
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
+
+
+```{r, echo=FALSE}
+# to make the css theme to work, <link></link> tags cannot be added directly 
+# as <script></script> tags as below.
+# it has to be added using a code chunk with the htmltool functions!!!
+css_link = tags$link()
+css_link$attribs = list(rel="stylesheet", href="vakata-jstree-3.3.5/dist/themes/default/style.min.css")
+css_link
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# below is to add jQuery and jstree javascripts
+```
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
+
+---
+# javascript code below is to build the file tree interface
+# see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
+---
+<script>
+  $(function () {
+    // create an instance when the DOM is ready
+    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+     window.open( data.node.a_attr.href, data.node.a_attr.target )
+    });
+  });
+</script>
+
+---
+# ADD YOUR DATA ANALYSIS CODE AND MARKUP TEXT BELOW TO EXTEND THIS R MARKDOWN FILE
+---
+
+## Import fSNPS matrix
+
+```{r}
+fSNPS = read.csv(opt$X_I, header = TRUE, row.names = 1)
+knitr::kable(head(fSNPS[, 1:5])) # only display the first few rows and columns
+```
+
+## Filter fSNPS matrix by `r opt$X_f`
+
+```{r}
+### Missingness by SNP
+if (opt$X_f == 'MNsnp') {
+  MNsnp <- apply(fSNPS, 2, function(x) { sum(is.na(x))/length(x) })
+  hist(MNsnp, breaks=10) # We can observe that most of the SNPS have a Missingness below 0.01 (i.e. ~ 2 individual ot of 160).
+  fSNPS <- fSNPS[,MNsnp<opt$X_t] # We apply a 1% threshold
+  
+  write.csv(fSNPS, file = "fSNPS.csv", quote = FALSE)
+}
+
+
+### Missingness by Individual
+if (opt$X_f == 'MNind') {
+  ## For each individual, it computes the % of missing observation across the SNPs. 
+  MNind <- apply(fSNPS, 1, function(x) { sum(is.na(x))/length(x) })
+  hist(MNind, breaks=100) # We can observe that all the missingness by Individual are below 1% (i.e. ~ 350 snps out of 35000)
+  fSNPS <- fSNPS[MNind<opt$X_t,] # We apply a 5% threshold
+  
+  write.csv(fSNPS, file = "fSNPS.csv", quote = FALSE)
+}
+
+
+### Minor Allele Frequency
+if (opt$X_f == 'MAF') {
+  
+  ## For each SNP, it computes the frequncy of the most rare allele across all individuals. 
+  MAF <- apply(fSNPS, 2, function(x) {
+    a=(sum(x=='1', na.rm=T)+sum(x=='0', na.rm=T)*2)/(sum(is.na(x)==F)*2)
+    A=(sum(x=='1', na.rm=T)+sum(x=='2', na.rm=T)*2)/(sum(is.na(x)==F)*2)
+    return(min(a,A))
+  })
+  hist(MAF, breaks=100) # The distribution has a right skew. What genotypes would you filter out? Why?
+  fSNPS <- fSNPS[,MAF>opt$X_t] # We apply a 5% threshold. 
+  
+  write.csv(fSNPS, file = "fSNPS.csv", quote = FALSE)
+}
+
+
+### Major Genotype Frequency
+
+if (opt$X_f == 'MGF') {
+  ## For each SNP, it computes the frequency of the most frequent genotype across all individuals.
+  MGF <- apply(fSNPS, 2, function(x) {
+  aa=(sum(x=='0', na.rm=T))/(sum(is.na(x)==F))
+  aA=(sum(x=='1', na.rm=T))/(sum(is.na(x)==F))
+  AA=(sum(x=='2', na.rm=T))/(sum(is.na(x)==F))
+  return(max(aa,aA,AA))
+})
+hist(MGF, breaks=100) # What genotypes would you filter out? Why?
+fSNPS <- fSNPS[,MGF<opt$X_t] # We apply a 95% threshold 
+
+ 
+  write.csv(fSNPS, file = "fSNPS.csv", quote = FALSE) 
+}
+```
+
+
+## fSNPS dimensions
+
+```{r}
+dim(fSNPS)
+```
+
