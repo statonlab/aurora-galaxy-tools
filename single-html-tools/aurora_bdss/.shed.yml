@@ -1,0 +1,10 @@
+---
+name: aurora_bdss
+owner: mingchen0919
+description: download data with BDSS client and generate list (single end SRA data) and list:paired dataset collection (paired end SRA data).
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  - Fastq Manipulation
+...
