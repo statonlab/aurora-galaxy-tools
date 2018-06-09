@@ -13,6 +13,12 @@ sink(zz, type = 'message')
 library('getopt')
 library('rmarkdown')
 library('htmltools')
+library('plyr')
+library('dplyr')
+library('stringr')
+library('DT')
+library('reshape2')
+library('plotly')
 #------------------------------------------------------------------
 options(stringsAsFactors = FALSE)
 
@@ -90,7 +96,7 @@ file_tree = function(dir = '.') {
       lapply(dirs, function(x) {
         path_end = tail(strsplit(x, '/')[[1]], 1)
         # hide vakata-jstree-3.3.5 folder
-        if (path_end != 'vakata-jstree-3.3.5') {
+        if ( !(path_end %in% c('vakata-jstree-3.3.5', 'rmarkdown_report_files'))) {
           # x_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
           li_item = tags$li(path_end, file_tree(x))
           li_item$attribs = list('data-jstree' = '{"icon":"jstree-folder"}')
@@ -131,12 +137,14 @@ if (file.exists(paste0(Sys.getenv('TOOL_INSTALL_DIR'), '/_site.yml'))) {
   # render a single html
   system(command = 'cp -r ${TOOL_INSTALL_DIR}/rmarkdown_report.Rmd ${REPORT_FILES_PATH}')
   # add a few lines to 'rmarkdown_report.Rmd' to generate file tree outputs
-  jstree_lines = '
+  jstree_lines = 
+'
 ## Outputs
 
 ```{r, echo=FALSE}
 tags$div(id="jstree", file_tree(Sys.getenv(\'REPORT_FILES_PATH\')))
-```'
+```
+'
   write(
     x = jstree_lines,
     append = TRUE,

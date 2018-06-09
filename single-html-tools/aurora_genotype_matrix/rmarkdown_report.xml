@@ -1,6 +1,6 @@
-<tool name="aurora_genetic_filtering" id='aurora_genetic_filtering_report' version="1.0.0">
+<tool name="aurora_genotype_matrix" id='aurora_genotype_matrix_report' version="1.0.0">
     <description>
-        some description
+        create genotype matrix
     </description>
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
