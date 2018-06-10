@@ -90,7 +90,7 @@ file_tree = function(dir = '.') {
       lapply(dirs, function(x) {
         path_end = tail(strsplit(x, '/')[[1]], 1)
         # hide vakata-jstree-3.3.5 folder
-        if (path_end != 'vakata-jstree-3.3.5') {
+        if (!(path_end %in% c('vakata-jstree-3.3.5', 'rmarkdown_report_files', 'site_libs'))) {
           # x_path = strsplit(x, paste0(output_dir, '/'))[[1]][2]
           li_item = tags$li(path_end, file_tree(x))
           li_item$attribs = list('data-jstree' = '{"icon":"jstree-folder"}')
