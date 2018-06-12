@@ -1,6 +1,6 @@
 <tool name="aurora_bdss_url" id='aurora_bdss_url_report' version="1.0.0">
     <description>
-        some description
+        download data with BDSS client
     </description>
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
