@@ -109,6 +109,8 @@ opt = getopt(getopt_specification_matrix('command-line-arguments.csv',
 # define environment variables for all input values. this is useful when we
 # want to use input values by other programming language in r markdown
 do.call(Sys.setenv, opt[-1])
+# add current job working directory
+Sys.setenv(JOB_WORKING_DIR=getwd())
 #===============================================================
 
 
