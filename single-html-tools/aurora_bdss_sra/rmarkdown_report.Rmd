@@ -1,0 +1,120 @@
+---
+title: 'BDSS download from SRA'
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+```{css echo=FALSE}
+# code chunks scrollable
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
+
+
+```{r, echo=FALSE}
+# to make the css theme to work, <link></link> tags cannot be added directly 
+# as <script></script> tags as below.
+# it has to be added using a code chunk with the htmltool functions!!!
+css_link = tags$link()
+css_link$attribs = list(rel="stylesheet", href="vakata-jstree-3.3.5/dist/themes/default/style.min.css")
+css_link
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# below is to add jQuery and jstree javascripts
+```
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
+
+---
+# javascript code below is to build the file tree interface
+# see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
+---
+<script>
+  $(function () {
+    // create an instance when the DOM is ready
+    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+     window.open( data.node.a_attr.href, data.node.a_attr.target )
+    });
+  });
+</script>
+
+---
+# ADD YOUR DATA ANALYSIS CODE AND MARKUP TEXT BELOW TO EXTEND THIS R MARKDOWN FILE
+---
+
+# Job script
+
+```{r echo=FALSE}
+# create two directories to store downloaded data
+se_dir = paste0(Sys.getenv('JOB_WORKING_DIR'), '/se_read_files_dir')
+pe_dir = paste0(Sys.getenv('JOB_WORKING_DIR'), '/pe_read_files_dir')
+```
+
+```{r 'download and extract reads', echo=-1}
+Sys.setenv(PATH=paste0('/main/sites/galaxy/galaxy/tools/_conda/bin:', Sys.getenv('PATH')))
+
+# download and extract reads (single end)
+sra_ids_se = strsplit(gsub(',', ' ', opt$X_s), ' ')[[1]]
+sra_ids_se = sra_ids_se[sra_ids_se != '']
+# loop through SRA accessions to download and extract reads.
+for(id in sra_ids_se) {
+    # build URL from SRA id
+    url = paste0('ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/',
+                 substr(id, 1, 3), '/',
+                 substr(id, 1, 6), '/', id, '/', id, '.sra')
+    # download sra file with bdss
+    bdss_command = paste0('bdss transfer -u ', url, '>> ${REPORT_FILES_PATH}/log.txt 2>&1')
+    command_stdout = system(bdss_command, intern = TRUE)
+    # convert .sra to .fastq/.fasta
+    if(opt$X_f == 'fasta') {
+      command = paste0('fastq-dump --fasta -O ', se_dir, ' ', id, '.sra')
+    } else {
+      command = paste0('fastq-dump -O ', se_dir, ' ', id, '.sra')
+    }
+    command_stdout = system(command, intern = TRUE)
+    write(command_stdout, file = paste0(Sys.getenv('REPORT_FILES_PATH'), '/fastq-dump.log.txt'), append = TRUE)
+}
+
+# download and extract reads (paired end)
+sra_ids_pe = strsplit(gsub(',', ' ', opt$X_p), ' ')[[1]]
+sra_ids_pe = sra_ids_pe[sra_ids_pe != '']
+# loop through SRA accessions to download and extract reads.
+for(id in sra_ids_pe) {
+    # build URL from SRA id
+    url = paste0('ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/',
+                 substr(id, 1, 3), '/',
+                 substr(id, 1, 6), '/', id, '/', id, '.sra')
+    # download sra file with bdss
+    bdss_command = paste0('bdss transfer -u ', url, '>> ${REPORT_FILES_PATH}/log.txt 2>&1')
+    command_stdout = system(bdss_command, intern = TRUE)
+    # convert .sra to .fastq/.fasta
+    if(opt$X_f == 'fasta') {
+      command = paste0('fastq-dump --fasta --split-files -O ', pe_dir, ' ', id, '.sra')
+    } else {
+      command = paste0('fastq-dump --split-files -O ', pe_dir, ' ', id, '.sra')
+    }
+    command_stdout = system(command, intern = TRUE)
+    write(command_stdout, file = paste0(Sys.getenv('REPORT_FILES_PATH'), '/fastq-dump.log.txt'), append = TRUE)
+}
+
+```
+
+```{r echo=FALSE}
+# rename files for paired end reads
+old_files = list.files(path = pe_dir, full.names = TRUE)
+new_files = gsub('_1', '_forward', old_files)
+new_files = gsub('_2', '_reverse', new_files)
+res = file.rename(old_files, new_files)
+```
+

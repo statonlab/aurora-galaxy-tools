@@ -1,0 +1,91 @@
+<tool name="aurora_bdss_sra" id='aurora_bdss_sra_report' version="1.0.0">
+    <description>
+        download reads with BDSS client and generate list (single end SRA data) and list:paired dataset collection (paired end SRA data)
+    </description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+        <requirement type="package" version="0.6.2">parallel-fastq-dump</requirement>
+    </requirements>
+    <command><![CDATA[
+
+        ######### each aurora tool generates a html file and have an files path directory associated with it.
+        mkdir -p $report.files_path &&
+
+        ######### three important paths:
+        #########   1. path to tool installation directory
+        #########   2. path to report html
+        #########   3. path to files_path directory associated with the report output.
+        export TOOL_INSTALL_DIR='${__tool_directory__}' &&
+        export REPORT='$report' &&
+        export REPORT_FILES_PATH='$report.files_path' &&
+
+        ############ create a hidden file to store r markdown rendering log
+        touch $report.files_path/.r_rendering.log.txt &&
+
+        ############ finally run the render.R script
+        Rscript '${__tool_directory__}/rmarkdown_report_render.R'
+        
+            -o $report
+            -d $report.files_path
+
+            -s '$sra_ids_se'
+            -p '$sra_ids_pe'
+            -f $format
+
+
+    ]]></command>
+    <inputs>
+        <param type="text" name="sra_ids_se" area="true" size="5x25" label="SRR/DRR/ERR accessions of single end SRA"
+               help="A list of SRR/DRR/ERR accessions separated by comma or space. e.g. SRR039885. Valid SRA IDs can be
+               obtained from ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/."/>
+        <param type="text" name="sra_ids_pe" area="true" size="5x25" label="SRR/DRR/ERR accessions of paired end SRA"
+               help="A list of SRR/DRR/ERR accessions separated by comma or space. e.g. ERR1748507. Valid SRA IDs can be
+               obtained from ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/."/>
+        <param type="select" name="format" label="Output format">
+            <option value="fastq" selected="true">fastq</option>
+            <option value="fasta">fasta</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="${tool.name} report"/>
+        <collection type="list" name="list_collection" label="BDSS download data (single end reads)">
+            <discover_datasets pattern="__name_and_ext__" directory="se_read_files_dir"/>
+        </collection>
+        <!--list:paired dataset collection for paired end SRA data-->
+        <collection type="list:paired" name="list:paired_collection" label="BDSS download data (paired end reads)">
+            <discover_datasets
+                    pattern="(?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)\.(?P&lt;ext&gt;[^\._]+)?"
+                    directory="pe_read_files_dir"/>
+        </collection>
+    </outputs>
+    <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @online{jstree,
+            author={Bozhanov, Ivan},
+            year = 2018,
+            url = {https://www.jstree.com/}
+            }
+        ]]></citation>
+    </citations>
+</tool>

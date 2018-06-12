@@ -1,0 +1,10 @@
+---
+name: aurora_bdss_sra
+owner: mingchen0919
+description: Download reads with BDSS client and generate list (single end SRA data) and list:paired dataset collection (paired end SRA data).
+long_description: ""
+remote_repository_url: "https://github.com/feltus/BDSS"
+type: unrestricted
+categories:
+  - Data Source
+...
