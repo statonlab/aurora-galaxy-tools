@@ -1,4 +1,4 @@
-<tool name="aurora_bdss" id='aurora_bdss_report' version="1.0.0">
+<tool name="aurora_bdss_url" id='aurora_bdss_url_report' version="1.0.0">
     <description>
         some description
     </description>
@@ -6,7 +6,6 @@
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
         <requirement type="package" version="1.20.0">r-getopt</requirement>
         <requirement type="package" version="1.6">r-rmarkdown</requirement>
-        <requirement type="package" version="0.6.2">parallel-fastq-dump</requirement>
     </requirements>
     <command><![CDATA[
 
@@ -30,34 +29,19 @@
             -o $report
             -d $report.files_path
 
-            -s '$sra_ids_se'
-            -p '$sra_ids_pe'
-            -f $format
+            -u '$urls'
 
 
     ]]></command>
     <inputs>
-        <param type="text" name="sra_ids_se" area="true" size="5x25" label="SRR/DRR/ERR accessions of single end SRA"
-               help="A list of SRR/DRR/ERR accessions separated by comma or space. e.g. SRR039885"/>
-        <param type="text" name="sra_ids_pe" area="true" size="5x25" label="SRR/DRR/ERR accessions of paired end SRA"
-               help="A list of SRR/DRR/ERR accessions separated by comma or space. e.g. ERR1748507"/>
-        <param type="select" name="format" label="Output format">
-            <option value="fastq" selected="true">fastq</option>
-            <option value="fasta">fasta</option>
-        </param>
+        <param type="text" name="urls" area="true" size="5x25" label="data URLs"
+               help="Multiple URLs should be separated with comma or space"/>
     </inputs>
     <outputs>
-        <data format="html" name="report" label="${tool.name} report on ${on_string}"/>
-        <!--list dataset collection for single end SRA data-->
-        <collection type="list" name="list_collection" label="BDSS download data (single end reads)">
-            <discover_datasets pattern="__name_and_ext__" directory="se_read_files_directory"/>
-        </collection>
-        <!--list:paired dataset collection for paired end SRA data-->
-        <collection type="list:paired" name="list:paired_collection" label="BDSS download data (paired end reads)">
-            <discover_datasets
-                    pattern="(?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)\.(?P&lt;ext&gt;[^\._]+)?"
-                    directory="pe_read_files_directory"/>
-        </collection>
+        <data format="html" name="report" label="${tool.name} report"/>
+        <data name="output" label="BDSS downloaded data">
+            <discover_datasets pattern="__name_and_ext__" directory="download_dir" visible="true"/>
+        </data>
     </outputs>
     <citations>
         <citation type="bibtex"><![CDATA[

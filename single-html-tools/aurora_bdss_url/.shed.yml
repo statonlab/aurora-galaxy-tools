@@ -1,0 +1,10 @@
+---
+name: aurora_bdss_url
+owner: mingchen0919
+description: Download data with bdss client.
+long_description: ""
+remote_repository_url: "https://github.com/feltus/BDSS"
+type: unrestricted
+categories:
+  - Data Source
+...
