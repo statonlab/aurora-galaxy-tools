@@ -1,5 +1,5 @@
 ---
-title: "Aurora Galaxy Tool Examples"
+title: "Aurora Galaxy Tool Reports"
 output: html_document
 ---
 
@@ -7,6 +7,12 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Introduction
+
+This site demonstrates example tool reports from a set of Aurora Galaxy tools, including 
+both single HTML report tools and website report tools. Source code for these tools can be
+found at [https://github.com/statonlab/aurora-galaxy-tools](https://github.com/statonlab/aurora-galaxy-tools). 
+Tools are also available at the [Galaxy Test ToolShed](https://testtoolshed.g2.bx.psu.edu/).
 
 ## Single HTML reports
 
