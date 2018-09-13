@@ -1,0 +1,126 @@
+<tool name="aurora_deseq2" id='aurora_deseq2_report' version="2.2.2">
+    <description>
+        Differential analysis of count data with the DESeq2 package
+    </description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.3">r-rmarkdown</requirement>
+        <requirement type="package" version="1.16.1">bioconductor-deseq2</requirement>
+        <requirement type="package" version="4.5.6">r-plotly</requirement>
+        <requirement type="package" version="2.2.1">r-ggplot2</requirement>
+        <requirement type="package" version="1.0.8">r-pheatmap</requirement>
+    </requirements>
+    <command><![CDATA[
+
+        ######### each aurora tool generates a html file and have an files path directory associated with it.
+        mkdir -p $report.files_path &&
+
+        ######### three important paths:
+        #########   1. path to tool installation directory
+        #########   2. path to report html
+        #########   3. path to files_path directory associated with the report output.
+        export TOOL_INSTALL_DIR='${__tool_directory__}' &&
+        export REPORT='$report' &&
+        export REPORT_FILES_PATH='$report.files_path' &&
+
+        ############ create a hidden file to store r markdown rendering log
+        touch $report.files_path/r_rendering.log.txt &&
+
+        ############ finally run the render.R script
+        Rscript '${__tool_directory__}/rmarkdown_report_render.R'
+        
+            -o $report
+            -d $report.files_path
+            -A '$count_data'
+            -B '$column_data'
+            -C '$design_formula'
+            -D '$treatment_name'
+            -E '$treated'
+            -F '$untreated'
+            -H '$fit_type'
+            -I '$alpha'
+            -J '$significant_genes'
+
+
+    ]]></command>
+    <inputs>
+        <param type="data" name="count_data" label="Count data"
+               help="The first column is sample names; The remaining columns are read counts from each sample."
+               optional="False" format="csv"/>
+        <param type="data" name="column_data" label="Column data"
+               help="The first column are sample names (column name from the count data); The remaining columns are experimental treatments."
+               optional="False" format="csv"/>
+        <param type="text" name="design_formula" label="Design formula"
+               help="The design formula expresses the variables which will be used in modeling. The formula should be a tilde (~) followed by the variables with plus signs between them, e.g., ~ condition1 + condition2"
+               optional="False">
+            <sanitizer sanitize="true">
+                <valid initial="default">
+                    <add preset="string.printable"/>
+                    <add value="~"/>
+                </valid>
+            </sanitizer>
+        </param>
+        <param type="text" name="treatment_name" label="Treatment name"
+               help="one of the treatment column names from the column data." optional="False"/>
+        <param type="text" name="treated" label="Treated"
+               help="A level from the specified treatment column that will be used as the treated group in the DESeq2 analysis."
+               optional="False"/>
+        <param type="text" name="untreated" label="Untreated"
+               help="A level from the specified treatment column that will be used as the untreated group in the DESeq2 analysis."
+               optional="False"/>
+        <param type="select" name="fit_type" label="Fitting of dispersions"
+               help="either &quot;parametric&quot;, &quot;local&quot;, or &quot;mean&quot; for the type of fitting of dispersions to the mean intensity"
+               optional="False">
+            <option value="parametric" selected="true">parametric</option>
+            <option value="local" selected="false">local</option>
+            <option value="mean" selected="false">mean</option>
+        </param>
+        <param type="float" name="alpha" label="Alpha"
+               help="the significance cutoff used for optimizing the independent filtering (by default 0.1). If the adjusted p-value cutoff (FDR) will be a value other than 0.1, alpha should be set to that value."
+               optional="False" value="0.1" min="0" max="1"/>
+    </inputs>
+    <outputs>
+        <data format="html" name="report" label="${tool.name} report on ${on_string}"/>
+        <data name="significant_genes" format="tabular" label="${tool.name} signficant genes on ${on_string} "
+              hidden="false"/>
+    </outputs>
+    <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @online{jstree,
+            author={Bozhanov, Ivan},
+            year = 2018,
+            url = {https://www.jstree.com/}
+            }
+        ]]></citation>
+        <citation type="bibtex"><![CDATA[
+            @article{love2014differential,
+            title={Differential analysis of count data--the DESeq2 package},
+            author={Love, Michael and Anders, Simon and Huber, Wolfgang},
+            journal={Genome Biol},
+            volume={15},
+            pages={550},
+            year={2014}
+            }
+        ]]></citation>
+    </citations>
+</tool>
