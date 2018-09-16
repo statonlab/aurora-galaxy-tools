@@ -1,0 +1,10 @@
+---
+name: statonlab_hmmscan
+owner: mingchen0919
+description: Query protein sequences against Pfam database
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  RNA: Sequence Analysis
+...

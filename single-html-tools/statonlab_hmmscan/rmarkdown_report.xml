@@ -7,7 +7,7 @@
         <requirement type="package" version="3.2.1">hmmer</requirement>
         <requirement type="package" version="1.6">r-rmarkdown</requirement>
         <requirement type="package" version="0.8.1">seqkit</requirement>
-        <requirement type="package" version="1.0.0">r-tidyverse</requirement>
+        <requirement type="package" version="1.1.1">r-tidyverse</requirement>
     </requirements>
     <command><![CDATA[        ######### each aurora tool generates a html file and have an files path directory associated with it.
         mkdir -p $report.files_path &&
@@ -43,15 +43,15 @@
                help="A significant genes file from the &lt;code&gt;aurora_deseq2&lt;/code&gt; tool." optional="False"
                format="txt,csv" multiple="False"/>
         <param type="text" name="protein_sequences_url" label="URL to a protein sequences file" optional="False"/>
-        <param type="text" name="evalue_threshold" argument="-E" label="Evalue threshold"
+        <param type="text" name="evalue_threshold" argument="-E" label="Evalue threshold" optional="True"
                help="report models &lt;= this E-value threshold in output  [10.0]  (x&gt;0)" optional="False"
                value="10"/>
-        <param type="text" name="score_threshold" argument="-T" label="Score threshold"
+        <param type="text" name="score_threshold" argument="-T" label="Score threshold" optional="True"
                help="report models &gt;= this score threshold in output" optional="False"/>
-        <param type="text" name="domE" argument="--domE" label="domains E-value threshold"
+        <param type="text" name="domE" argument="--domE" label="domains E-value threshold" optional="True"
                help="report domains &lt;= this E-value threshold in output  [10.0]  (x&gt;0)" optional="False"
                value="10"/>
-        <param type="text" name="domT" argument="--domT" label="domains score threshold"
+        <param type="text" name="domT" argument="--domT" label="domains score threshold" optional="True"
                help="report domains &gt;= this score cutoff in output" optional="False"/>
         <param type="boolean" name="best_hit" label="Best Hit" help="Only return best hit for each query sequence"
                optional="False" truevalue="NO_ARGUMENT_YES" falsevalue="NO_ARGUMENT_NO"/>

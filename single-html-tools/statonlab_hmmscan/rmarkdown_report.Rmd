@@ -97,17 +97,19 @@ cat('\n```')
 
 Save hmmscan results into a file and display the first few results.
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 library(readr)
 library(dplyr)
 header = 'target_name,accession,query_name,e_value'
 tblout = read_delim(paste0(opt$X_d, '/tblout.txt'), comment = '#', delim = '\t', col_names = FALSE)
 tblout = c(header, str_replace_all(tblout$X1, '(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s+.*', '\\1,\\2,\\3,\\5'))
-if (opt$X_b) {
+write.table(tblout, file = paste0(opt$X_d, '/tblout.csv'), col.names = FALSE, row.names = FALSE, quote = FALSE)
+tblout = read.csv(paste0(opt$X_d, '/tblout.csv'), header = TRUE)
+if (opt$X_b == 'NO_ARGUMENT_YES') {
   tblout = group_by(tblout, target_name) %>%
     slice(which.min(e_value))
+  write.table(tblout, file = paste0(opt$X_d, '/tblout.csv'), col.names = FALSE, row.names = FALSE, quote = FALSE)
 }
-write.table(tblout, file = paste0(opt$X_d, '/tblout.csv'), col.names = FALSE, row.names = FALSE, quote = FALSE)
 knitr::kable(head(tblout))
 ```
 
