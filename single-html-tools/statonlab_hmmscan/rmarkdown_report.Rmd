@@ -95,12 +95,20 @@ cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/hmmscan.sh')), sep = '\n
 cat('\n```')
 ```
 
+Save hmmscan results into a file and display the first few results.
+
 ```{r echo=FALSE}
 library(readr)
-header = 'target name,accession,query name,accession,E-value,score,bias,E-value,score,bias,exp,reg,clu,ov,env,dom,rep,inc,description of target'
+library(dplyr)
+header = 'target_name,accession,query_name,e_value'
 tblout = read_delim(paste0(opt$X_d, '/tblout.txt'), comment = '#', delim = '\t', col_names = FALSE)
-tblout = c(header, str_replace_all(tblout$X1, '\\s+', ','))
+tblout = c(header, str_replace_all(tblout$X1, '(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s+.*', '\\1,\\2,\\3,\\5'))
+if (opt$X_b) {
+  tblout = group_by(tblout, target_name) %>%
+    slice(which.min(e_value))
+}
 write.table(tblout, file = paste0(opt$X_d, '/tblout.csv'), col.names = FALSE, row.names = FALSE, quote = FALSE)
+knitr::kable(head(tblout))
 ```
 
 

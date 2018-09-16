@@ -11,5 +11,5 @@ if [ -e "index.html" ]; then
 fi
 
 if [ -e "tblout.csv" ]; then
-  cp tblout.txt ${X_1}
+  cp tblout.csv ${X_1}
 fi
