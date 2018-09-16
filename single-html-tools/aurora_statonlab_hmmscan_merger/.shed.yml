@@ -1,0 +1,10 @@
+---
+name: aurora_statonlab_hmmscan_merger
+owner: mingchen0919
+description: Merge results from aurora_statonlab_hmmscan
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Sequence Analysis: Sequence Analysis
+...

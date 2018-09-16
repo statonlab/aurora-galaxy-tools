@@ -1,0 +1,119 @@
+---
+title: ''
+output:
+    html_document:
+      highlight: pygments
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+
+```{css echo=FALSE}
+# code chunks scrollable
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+```
+
+
+```{r, echo=FALSE}
+# to make the css theme to work, <link></link> tags cannot be added directly 
+# as <script></script> tags as below.
+# it has to be added using a code chunk with the htmltool functions!!!
+css_link = tags$link()
+css_link$attribs = list(rel="stylesheet", href="vakata-jstree-3.3.5/dist/themes/default/style.min.css")
+css_link
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
+# below is to add jQuery and jstree javascripts
+```
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
+
+---
+# javascript code below is to build the file tree interface
+# see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
+---
+<script>
+  $(function () {
+    // create an instance when the DOM is ready
+    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+     window.open( data.node.a_attr.href, data.node.a_attr.target )
+    });
+  });
+</script>
+
+---
+# ADD YOUR DATA ANALYSIS CODE AND MARKUP TEXT BELOW TO EXTEND THIS R MARKDOWN FILE
+---
+
+#### Significant genes grouped by pfam target name across multiple organisms
+
+---
+
+```{r message=FALSE}
+library(tidyverse)
+library(knitr)
+tblout_files = strsplit(opt$X_p, ',')[[1]]
+common_pfams = read.csv(tblout_files[1])[, 'target_name']
+for (f in tblout_files[-1]) {
+  common_pfams = intersect(common_pfams, read.csv(f)[, 'target_name'])
+}
+
+pfams_df = read.csv(tblout_files[1], stringsAsFactors = FALSE)
+pfams_df = pfams_df[pfams_df$target_name %in% common_pfams, c('target_name', 'accession', 'query_name')]
+pfams_df = pfams_df %>% group_by(target_name) %>%
+  mutate(query_name = paste0(unique(query_name), collapse = ',')) %>%
+  distinct() %>%
+  arrange(target_name)
+first_file_name = tail(strsplit(tblout_files[1], '/')[[1]], 1)
+colnames(pfams_df)[3] = first_file_name
+
+
+for (f in tblout_files[-1]) {
+  df = read.csv(f, stringsAsFactors = FALSE)
+  df = df[df$target_name %in% common_pfams, c('target_name', 'accession', 'query_name')]
+  df = df %>% group_by(target_name) %>%
+    mutate(query_name = paste0(unique(query_name), collapse = ',')) %>%
+    distinct() %>%
+    arrange(target_name)
+  df = df[, c("target_name", "query_name"), drop=FALSE]
+  header = c("target_name", tail(strsplit(f, '/')[[1]], 1))
+  colnames(df) = header
+  pfams_df = merge(pfams_df, df[, header], by = "target_name")
+}
+
+
+
+add_links = function(features) {
+  items = strsplit(features, ',')[[1]]
+  res = tags$ul(
+    lapply(strsplit(items, ','), function(item) {
+      item_adj = gsub('_', '', item)
+      a(paste0(item, ';'), href=paste0('https://www.hardwoodgenomics.org/feature/', item_adj))
+    })
+  )
+  list(res)
+}
+
+
+table_list = list()
+table_list[[1]] = tags$tr(lapply(colnames(pfams_df), tags$th))
+for (i in 1:nrow(pfams_df)) {
+  row = c(pfams_df[i, c('target_name', 'accession')], 
+          lapply(pfams_df[i, -c(1:2)], add_links))
+  table_list[[i+1]] = tags$tr(lapply(row, tags$td))
+}
+tags$table(table_list)
+```
+
+
+
+
+

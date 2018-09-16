@@ -1,0 +1,55 @@
+<tool name="aurora_statonlab_hmmscan_merger" id="aurora_statonlab_hmmscan_merger" version="1.0.0">
+  <description>Merge results from the aurora_statonlab_hmmscan tool and group differentially expressed genes across multiple organims by pfam</description>
+  <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement><requirement type="package" version="1.20.0">r-getopt</requirement><requirement type="package" version="1.6">r-rmarkdown</requirement><requirement type="package" version="1.1.1">r-tidyverse</requirement></requirements>
+  <command><![CDATA[        ######### each aurora tool generates a html file and have an files path directory associated with it.
+        mkdir -p $report.files_path &&
+
+        ######### three important paths:
+        #########   1. path to tool installation directory
+        #########   2. path to report html
+        #########   3. path to files_path directory associated with the report output.
+        export TOOL_INSTALL_DIR='${__tool_directory__}' &&
+        export REPORT='$report' &&
+        export REPORT_FILES_PATH='$report.files_path' &&
+
+        ############ create a hidden file to store r markdown rendering log
+        touch $report.files_path/r_rendering.log.txt &&
+
+        ############ finally run the render.R script
+        Rscript '${__tool_directory__}/rmarkdown_report_render.R'
+        
+            -o $report
+            -d $report.files_path
+            -p $hmmscan_pfam_tblouts
+    ]]></command>
+  <inputs>
+    <param type="data" name="hmmscan_pfam_tblouts" label="Table outputs from aurora_statonlab_hmmscan" help="Table outputs in CSV format from the &lt;code&gt;aurora_statonlab_hmmscan&lt;/code&gt; tool" optional="False" format="csv" multiple="True"/></inputs>
+  <outputs>
+        <data format="html" name="report" label="${tool.name} report on ${on_string}"/></outputs>
+  <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[
+            @online{jstree,
+            author={Bozhanov, Ivan},
+            year = 2018,
+            url = {https://www.jstree.com/}
+            }
+        ]]></citation></citations>
+</tool>
