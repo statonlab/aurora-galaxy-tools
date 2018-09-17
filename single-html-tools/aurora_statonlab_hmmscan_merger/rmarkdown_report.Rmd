@@ -106,7 +106,10 @@ add_links = function(features) {
 table_list = list()
 table_list[[1]] = tags$tr(lapply(colnames(pfams_df), tags$th))
 for (i in 1:nrow(pfams_df)) {
-  row = c(pfams_df[i, c('target_name', 'accession')], 
+  target_name_url = tags$a(pfams_df[i, 'target_name'], href=paste0('https://pfam.xfam.org/family/', pfams_df[i, 'target_name']))
+  accession_url = tags$a(pfams_df[i, 'accession'], href=paste0('https://pfam.xfam.org/family/', pfams_df[i, 'accession']))
+  row = c(list(tags$ul(target_name_url)),
+          list(tags$ul(accession_url)),
           lapply(pfams_df[i, -c(1:2)], add_links))
   table_list[[i+1]] = tags$tr(lapply(row, tags$td))
 }
