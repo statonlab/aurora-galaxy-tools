@@ -38,6 +38,7 @@
             -D '$treatment_name'
             -E '$treated'
             -F '$untreated'
+            -T '$test_method'
             -H '$fit_type'
             -I '$alpha'
             -J '$significant_genes'
@@ -69,6 +70,12 @@
         <param type="text" name="untreated" label="Untreated"
                help="A level from the specified treatment column that will be used as the untreated group in the DESeq2 analysis."
                optional="False"/>
+        <param type="select" name="test_method" label="Test method"
+               help="either 'Wald' or 'LRT', which will then use either Wald significance tests (defined by nbinomWaldTest),
+               or the likelihood ratio test on the difference in deviance between a full and reduced model formula (defined by nbinomLRT)">
+            <option value="Wald" selected="true">Wald</option>
+            <option value="LRT">LRT</option>
+        </param>
         <param type="select" name="fit_type" label="Fitting of dispersions"
                help="either &quot;parametric&quot;, &quot;local&quot;, or &quot;mean&quot; for the type of fitting of dispersions to the mean intensity"
                optional="False">

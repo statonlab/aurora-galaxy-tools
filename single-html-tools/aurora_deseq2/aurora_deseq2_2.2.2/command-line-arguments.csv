@@ -7,6 +7,7 @@ C,1,character,design_formula
 D,1,character,treatment_name
 E,1,character,treated
 F,1,character,untreated
+T,1,character,test_method
 H,1,character,fit_type
 I,1,character,alpha
 J,1,character,significant_genes

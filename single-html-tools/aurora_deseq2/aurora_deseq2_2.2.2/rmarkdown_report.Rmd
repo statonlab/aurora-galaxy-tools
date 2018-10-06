@@ -64,15 +64,24 @@ coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data),,
 ```
 
 ```{r}
+f = gsub('~', '~ 1 +', opt$X_C) # build formula
 dds = DESeqDataSetFromMatrix(countData = count_data,
                              colData = coldata,
-                             design = formula(opt$X_C))
+                             design = formula(f))
+
 
 # prefiltering
 keep <- rowSums(counts(dds)) >= 10
 dds <- dds[keep,]
 
-dds = DESeq(dds, test = opt$X_G, fitType = opt$X_H)
+# Run DESeq
+if (opt$X_T == 'LRT') {
+  reduced_f = gsub(paste0('\\+\\s*', opt$X_D), '', f)
+  dds =  DESeq(dds, test=opt$X_T, fitType = opt$X_H, reduced = formula(reduced_f))
+} else {
+  dds = DESeq(dds, test=opt$X_T, fitType = opt$X_H)
+}
+
 ## Differential expression test results
 res = results(dds, contrast = c(opt$X_D, opt$X_E, opt$X_F), alpha = opt$X_I)
 res
