@@ -1,0 +1,10 @@
+---
+name: aurora_freebayes
+owner: mingchen0919
+description: Bayesian haplotype-based genetic polymorphism discovery and genotyping.
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Variant Analysis: Variant Analysis
+...

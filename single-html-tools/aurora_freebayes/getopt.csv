@@ -1,0 +1,11 @@
+short flag,argument mask,data type,variable name
+o,1,character,report
+d,1,character,report.files_path
+f,1,character,input.reference_genome
+b,1,character,input.bam_file
+s,2,character,input.samples_file
+t,2,character,input.targets_file
+r,2,character,input.region
+T,1,character,population_model.theta
+v,1,character,vcf_file
+p,1,character,population_model.ploidy

@@ -1,0 +1,71 @@
+<tool id="aurora_freebayes" name="aurora_freebayes" version="1.0.0">
+  <description>Bayesian haplotype-based genetic polymorphism discovery and genotyping.</description>
+  <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement><requirement type="package" version="1.20.0">r-getopt</requirement><requirement type="package" version="1.6">r-rmarkdown</requirement><requirement type="package" version="1.2.0">freebayes</requirement></requirements>
+  <command><![CDATA[        ######### each aurora tool generates a html file and have an files path directory associated with it.
+        mkdir -p $report.files_path &&
+
+        ######### three important paths:
+        #########   1. path to tool installation directory
+        #########   2. path to report html
+        #########   3. path to files_path directory associated with the report output.
+        export TOOL_INSTALL_DIR='${__tool_directory__}' &&
+        export REPORT='$report' &&
+        export REPORT_FILES_PATH='$report.files_path' &&
+
+        ############ create a hidden file to store r markdown rendering log
+        touch $report.files_path/r_rendering.log.txt &&
+
+        ############ finally run the render.R script
+        Rscript '${__tool_directory__}/rmarkdown_report_render.R'
+
+            -o $report
+            -d $report.files_path
+
+            -f '$input.reference_genome'
+            -b '$input.bam_file'
+            -s '$input.samples_file'
+            -t '$input.targets_file'
+            -r '$input.region'
+
+
+            -T '$population_model.theta'
+            -p '$population_model.ploidy'
+
+            -v '$vcf_file'
+]]></command>
+  <inputs>
+    <section name="input" title="Input" expanded="True"><param type="data" name="reference_genome" argument="-f" label="Reference Genome" help="Use FILE as the reference sequence for analysis.&#13;&#10;                   An index file (FILE.fai) will be created if none exists.&#13;&#10;                   If neither --targets nor --region are specified, FreeBayes&#13;&#10;                   will analyze every position in this reference." optional="False" format="fasta,fa" multiple="False"/><param type="data" name="bam_file" label="BAM file" optional="False" multiple="False"/><param type="data" name="samples_file" argument="-s" label="Samples file" help="Limit analysis to samples listed (one per line) in the FILE.&#13;&#10;                   By default FreeBayes will analyze all samples in its input&#13;&#10;                   BAM files." optional="True" format="txt" multiple="False"/><param type="data" name="targets_file" argument="-t" label="Targets file" help="Limit analysis to targets listed in the BED-format FILE." optional="True" format="bed"/><param type="text" name="region" argument="-r" label="Region (&lt;chrom&gt;:&lt;start_position&gt;-&lt;end_position&gt;)" help="Limit analysis to the specified region, 0-base coordinates,&#13;&#10;                   end_position not included (same as BED format).&#13;&#10;                   Either '-' or '..' maybe used as a separator." optional="True"/></section><section name="population_model" title="Population model" expanded="True"><param type="float" name="theta" argument="-T" label="Theta" help="The expected mutation rate or pairwise nucleotide diversity&#13;&#10;                   among the population under analysis.  This serves as the&#13;&#10;                   single parameter to the Ewens Sampling Formula prior model&#13;&#10;                   default: 0.001" optional="False" value="0.001"/><param type="integer" name="ploidy" argument="-p" label="Ploidy" help="Sets the default ploidy for the analysis to N.  default: 2" optional="False" value="2"/></section></inputs>
+  <outputs>
+        <data format="html" name="report" label="${tool.name} report on ${on_string}"/><data name="vcf_file" format="vcf" label="${tool.name} VCF on ${on_string}" hidden="false"/></outputs>
+  <citations>
+        <citation type="bibtex"><![CDATA[
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+            and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[
+            @online{jstree,
+            author={Bozhanov, Ivan},
+            year = 2018,
+            url = {https://www.jstree.com/}
+            }
+        ]]></citation><citation type="bibtex"><![CDATA[@article{garrison2012haplotype,
+  title={Haplotype-based variant detection from short-read sequencing},
+  author={Garrison, Erik and Marth, Gabor},
+  journal={arXiv preprint arXiv:1207.3907},
+  year={2012}
+}]]></citation></citations>
+</tool>
