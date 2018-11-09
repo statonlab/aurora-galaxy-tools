@@ -1,0 +1,10 @@
+---
+name: aurora_dustmasker
+owner: mingchen0919
+description: Low complexity region masker based on Symmetric DUST algorithm
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Sequence Analysis: Sequence Analysis
+...
