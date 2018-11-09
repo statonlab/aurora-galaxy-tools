@@ -11,6 +11,15 @@ if [ -e "index.html" ]; then
 fi
 
 
-if [ -e `*.ssr.fasta` ]; then
-  cp `*.ssr.fasta` ${X_F}
+if [ -e "input.ssr.fasta" ]; then
+  cp "input.ssr.fasta" ${X_F}
 fi
+
+if [ -e "input.ssr_stats.txt" ]; then
+  cp "input.ssr_stats.txt" ${X_S}
+fi
+
+if [ -e "input.ssr_report.txt" ]; then
+  cp "input.ssr_report.txt" ${X_R}
+fi
+

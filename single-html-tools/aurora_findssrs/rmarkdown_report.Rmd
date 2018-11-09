@@ -1,5 +1,5 @@
 ---
-title: 'Aurora Tool Report'
+title: 'FindSSRs Report'
 output:
     html_document:
       highlight: pygments
@@ -55,16 +55,17 @@ css_link
 
 # Run `findSRRs_altered.pl`
 
-* `${REPORT_FILES_PATH}`: the output directory that stores all analysis outputs.
-* `${TOOL_INSTALL_DIR}`: the tool install directory where the `findSSRs_altered.pl` is located.
-* `$X_f`: the path to the fasta file.
-* `$X_m`: the path to the masked fasta file.
-
-```{bash}
-cd ${REPORT_FILES_PATH}
-perl ${TOOL_INSTALL_DIR}/findSSRs_altered.pl \
-  -f $X_f \
-  -m $X_m
+```{bash echo=FALSE}
+sh ${TOOL_INSTALL_DIR}/scripts_generator.sh
 ```
 
+```{r echo=FALSE,warning=FALSE,results='asis'}
+# display content of the job-script.sh file.
+cat('```bash\n')
+cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/findSSRs.sh')), sep = '\n')
+cat('\n```')
+```
+
+* `-f`: the path to the fasta file.
+* `-m`: the path to the masked fasta file.
 

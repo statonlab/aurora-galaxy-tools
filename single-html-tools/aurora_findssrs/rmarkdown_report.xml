@@ -35,7 +35,7 @@
   <inputs>
     <param type="data" name="fasta_file" argument="-f" label="Fasta file" help="The file of the sequences to be searched" optional="False" format="fasta,fa"/><param type="data" name="masked_file" argument="-m" label="Masked fasta file" help="A soft-masked version of the fasta file (soft masked means low complexity sequences are in lower case bases.)" optional="False" format="fasta,fa"/></inputs>
   <outputs>
-        <data format="html" name="report" label="${tool.name} report on ${on_string}"/><data name="ssr_fasta" format="fasta,fa" label="${tool.name} on ${on_string} (SSR fasta)" hidden="false"/><data name="ssr_stats" format="txt" label="${tool.name} on ${on_string} (SSR stats)" hidden="false"/><data name="ssr_report" format="txt" label="${tool.name} on ${on_string} (SSR report)" hidden="false"/></outputs>
+        <data format="html" name="report" label="${tool.name} report on ${on_string}"/><data name="ssr_fasta" format="fasta" label="${tool.name} on ${on_string} (SSR fasta)" hidden="false"/><data name="ssr_stats" format="txt" label="${tool.name} on ${on_string} (SSR stats)" hidden="false"/><data name="ssr_report" format="txt" label="${tool.name} on ${on_string} (SSR report)" hidden="false"/></outputs>
   <citations>
         <citation type="bibtex"><![CDATA[
             @article{allaire2016rmarkdown,
