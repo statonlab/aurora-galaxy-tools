@@ -1,0 +1,11 @@
+---
+name: aurora_findssrs
+owner: mingchen0919
+description: 'Identifies simple sequence repeats (SSRs) and calls primers from # the
+  sequences in a fastq formatted file.'
+long_description: ""
+remote_repository_url: ""
+type: unrestricted
+categories:
+  Sequence Analysis: Sequence Analysis
+...

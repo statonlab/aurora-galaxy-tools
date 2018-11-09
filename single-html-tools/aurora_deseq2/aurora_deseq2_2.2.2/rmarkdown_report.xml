@@ -47,10 +47,10 @@
     ]]></command>
     <inputs>
         <param type="data" name="count_data" label="Count data"
-               help="The first column is sample names; The remaining columns are read counts from each sample."
+               help="The first column has feature names; The remaining columns are read counts from each sample."
                optional="False" format="csv"/>
         <param type="data" name="column_data" label="Column data"
-               help="The first column are sample names (column name from the count data); The remaining columns are experimental treatments."
+               help="The first column has sample names (column name from the count data); The remaining columns are experimental treatments."
                optional="False" format="csv"/>
         <param type="text" name="design_formula" label="Design formula"
                help="The design formula expresses the variables which will be used in modeling. The formula should be a tilde (~) followed by the variables with plus signs between them, e.g., ~ condition1 + condition2"
