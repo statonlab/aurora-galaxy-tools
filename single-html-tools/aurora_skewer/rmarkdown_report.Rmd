@@ -66,4 +66,29 @@ cat(readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/job-1-script.sh')), sep 
 cat('\n```')
 ```
 
+# Results summary
+
+## Reads processing summary
+
+```{r}
+log = readLines(paste0(Sys.getenv('REPORT_FILES_PATH'), '/trim-trimmed.log'))
+start_line = grep('read.+processed; of these:', log)
+end_line = grep('untrimmed.+available after processing', log)
+processing_summary = gsub('(\\d+) ', '\\1\t', log[start_line:end_line])
+processing_summary_df = do.call(rbind, strsplit(processing_summary, '\t'))
+colnames(processing_summary_df) = c('Total reads:', processing_summary_df[1,1])
+knitr::kable(processing_summary_df[-1, ])
+```
+
+## Length distribution of reads after trimming
+
+```{r}
+start_line = grep('length	count	percentage', log)
+len_dist = log[(start_line):length(log)]
+len_dist = do.call(rbind, strsplit(len_dist, '\t'))
+columns = len_dist[1, ]
+len_dist = as.data.frame(len_dist[-1, ])
+colnames(len_dist) = columns
+knitr::kable(len_dist)
+```
 
