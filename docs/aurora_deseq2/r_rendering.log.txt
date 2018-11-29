@@ -1,0 +1,166 @@
+
+Attaching package: ‘plotly’
+
+The following object is masked from ‘package:ggplot2’:
+
+    last_plot
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following object is masked from ‘package:graphics’:
+
+    layout
+
+Loading required package: S4Vectors
+Loading required package: methods
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, cbind, colMeans, colnames,
+    colSums, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, lengths, Map, mapply, match,
+    mget, order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rowMeans, rownames, rowSums, sapply, setdiff, sort,
+    table, tapply, union, unique, unsplit, which, which.max, which.min
+
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:BiocGenerics’:
+
+    colMeans, colSums, rowMeans, rowSums
+
+The following object is masked from ‘package:plotly’:
+
+    rename
+
+The following objects are masked from ‘package:base’:
+
+    colMeans, colSums, expand.grid, rowMeans, rowSums
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following object is masked from ‘package:plotly’:
+
+    slice
+
+Loading required package: GenomicRanges
+Loading required package: GenomeInfoDb
+Loading required package: SummarizedExperiment
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+There were 50 or more warnings (use warnings() to see the first 50)
+[1] TRUE
+
+
+processing file: rmarkdown_report.Rmd
+  |                                                                         |                                                                 |   0%  |                                                                         |...                                                              |   5%
+  ordinary text without R code
+
+  |                                                                         |......                                                           |   9%
+label: setup (with options) 
+List of 3
+ $ include: logi FALSE
+ $ warning: logi FALSE
+ $ message: logi FALSE
+
+  |                                                                         |.........                                                        |  14%
+  ordinary text without R code
+
+  |                                                                         |............                                                     |  18%
+label: unnamed-chunk-1 (with options) 
+List of 2
+ $ echo  : logi FALSE
+ $ engine: chr "css"
+
+  |                                                                         |...............                                                  |  23%
+  ordinary text without R code
+
+  |                                                                         |..................                                               |  27%
+label: unnamed-chunk-2 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                         |.....................                                            |  32%
+  ordinary text without R code
+
+  |                                                                         |........................                                         |  36%
+label: unnamed-chunk-3 (with options) 
+List of 2
+ $ eval: logi FALSE
+ $ echo: logi FALSE
+
+  |                                                                         |...........................                                      |  41%
+  ordinary text without R code
+
+  |                                                                         |..............................                                   |  45%
+label: unnamed-chunk-4 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                         |................................                                 |  50%
+  ordinary text without R code
+
+  |                                                                         |...................................                              |  55%
+label: unnamed-chunk-5
+  |                                                                         |......................................                           |  59%
+  ordinary text without R code
+
+  |                                                                         |.........................................                        |  64%
+label: unnamed-chunk-6
+  |                                                                         |............................................                     |  68%
+  ordinary text without R code
+
+  |                                                                         |...............................................                  |  73%
+label: unnamed-chunk-7 (with options) 
+List of 1
+ $ warning: logi FALSE
+
+  |                                                                         |..................................................               |  77%
+  ordinary text without R code
+
+  |                                                                         |.....................................................            |  82%
+label: unnamed-chunk-8
+  |                                                                         |........................................................         |  86%
+  ordinary text without R code
+
+  |                                                                         |...........................................................      |  91%
+label: unnamed-chunk-9
+  |                                                                         |..............................................................   |  95%
+  ordinary text without R code
+
+  |                                                                         |.................................................................| 100%
+label: unnamed-chunk-10 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+
+output file: rmarkdown_report.knit.md
+
+/isg/treegenes/treegenes_store/_conda/envs/mulled-v1-426bf8835728df51c5e5560a038d8ecee064c9da3c67e3cfebbd222b92eb0901/bin/pandoc +RTS -K512m -RTS rmarkdown_report.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output rmarkdown_report.html --smart --email-obfuscation none --self-contained --standalone --section-divs --template /isg/treegenes/treegenes_store/_conda/envs/mulled-v1-426bf8835728df51c5e5560a038d8ecee064c9da3c67e3cfebbd222b92eb0901/lib/R/library/rmarkdown/rmd/h/default.html --highlight-style pygments --variable 'theme:bootstrap' --include-in-header /isg/treegenes/treegenes_store/Galaxy/Galaxy/database/tmp/Rtmpdqv7oh/rmarkdown-str35842aa6d2a1.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' 
+
+Output created: rmarkdown_report.html

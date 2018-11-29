@@ -6,8 +6,9 @@ output:
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+knitr::opts_chunk$set(error = TRUE, echo = TRUE)
 ```
+
 
 ```{css echo=FALSE}
 # code chunks scrollable
@@ -59,21 +60,35 @@ css_link
 # import count data
 count_data = read.csv(opt$X_A, row.names = 1, header = TRUE)
 # import column data
-coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data), ]
+coldata = read.csv(opt$X_B, row.names = 1, header = TRUE)[colnames(count_data),,drop=FALSE]
 ```
 
-```{r echo=FALSE}
+```{r}
+f = gsub('~', '~ 1 +', opt$X_C) # build formula
 dds = DESeqDataSetFromMatrix(countData = count_data,
                              colData = coldata,
-                             design = formula(opt$X_C))
-dds = DESeq(dds, test = opt$X_G, fitType = opt$X_H)
+                             design = formula(f))
+
+
+# prefiltering
+keep <- rowSums(counts(dds)) >= 10
+dds <- dds[keep,]
+
+# Run DESeq
+if (opt$X_T == 'LRT') {
+  reduced_f = gsub(paste0('\\+\\s*', opt$X_D), '', f)
+  dds =  DESeq(dds, test=opt$X_T, fitType = opt$X_H, reduced = formula(reduced_f))
+} else {
+  dds = DESeq(dds, test=opt$X_T, fitType = opt$X_H)
+}
+
 ## Differential expression test results
 res = results(dds, contrast = c(opt$X_D, opt$X_E, opt$X_F), alpha = opt$X_I)
 res
 ```
 
 
-```{r echo=FALSE}
+```{r}
 # save all padj sorted res to tool output directory
 padj_sorted_res = res[order(res$padj), ]
 write.table(padj_sorted_res,
@@ -83,9 +98,12 @@ write.table(padj_sorted_res,
 # save significant genes to a file in tool output directory
 sig_res = res[(res$padj < opt$X_I) & !is.na(res$padj), ]
 sig_res_sorted = sig_res[order(sig_res$padj), ]
+sig_res_sorted$feature_id = rownames(sig_res_sorted)
+n_col = ncol(sig_res_sorted)
+sig_res_sorted = sig_res_sorted[, c(n_col, 1:(n_col - 1))]
 write.table(sig_res_sorted, 
             file = paste0(opt$X_d, '/padj-sorted-significant-genes.txt'), 
-            quote = FALSE)
+            quote = FALSE, row.names = FALSE)
 ```
 
 ## MA-plot
