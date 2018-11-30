@@ -1,5 +1,6 @@
 skewer \
-	/export/galaxy-central/database/files/000/dataset_1.dat \
+	/export/galaxy-central/database/files/000/dataset_7.dat \
+	/export/galaxy-central/database/files/000/dataset_8.dat \
 	-m head \
 	-r 0.1 \
 	-d 0.03 \
