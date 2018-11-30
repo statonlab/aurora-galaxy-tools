@@ -36,6 +36,24 @@ css_link
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
 
+```{r, eval=FALSE, echo=FALSE}
+# The script below is used to avoid conflicts between different javascript labraries
+```
+
+<script>
+jQuery.noConflict();
+ 
+jQuery( document ).ready(function( $ ) {
+    // You can use the locally-scoped $ in here as an alias to jQuery.
+    $( "jstree" ).hide();
+});
+
+// The $ variable in the global scope has the prototype.js meaning.
+window.onload = function(){
+    var mainDiv = $( "main" );
+}
+</script>
+
 ---
 # javascript code below is to build the file tree interface
 # see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
