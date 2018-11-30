@@ -1,0 +1,20 @@
+100000 GFF lines processed.
+200000 GFF lines processed.
+300000 GFF lines processed.
+400000 GFF lines processed.
+500000 GFF lines processed.
+600000 GFF lines processed.
+700000 GFF lines processed.
+793332 GFF lines processed.
+100000 SAM alignment records processed.
+200000 SAM alignment records processed.
+259158 SAM alignments  processed.
+100000 SAM alignment records processed.
+200000 SAM alignment records processed.
+259135 SAM alignments  processed.
+100000 SAM alignment records processed.
+200000 SAM alignment records processed.
+257612 SAM alignments  processed.
+100000 SAM alignment records processed.
+200000 SAM alignment records processed.
+260541 SAM alignments  processed.

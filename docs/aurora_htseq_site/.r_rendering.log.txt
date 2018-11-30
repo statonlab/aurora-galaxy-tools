@@ -1,0 +1,97 @@
+[1] TRUE
+  |                                                                         |                                                                 |   0%  |                                                                         |.......                                                          |  11%
+  ordinary text without R code
+
+  |                                                                         |..............                                                   |  22%
+label: unnamed-chunk-1 (with options) 
+List of 2
+ $ echo  : logi FALSE
+ $ engine: chr "bash"
+
+  |                                                                         |......................                                           |  33%
+  ordinary text without R code
+
+  |                                                                         |.............................                                    |  44%
+label: unnamed-chunk-2 (with options) 
+List of 3
+ $ echo   : logi FALSE
+ $ comment: chr ""
+ $ results: chr "asis"
+
+  |                                                                         |....................................                             |  56%
+  ordinary text without R code
+
+  |                                                                         |...........................................                      |  67%
+label: unnamed-chunk-3 (with options) 
+List of 1
+ $ echo: logi TRUE
+
+  |                                                                         |...................................................              |  78%
+  ordinary text without R code
+
+  |                                                                         |..........................................................       |  89%
+label: unnamed-chunk-4 (with options) 
+List of 1
+ $ echo: logi TRUE
+
+  |                                                                         |.................................................................| 100%
+  ordinary text without R code
+
+
+/export/tool_deps/_conda/envs/mulled-v1-b292b680befadfa11b9e2301c62824ed45e1576f7f0a876077be0c470f874e98/bin/pandoc +RTS -K512m -RTS 01_htseq_count_analysis.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output 01_htseq_count_analysis.html --smart --email-obfuscation none --standalone --section-divs --template /tool_deps/_conda/envs/mulled-v1-b292b680befadfa11b9e2301c62824ed45e1576f7f0a876077be0c470f874e98/lib/R/library/rmarkdown/rmd/h/default.html --highlight-style pygments --include-before-body /tmp/RtmpeXwynT/rmarkdown-str4d3317b6412b.html --variable navbar=1 --variable body_padding=51 --variable header_padding=56 --variable 'theme:cosmo' --include-in-header /tmp/RtmpeXwynT/rmarkdown-str4d3349ad18d.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' 
+  |                                                                         |                                                                 |   0%  |                                                                         |.....                                                            |   8%
+  ordinary text without R code
+
+  |                                                                         |...........                                                      |  17%
+label: unnamed-chunk-1 (with options) 
+List of 2
+ $ echo  : logi FALSE
+ $ engine: chr "css"
+
+  |                                                                         |................                                                 |  25%
+  ordinary text without R code
+
+  |                                                                         |......................                                           |  33%
+label: unnamed-chunk-2 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                         |...........................                                      |  42%
+  ordinary text without R code
+
+  |                                                                         |................................                                 |  50%
+label: unnamed-chunk-3 (with options) 
+List of 2
+ $ eval: logi FALSE
+ $ echo: logi FALSE
+
+  |                                                                         |......................................                           |  58%
+  ordinary text without R code
+
+  |                                                                         |...........................................                      |  67%
+label: unnamed-chunk-4 (with options) 
+List of 2
+ $ eval: logi FALSE
+ $ echo: logi FALSE
+
+  |                                                                         |.................................................                |  75%
+  ordinary text without R code
+
+  |                                                                         |......................................................           |  83%
+label: unnamed-chunk-5 (with options) 
+List of 2
+ $ eval: logi FALSE
+ $ echo: logi FALSE
+
+  |                                                                         |............................................................     |  92%
+  ordinary text without R code
+
+  |                                                                         |.................................................................| 100%
+label: unnamed-chunk-6 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+
+/export/tool_deps/_conda/envs/mulled-v1-b292b680befadfa11b9e2301c62824ed45e1576f7f0a876077be0c470f874e98/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output index.html --smart --email-obfuscation none --standalone --section-divs --template /tool_deps/_conda/envs/mulled-v1-b292b680befadfa11b9e2301c62824ed45e1576f7f0a876077be0c470f874e98/lib/R/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --include-before-body /tmp/RtmpeXwynT/rmarkdown-str4d3361fda81e.html --variable navbar=1 --variable body_padding=51 --variable header_padding=56 --variable 'theme:cosmo' --include-in-header /tmp/RtmpeXwynT/rmarkdown-str4d334927978f.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' 
+
+Output created: index.html
