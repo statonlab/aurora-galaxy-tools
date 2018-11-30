@@ -91,7 +91,7 @@ Write data into a CSV file.
 count_data = read.table(paste0(opt$X_d, '/counts.txt'), row.names = 1)
 sample_names = trimws(strsplit(opt$X_B, ',')[[1]])
 colnames(count_data) = rep(sample_names, length = ncol(count_data))
-# kable(head(count_data))
+
 
 # modify column names
 count_data = data.frame(feature_id = rownames(count_data), count_data)
