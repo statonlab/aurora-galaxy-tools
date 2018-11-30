@@ -12,9 +12,9 @@ Parameters used:
 -- minimum read length allowed after trimming (-l):	18
 -- file format (-f):		Sanger/Illumina 1.8+ FASTQ (auto detected)
 -- minimum overlap length for adapter detection (-k):	3
-Fri Nov 30 01:30:58 2018 >> started
+Fri Nov 30 01:45:28 2018 >> started
 
-Fri Nov 30 01:31:17 2018 >> done (19.029s)
+Fri Nov 30 01:45:47 2018 >> done (18.214s)
 250000 read pairs processed; of these:
      0 ( 0.00%) short read pairs filtered out after trimming by size control
      0 ( 0.00%) empty read pairs filtered out after trimming by size control
