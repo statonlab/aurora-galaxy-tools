@@ -6,6 +6,7 @@
         <requirement type="package" version="1.20.0">r-getopt</requirement>
         <requirement type="package" version="1.6">r-rmarkdown</requirement>
         <requirement type="package" version="0.2.2">skewer</requirement>
+        <requirement type="package" version="4.5.6">r-plotly</requirement>
     </requirements>
     <command><![CDATA[
 
