@@ -36,6 +36,24 @@ css_link
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
 
+```{r, eval=FALSE, echo=FALSE}
+# The script below is used to avoid conflicts between different javascript labraries
+```
+
+<script>
+jQuery.noConflict();
+ 
+jQuery( document ).ready(function( $ ) {
+    // You can use the locally-scoped $ in here as an alias to jQuery.
+    $( "jstree" ).hide();
+});
+
+// The $ variable in the global scope has the prototype.js meaning.
+window.onload = function(){
+    var mainDiv = $( "main" );
+}
+</script>
+
 ---
 # javascript code below is to build the file tree interface
 # see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
@@ -56,7 +74,7 @@ css_link
 ## Job script
 
 ```{bash, echo=FALSE}
-sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh
+sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh > ${REPORT_FILES_PATH}/log.txt 2>&1
 ```
 
 ```{r echo=FALSE, comment='', results='asis'}
@@ -67,13 +85,13 @@ cat('\n```')
 
 ## Counts
 
-Only the first few rows are displayed. 
+Write data into a CSV file.
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 count_data = read.table(paste0(opt$X_d, '/counts.txt'), row.names = 1)
 sample_names = trimws(strsplit(opt$X_B, ',')[[1]])
 colnames(count_data) = rep(sample_names, length = ncol(count_data))
-kable(head(count_data))
+# kable(head(count_data))
 
 # modify column names
 count_data = data.frame(feature_id = rownames(count_data), count_data)
@@ -81,6 +99,17 @@ write.csv(count_data,
           file = paste0(Sys.getenv('REPORT_FILES_PATH'), '/count_data.csv'),
           quote = FALSE, row.names = FALSE)
 ```
+
+Display the top 1000 rows with largest average counts.
+
+```{r echo=TRUE}
+# Sort count table by count average
+rownames(count_data) = count_data$feature_id
+count_data = count_data[, -1]
+sorted_ct_table = count_data[order(rowMeans(count_data), decreasing = TRUE), ]
+DT::datatable(head(sorted_ct_table, 1000))
+```
+
 
 
 ## Outputs
