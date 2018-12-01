@@ -3,9 +3,9 @@
         counting reads in features
     </description>
     <requirements>
-        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
-        <requirement type="package" version="1.20.0">r-getopt</requirement>
-        <requirement type="package" version="1.6">r-rmarkdown</requirement>
+        <requirement type="package" version="2.5">pandoc</requirement>
+        <requirement type="package" version="1.20.2">r-getopt</requirement>
+        <requirement type="package" version="1.10">r-rmarkdown</requirement>
         <requirement type="package" version="0.11.0">htseq</requirement>
         <requirement type="package" version="0.4">r-dt</requirement>
     </requirements>
