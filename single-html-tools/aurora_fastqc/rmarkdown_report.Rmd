@@ -32,8 +32,9 @@ css_link
 # this code chunk is purely for adding comments
 # below is to add jQuery and jstree javascripts
 ```
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+
 
 ```{r, eval=FALSE, echo=FALSE}
 # this code chunk is purely for adding comments
@@ -41,9 +42,9 @@ css_link
 # see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
 ```
 <script>
-  $(function () {
+  jQuery(function () {
     // create an instance when the DOM is ready
-    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+    jQuery('#jstree').jstree().bind("select_node.jstree", function (e, data) {
      window.open( data.node.a_attr.href, data.node.a_attr.target )
     });
   });
@@ -83,7 +84,7 @@ combined_summary = data.frame(read_1_summary, read_2_summary, stringsAsFactors =
 names(combined_summary) = c('MODULE', 'Pre-trimming', 'Post-trimming')
 combined_summary[combined_summary == 'FAIL'] = 'FAIL (X)'
 combined_summary[combined_summary == 'WARN'] = 'WARN (!)'
-knitr::kable(combined_summary)
+DT::datatable(combined_summary)
 ```
 
 ```{r 'function definition', echo=FALSE}
@@ -98,6 +99,30 @@ extract_data_module = function(fastqc_data, module_name, header = TRUE, comment.
 }
 ```
 
+
+### Basic Statistics {.tabset}
+
+#### Before
+
+```{r}
+fastqc_data_1 = paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt')
+module_name = 'Basic Statistics	pass'
+
+basic_statistics = extract_data_module(fastqc_data_1, module_name)
+colnames(basic_statistics) = c('Measure', 'Value')
+DT::datatable(basic_statistics)
+```
+
+#### After
+
+```{r}
+fastqc_data_2 = paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt')
+module_name = 'Basic Statistics	pass'
+
+basic_statistics = extract_data_module(fastqc_data_2, module_name)
+colnames(basic_statistics) = c('Measure', 'Value')
+DT::datatable(basic_statistics)
+```
 
 
 ### Per base sequence quality
@@ -126,7 +151,7 @@ p = ggplot(data = comb_pbsq) +
                              fill = "yellow"),
                stat = 'identity') +
   geom_line(mapping = aes(x = id, y = Mean, color = "red")) +
-  scale_x_continuous(name = 'Position in read (bp)', breaks = pbsq_2$id, labels = pbsq_2$X.Base) +
+  scale_x_continuous(name = '\nPosition in read (bp)', breaks = pbsq_2$id, labels = pbsq_2$X.Base) +
   scale_y_continuous(limits = c(0, max(comb_pbsq$Upper.Quartile) + 5)) +
   scale_fill_identity() +
   scale_color_identity() + 
@@ -134,7 +159,7 @@ p = ggplot(data = comb_pbsq) +
   theme(axis.text.x = element_text(size = 5),
         panel.background = element_rect(fill = NA),
         panel.grid.major.y = element_line(color = 'blue', size = 0.1))
-p
+ggplotly(p)
 ```
 
 
@@ -162,7 +187,7 @@ if (length(check_ptsq) > 0) {
   p = ggplot(data = comb_ptsq) +
     geom_raster(mapping = aes(x = Base, y = X.Tile, fill = Mean)) + 
     facet_grid(. ~ trim) + 
-    scale_x_discrete(name = "Position in read (bp)") +
+    scale_x_discrete(name = "\nPosition in read (bp)") +
     scale_y_continuous(name = "") +
     scale_fill_gradient(low = "blue", high = "red") +
     theme(axis.text.x = element_text(size = 5, angle = 90),
@@ -191,13 +216,13 @@ comb_psqs$trim = factor(levels = c('before', 'after'), comb_psqs$trim)
 p = ggplot(data = comb_psqs) + 
   geom_line(mapping = aes(x = X.Quality, y = Count), color = 'red') + 
   facet_grid(. ~ trim) + 
-  scale_x_continuous(name = 'Mean Sequence Qaulity (Phred Score)',
+  scale_x_continuous(name = '\nMean Sequence Qaulity (Phred Score)',
                      limits = c(min(comb_psqs$X.Quality), max(comb_psqs$X.Quality))) +
   scale_y_continuous(name = '') +
   theme(panel.background = element_rect(fill = NA),
         axis.line = element_line(),
         panel.grid.major.y = element_line(color = 'blue', size = 0.1))
-p
+ggplotly(p)
 ```
 
 ### Per base sequence content
@@ -226,7 +251,7 @@ p = ggplot(data = comb_pbsc) +
   facet_grid(. ~ trim) +
   xlim(min(comb_pbsc$id), max(comb_pbsc$id)) + 
   ylim(0, 100) +
-  xlab('Position in read (bp)') +
+  xlab('\nPosition in read (bp)') +
   ylab('') +
   scale_color_discrete(name = '') +
   theme_classic()
@@ -250,7 +275,7 @@ comb_psGCc$trim = factor(levels = c('before', 'after'), comb_psGCc$trim)
 p = ggplot(data = comb_psGCc, aes(x = X.GC.Content, y = Count)) +
   geom_line(color = 'red') +
   facet_grid(. ~ trim) +
-  xlab('Mean Sequence Qaulity (Phred Score)') +
+  xlab('\nMean Sequence Qaulity (Phred Score)') +
   ylab('') +
   scale_color_discrete(name = '') +
   theme_classic()
@@ -279,7 +304,7 @@ p = ggplot(data = comb_pbNc, aes(x = id, y = N.Count)) +
   scale_x_continuous(breaks = pbNc_2$id, labels = pbNc_2$X.Base) + 
   facet_grid(. ~ trim) +
   ylim(0, 1) + 
-  xlab('N-Count') +
+  xlab('\nN-Count') +
   ylab('') + 
   theme(axis.text.x = element_text(size = 5),
         axis.line = element_line(),
@@ -308,7 +333,7 @@ p = ggplot(data = comb_sld, aes(x = id, y = Count)) +
   geom_line(color = 'red') +
   scale_x_continuous(breaks = sld_2$id, labels = sld_2$X.Length) + 
   facet_grid(. ~ trim) +
-  xlab('Sequence Length (bp)') +
+  xlab('\nSequence Length (bp)') +
   ylab('') + 
   theme(axis.text.x = element_text(size = 5),
         panel.background = element_rect(fill = NA),
@@ -344,14 +369,40 @@ p = ggplot(data = comb_sdl) +
   geom_line(mapping = aes(x = id, y = value, color = variable)) +
   scale_x_continuous(breaks = sdl_2$id, labels = sdl_2$Duplication_Level) +
   facet_grid(. ~ trim) +
-  xlab('Sequence Duplication Level') +
+  xlab('\nSequence Duplication Level') +
   ylab('') + 
   scale_color_discrete(name = '') +
   theme(axis.text.x = element_text(size = 5),
         panel.background = element_rect(fill = NA),
         axis.line = element_line())
-p
+ggplotly(p)
 ```
+
+
+### Overrepresented sequences {.tabset}
+
+#### Before
+
+```{r}
+fastqc_data_1 = paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt')
+module_name = 'Overrepresented sequences'
+
+overrepresented_seq = extract_data_module(fastqc_data_1, module_name)
+colnames(overrepresented_seq) = c('Sequence', 'Count', 'Percentage', 'Possible Source')
+DT::datatable(overrepresented_seq)
+```
+
+#### After
+
+```{r}
+fastqc_data_2 = paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt')
+module_name = 'Overrepresented sequences'
+
+overrepresented_seq = extract_data_module(fastqc_data_2, module_name)
+colnames(overrepresented_seq) = c('Sequence', 'Count', 'Percentage', 'Possible Source')
+DT::datatable(overrepresented_seq)
+```
+
 
 ### Adapter Content
 
@@ -378,7 +429,7 @@ p = ggplot(data = comb_ac, aes(x = id, y = value, color = variable)) +
   facet_grid(. ~ trim) +
   xlim(min(comb_ac$id), max(comb_ac$id)) + 
   ylim(0, 1) +
-  xlab('Position in read (bp)') +
+  xlab('\nPosition in read (bp)') +
   ylab('') +
   scale_color_discrete(name = '') +
   theme(axis.text.x = element_text(size = 5),
@@ -393,12 +444,12 @@ ggplotly(p)
 
 ```{r 'Kmer Content (before)', fig.width=10}
 kc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Kmer Content')
-knitr::kable(kc_1)
+DT::datatable(kc_1)
 ```
 
 #### After
 ```{r 'Kmer Content (after)', fig.width=10}
 kc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Kmer Content')
-knitr::kable(kc_2)
+DT::datatable(kc_2)
 ```
 
