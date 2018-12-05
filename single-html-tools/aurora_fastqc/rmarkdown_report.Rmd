@@ -33,7 +33,7 @@ css_link
 # below is to add jQuery and jstree javascripts
 ```
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+<script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
 
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -127,7 +127,7 @@ DT::datatable(basic_statistics)
 
 ### Per base sequence quality
 
-```{r 'per base sequence quality', fig.width=10}
+```{r 'per base sequence quality'}
 ## reads 1
 pbsq_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per base sequence quality')
 pbsq_1$id = 1:length(pbsq_1$X.Base)
@@ -159,13 +159,13 @@ p = ggplot(data = comb_pbsq) +
   theme(axis.text.x = element_text(size = 5),
         panel.background = element_rect(fill = NA),
         panel.grid.major.y = element_line(color = 'blue', size = 0.1))
-ggplotly(p)
+p
 ```
 
 
 ### Per tile sequence quality
 
-```{r 'per tile sequence quality', fig.width=10}
+```{r 'per tile sequence quality'}
 ## check if 'per tile sequence quality' module exits or not
 check_ptsq = grep('Per tile sequence quality', readLines(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt')))
 if (length(check_ptsq) > 0) {
@@ -201,7 +201,7 @@ if (length(check_ptsq) > 0) {
 
 ### Per sequence quality score
 
-```{r 'Per sequence quality score', fig.width=10}
+```{r 'Per sequence quality score'}
 ## reads 1
 psqs_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per sequence quality scores')
 psqs_1$trim = 'before'
@@ -222,12 +222,12 @@ p = ggplot(data = comb_psqs) +
   theme(panel.background = element_rect(fill = NA),
         axis.line = element_line(),
         panel.grid.major.y = element_line(color = 'blue', size = 0.1))
-ggplotly(p)
+p
 ```
 
 ### Per base sequence content
 
-```{r 'Per base sequence content', fig.width=10}
+```{r 'Per base sequence content'}
 ## reads 1
 pbsc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per base sequence content')
 pbsc_1$id = 1:length(pbsc_1$X.Base)
@@ -255,12 +255,12 @@ p = ggplot(data = comb_pbsc) +
   ylab('') +
   scale_color_discrete(name = '') +
   theme_classic()
-ggplotly(p)
+p
 ```
 
 ### Per sequence GC content
 
-```{r 'Per sequence GC content', fig.width=10}
+```{r 'Per sequence GC content'}
 ## reads 1
 psGCc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per sequence GC content')
 psGCc_1$trim = 'before'
@@ -279,13 +279,13 @@ p = ggplot(data = comb_psGCc, aes(x = X.GC.Content, y = Count)) +
   ylab('') +
   scale_color_discrete(name = '') +
   theme_classic()
-ggplotly(p)
+p
 ```
 
 
 ### Per base N content
 
-```{r 'Per base N content', fig.width=10}
+```{r 'Per base N content'}
 ## reads 1
 pbNc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Per base N content')
 pbNc_1$id = 1:length(pbNc_1$X.Base)
@@ -309,13 +309,13 @@ p = ggplot(data = comb_pbNc, aes(x = id, y = N.Count)) +
   theme(axis.text.x = element_text(size = 5),
         axis.line = element_line(),
         panel.background = element_rect(fill = NA))
-ggplotly(p)
+p
 ```
 
 
 ### Sequence Length Distribution
 
-```{r 'Sequence Length Distribution', fig.width=10}
+```{r 'Sequence Length Distribution'}
 ## reads 1
 sld_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Sequence Length Distribution')
 sld_1$id = 1:length(sld_1$X.Length)
@@ -339,12 +339,12 @@ p = ggplot(data = comb_sld, aes(x = id, y = Count)) +
         panel.background = element_rect(fill = NA),
         axis.line = element_line(), 
         plot.margin = margin(2,2,2,10) )
-ggplotly(p)
+p
 ```
 
 ### Sequence Duplication Levels
 
-```{r 'Sequence Duplication Levels', fig.width=10}
+```{r 'Sequence Duplication Levels'}
 ## reads 1
 sdl_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Sequence Duplication Levels', header = FALSE, comment.char = '#')
 names(sdl_1) = c('Duplication_Level', 'Percentage_of_deduplicated', 'Percentage_of_total')
@@ -374,8 +374,9 @@ p = ggplot(data = comb_sdl) +
   scale_color_discrete(name = '') +
   theme(axis.text.x = element_text(size = 5),
         panel.background = element_rect(fill = NA),
-        axis.line = element_line())
-ggplotly(p)
+        axis.line = element_line(),
+        legend.position="top")
+p
 ```
 
 
@@ -406,7 +407,7 @@ DT::datatable(overrepresented_seq)
 
 ### Adapter Content
 
-```{r 'Adapter Content', fig.width=10}
+```{r 'Adapter Content'}
 ## reads 1
 ac_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Adapter Content')
 ac_1$id = 1:length(ac_1$X.Position)
@@ -442,13 +443,13 @@ ggplotly(p)
 
 #### Before
 
-```{r 'Kmer Content (before)', fig.width=10}
+```{r 'Kmer Content (before)'}
 kc_1 = extract_data_module(paste0(opt$X_d, '/read_1_fastqc/fastqc_data.txt'), 'Kmer Content')
 DT::datatable(kc_1)
 ```
 
 #### After
-```{r 'Kmer Content (after)', fig.width=10}
+```{r 'Kmer Content (after)'}
 kc_2 = extract_data_module(paste0(opt$X_d, '/read_2_fastqc/fastqc_data.txt'), 'Kmer Content')
 DT::datatable(kc_2)
 ```
