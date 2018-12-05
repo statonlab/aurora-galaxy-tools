@@ -1,0 +1,211 @@
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:plyr’:
+
+    arrange, count, desc, failwith, id, mutate, rename, summarise,
+    summarize
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: ggplot2
+
+Attaching package: ‘plotly’
+
+The following object is masked from ‘package:ggplot2’:
+
+    last_plot
+
+The following objects are masked from ‘package:plyr’:
+
+    arrange, mutate, rename, summarise
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following object is masked from ‘package:graphics’:
+
+    layout
+
+[1] TRUE
+
+
+processing file: rmarkdown_report.Rmd
+  |                                                                         |                                                                 |   0%  |                                                                         |.                                                                |   2%
+  ordinary text without R code
+
+  |                                                                         |...                                                              |   4%
+label: setup (with options) 
+List of 3
+ $ include: logi FALSE
+ $ warning: logi FALSE
+ $ message: logi FALSE
+
+  |                                                                         |....                                                             |   6%
+  ordinary text without R code
+
+  |                                                                         |.....                                                            |   8%
+label: unnamed-chunk-1 (with options) 
+List of 2
+ $ echo  : logi FALSE
+ $ engine: chr "css"
+
+  |                                                                         |......                                                           |  10%
+  ordinary text without R code
+
+  |                                                                         |........                                                         |  12%
+label: unnamed-chunk-2 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                         |.........                                                        |  14%
+  ordinary text without R code
+
+  |                                                                         |..........                                                       |  16%
+label: unnamed-chunk-3 (with options) 
+List of 2
+ $ eval: logi FALSE
+ $ echo: logi FALSE
+
+  |                                                                         |...........                                                      |  18%
+  ordinary text without R code
+
+  |                                                                         |.............                                                    |  20%
+label: unnamed-chunk-4 (with options) 
+List of 2
+ $ eval: logi FALSE
+ $ echo: logi FALSE
+
+  |                                                                         |..............                                                   |  22%
+  ordinary text without R code
+
+  |                                                                         |...............                                                  |  24%
+label: unnamed-chunk-5 (with options) 
+List of 1
+ $ engine: chr "bash"
+
+running: bash  -c 'sh ${TOOL_INSTALL_DIR}/build-and-run-job-scripts.sh'
+  |                                                                         |.................                                                |  25%
+  ordinary text without R code
+
+  |                                                                         |..................                                               |  27%
+label: unnamed-chunk-6 (with options) 
+List of 2
+ $ echo   : logi FALSE
+ $ results: chr "asis"
+
+  |                                                                         |...................                                              |  29%
+  ordinary text without R code
+
+  |                                                                         |....................                                             |  31%
+label: unnamed-chunk-7 (with options) 
+List of 1
+ $ eval: logi TRUE
+
+  |                                                                         |......................                                           |  33%
+  ordinary text without R code
+
+  |                                                                         |.......................                                          |  35%
+label: function definition (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                         |........................                                         |  37%
+  ordinary text without R code
+
+  |                                                                         |.........................                                        |  39%
+label: unnamed-chunk-8
+  |                                                                         |...........................                                      |  41%
+  ordinary text without R code
+
+  |                                                                         |............................                                     |  43%
+label: unnamed-chunk-9
+  |                                                                         |.............................                                    |  45%
+  ordinary text without R code
+
+  |                                                                         |...............................                                  |  47%
+label: per base sequence quality
+  |                                                                         |................................                                 |  49%
+  ordinary text without R code
+
+  |                                                                         |.................................                                |  51%
+label: per tile sequence quality
+  |                                                                         |..................................                               |  53%
+  ordinary text without R code
+
+  |                                                                         |....................................                             |  55%
+label: Per sequence quality score
+  |                                                                         |.....................................                            |  57%
+  ordinary text without R code
+
+  |                                                                         |......................................                           |  59%
+label: Per base sequence content
+  |                                                                         |........................................                         |  61%
+  ordinary text without R code
+
+  |                                                                         |.........................................                        |  63%
+label: Per sequence GC content
+  |                                                                         |..........................................                       |  65%
+  ordinary text without R code
+
+  |                                                                         |...........................................                      |  67%
+label: Per base N content
+  |                                                                         |.............................................                    |  69%
+  ordinary text without R code
+
+  |                                                                         |..............................................                   |  71%
+label: Sequence Length Distribution
+  |                                                                         |...............................................                  |  73%
+  ordinary text without R code
+
+  |                                                                         |................................................                 |  75%
+label: Sequence Duplication Levels
+  |                                                                         |..................................................               |  76%
+  ordinary text without R code
+
+  |                                                                         |...................................................              |  78%
+label: unnamed-chunk-10
+  |                                                                         |....................................................             |  80%
+  ordinary text without R code
+
+  |                                                                         |......................................................           |  82%
+label: unnamed-chunk-11
+  |                                                                         |.......................................................          |  84%
+  ordinary text without R code
+
+  |                                                                         |........................................................         |  86%
+label: Adapter Content
+  |                                                                         |.........................................................        |  88%
+  ordinary text without R code
+
+  |                                                                         |...........................................................      |  90%
+label: Kmer Content (before)
+  |                                                                         |............................................................     |  92%
+  ordinary text without R code
+
+  |                                                                         |.............................................................    |  94%
+label: Kmer Content (after)
+  |                                                                         |..............................................................   |  96%
+  ordinary text without R code
+
+  |                                                                         |................................................................ |  98%
+label: unnamed-chunk-12 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                         |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: rmarkdown_report.knit.md
+
+/export/tool_deps/_conda/envs/mulled-v1-b3c5bf7daaca9b8226e67b61542f1945573a64dae50fa15e2a23bc995d977d11/bin/pandoc +RTS -K512m -RTS rmarkdown_report.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output rmarkdown_report.html --email-obfuscation none --self-contained --standalone --section-divs --template /tool_deps/_conda/envs/mulled-v1-b3c5bf7daaca9b8226e67b61542f1945573a64dae50fa15e2a23bc995d977d11/lib/R/library/rmarkdown/rmd/h/default.html --highlight-style pygments --variable 'theme:bootstrap' --include-in-header /tmp/RtmpNsG2I3/rmarkdown-str175fe79b438b3.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' 
+
+Output created: rmarkdown_report.html
