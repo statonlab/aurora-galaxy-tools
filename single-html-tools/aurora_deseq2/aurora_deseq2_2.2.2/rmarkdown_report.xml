@@ -10,6 +10,7 @@
         <requirement type="package" version="4.5.6">r-plotly</requirement>
         <requirement type="package" version="2.2.1">r-ggplot2</requirement>
         <requirement type="package" version="1.0.8">r-pheatmap</requirement>
+        <requirement type="package" version="0.4">r-dt</requirement>
     </requirements>
     <command><![CDATA[
 
