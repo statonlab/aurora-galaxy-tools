@@ -50,8 +50,10 @@ css_link
 </script>
 
 
+```{r, eval=FALSE, echo=FALSE}
 ---
 # ADD YOUR DATA ANALYSIS CODE AND MARKUP TEXT BELOW TO EXTEND THIS R MARKDOWN FILE
 ---
+```
 
 
