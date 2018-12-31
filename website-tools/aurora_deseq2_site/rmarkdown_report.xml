@@ -6,10 +6,11 @@
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
         <requirement type="package" version="1.20.0">r-getopt</requirement>
         <requirement type="package" version="1.6">r-rmarkdown</requirement>
-        <requirement type="package" version="1.14.1">bioconductor-deseq2</requirement>
+        <requirement type="package" version="1.16.1">bioconductor-deseq2</requirement>
         <requirement type="package" version="4.5.6">r-plotly</requirement>
         <requirement type="package" version="2.2.1">r-ggplot2</requirement>
         <requirement type="package" version="1.0.8">r-pheatmap</requirement>
+        <requirement type="package" version="0.4">r-dt</requirement>
     </requirements>
     <command><![CDATA[
 

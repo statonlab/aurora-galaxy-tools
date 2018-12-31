@@ -3,7 +3,7 @@
         Differential analysis of count data with the DESeq2 package
     </description>
     <requirements>
-        <requirement type="package" version="1.15.0.6">pandoc</requirement>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
         <requirement type="package" version="1.20.0">r-getopt</requirement>
         <requirement type="package" version="1.6">r-rmarkdown</requirement>
         <requirement type="package" version="1.16.1">bioconductor-deseq2</requirement>

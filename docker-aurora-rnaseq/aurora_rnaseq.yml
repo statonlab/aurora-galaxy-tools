@@ -8,55 +8,55 @@ tools:
 - name: aurora_skewer
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 - name: aurora_skewer_site
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 
 # reads quality evaluation
 - name: aurora_fastqc
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 - name: aurora_fastqc_site
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 
 # mapping
 - name: aurora_star
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 - name: aurora_star_site
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 # read counts
 - name: aurora_htseq
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 - name: aurora_htseq_site
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 # differential expression analysis (DESeq2)
 - name: aurora_deseq2
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
 
 - name: aurora_deseq2_site
   owner: mingchen0919
   tool_panel_section_label: "Aurora Galaxy Tools"
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/

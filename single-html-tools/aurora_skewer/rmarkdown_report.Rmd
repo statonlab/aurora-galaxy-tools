@@ -9,8 +9,7 @@ output:
 knitr::opts_chunk$set(error = TRUE, echo = FALSE)
 ```
 
-```{css echo=FALSE}
-# code chunks scrollable
+```{css, echo=FALSE}
 pre code, pre, code {
   white-space: pre !important;
   overflow-x: scroll !important;
@@ -18,7 +17,6 @@ pre code, pre, code {
   word-wrap: initial !important;
 }
 ```
-
 
 ```{r, echo=FALSE}
 # to make the css theme to work, <link></link> tags cannot be added directly 
@@ -33,25 +31,30 @@ css_link
 # this code chunk is purely for adding comments
 # below is to add jQuery and jstree javascripts
 ```
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 <script src="vakata-jstree-3.3.5/dist/jstree.min.js"></script>
 
----
+
+```{r, eval=FALSE, echo=FALSE}
+# this code chunk is purely for adding comments
 # javascript code below is to build the file tree interface
 # see this for how to implement opening hyperlink: https://stackoverflow.com/questions/18611317/how-to-get-i-get-leaf-nodes-in-jstree-to-open-their-hyperlink-when-clicked-when
----
+```
 <script>
-  $(function () {
+  jQuery(function () {
     // create an instance when the DOM is ready
-    $('#jstree').jstree().bind("select_node.jstree", function (e, data) {
+    jQuery('#jstree').jstree().bind("select_node.jstree", function (e, data) {
      window.open( data.node.a_attr.href, data.node.a_attr.target )
     });
   });
 </script>
 
+
+```{r, eval=FALSE, echo=FALSE}
 ---
 # ADD YOUR DATA ANALYSIS CODE AND MARKUP TEXT BELOW TO EXTEND THIS R MARKDOWN FILE
 ---
+```
 
 ## Job script
 
