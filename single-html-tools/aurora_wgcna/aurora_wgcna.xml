@@ -1,0 +1,146 @@
+<tool id="aurora_wgcna" name="WGCNA w/ Aurora RMarkdown" version="1.0.0">
+    <description>
+        Identify gene co-expression network modules using WGCNA.
+    </description>
+    <requirements>
+        <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
+        <requirement type="package" version="1.20.0">r-getopt</requirement>
+        <requirement type="package" version="1.3">r-rmarkdown</requirement>
+        <requirement type="package" version="1.8.4">r-plyr</requirement>
+        <requirement type="package" version="0.2">r-dt</requirement>
+        <requirement type="package" version="0.3.5">r-htmltools</requirement>
+        <requirement type="package" version="1.51">r-wgcna</requirement>
+    </requirements>
+    <stdio>
+        <regex match="Execution halted"
+               source="both"
+               level="fatal"
+               description="Execution halted." />
+        <regex match="Error in"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+        <regex match="Fatal error"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+    </stdio>
+    <command>
+        <![CDATA[
+        Rscript '${__tool_directory__}/aurora_wgcna_render.R'
+            -h $height_cut
+            -e $expression_data
+            -t $trait_data
+            -p $soft_threshold_power
+            -n $plot_genes
+        ]]>
+    </command>
+    <inputs>
+        <param
+          type="float"
+          name="height_cut"
+          optional="true"
+          label="Height"
+          help="Refer to the sample clustering plot from WGCNA: preprocessing and choose a height cut that will remove outliers. If there is not outlier, leave this field blank."
+        />
+        <param
+          type="data"
+          name="expression_data"
+          format="csv"
+          optional="false"
+          label="Gene expression data"
+          help="Each row represents a gene and each column represents a sample."
+        />
+        <param
+          type="data"
+          name="trait_data"
+          format="csv"
+          optional="false"
+          label="Trait data"
+          help="If trait data is provided, a plot consisting of sample clustering and trait heatmap will be generated. This field is optional. "
+        />
+        <param
+          type="integer"
+          name="soft_threshold_power"
+          optional="true"
+          label="Soft threshold power"
+          help="Refer to the scale independence plot from 'WGCNA: construct network' and choose an optimal soft threshold power. An optimal power will be calculated automatically if no value is provided."
+        />
+        <param
+          type="integer"
+          name="plot_genes"
+          value="400"
+          min="1"
+          label="Number of genes"
+          optional="false"
+          help="The number of genes that will be used. It is possible to speed up the plotting by providing a subset of genes. However, the gene dendrogram may ofter look different from dendrogram of all genes."
+        />
+    </inputs>
+    <outputs>
+        <data
+          name="wgcna_report.html"
+          format="html"
+          label="Module Discovery Report"
+        />
+        <data
+          name="wgcna_analysis.genes.csv"
+          format="csv"
+          label="Gene Significance List"
+        />
+    </outputs>
+    <tests>
+        <test>
+          <param name='expression_data' value="LiverFemale3600.gem.csv"/>
+          <param name='trait_data' value="ClinicalTraits.csv"/>
+          <param name='plot_genes' value="100"/>
+          <output name="wgcna_analysis.genes.csv" file="wgcna_analysis.genes.csv"/>
+          <output name="wgcna_report.html" file="wgcna_report.html"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+      This tool is a wrapper for the WGCNA R library.  Please see the online
+      WGCNA tutorial for further details.
+      ]]>
+    </help>
+    <citations>
+        <citation type="bibtex">
+            @article{langfelder2008wgcna,
+            title={WGCNA: an R package for weighted correlation network analysis},
+            author={Langfelder, Peter and Horvath, Steve},
+            journal={BMC bioinformatics},
+            volume={9},
+            number={1},
+            pages={559},
+            year={2008},
+            publisher={BioMed Central}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        </citation>
+        <citation  type="bibtex">
+            @misc{dt2016,
+            title = {DT: A Wrapper of the JavaScript Library 'DataTables'},
+            author = {Yihui Xie},
+            year = {2016},
+            note = {R package version 0.2},
+            url = {https://CRAN.R-project.org/package=DT},
+            }
+        </citation>
+    </citations>
+</tool>

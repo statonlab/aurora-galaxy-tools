@@ -1,0 +1,8 @@
+categories:
+  - RNA
+description: Aurora Tools version of the WGCNA network construction tool.
+long_description: Implements WGNCA network module discovery and displays results in R Markdown html.
+name: aurora_wgcna
+owner: spficklin
+remote_repository_url: https://github.com/statonlab/aurora-galaxy-tools/tree/master/singel-html-tools//aurora_wgcna
+type: unrestricted
