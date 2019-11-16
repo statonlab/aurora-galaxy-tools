@@ -1,6 +1,0 @@
-short flag,argument mask,data type,variable name
-h,2,double,height_cut
-t,2,character,trait_data
-e,2,character,expression_data
-p,2,double,soft_threshold_power
-n,1,integer,plot_genes

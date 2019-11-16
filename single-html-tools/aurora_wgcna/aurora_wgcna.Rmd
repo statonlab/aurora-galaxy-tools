@@ -4,18 +4,10 @@ output:
     html_document:
       number_sections: true
       toc: true
-      theme: cosmo
-      highlight: tango
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(
-  echo = ECHO
-)
-```
-
-```{r}
-str(opt)
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
 ```
 
 # Import data
@@ -23,22 +15,12 @@ str(opt)
 Each row represents a gene and each column represents a sample.
 
 ```{r}
-expression_data = read.csv(opt$X_e, header = TRUE, row.names = 1)
-```
 
-Display the first 100 genes.
-
-```{r}
+expression_data = read.csv(opt$expression_data, header = TRUE, row.names = 1)
 table_data = head(expression_data, 100)
-datatable(table_data, options = list(), class = "display",
-          callback = JS("return table;"), rownames(table_data), colnames(table_data), caption = NULL,
-          filter = c("none", "bottom", "top"), escape = TRUE,
-          style = "default", width = NULL, height = NULL, elementId = NULL,
-          fillContainer = getOption("DT.fillContainer", NULL),
-          autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
-          selection = c("multiple", "single", "none"), extensions = list(),
-          plugins = NULL, editable = FALSE)
+datatable(table_data)
 ```
+
 
 Transpose expression data matrix so that each row represents a sample and each column represents a gene.
 
@@ -84,10 +66,10 @@ plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="",
 plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="",
    cex.lab = 1.5, cex.axis = 1, cex.main = 1, cex = 0.5)
 
-if(!is.na(opt$X_h)) {
+if(!is.na(opt$height_cut)) {
   # plot a line to show the cut
-  abline(h = opt$X_h, col = "red")
-  clust = cutreeStatic(sampleTree, cutHeight = opt$X_h, minSize = 10)
+  abline(h = opt$height_cut, col = "red")
+  clust = cutreeStatic(sampleTree, cutHeight = opt$height_cut, minSize = 10)
   keepSamples = (clust==1)
 }
 else {
@@ -116,7 +98,7 @@ If trait data is provided, the first 100 rows from the data will be displayed he
 ```{r}
 trait_data = data.frame()
 if ("TRAIT_DATA" != 'None') {
-  trait_data = read.csv(opt$X_t, header = TRUE, row.names = 1)
+  trait_data = read.csv(opt$trait_data, header = TRUE, row.names = 1)
 
   # Form a data frame analogous to expression data that will hold the traits.
   sample_names = rownames(expression_data)
@@ -196,9 +178,7 @@ par(mfrow=c(1,1))
 ```
 
 
-# Construct network
-
-The gene network is constructed based on **soft threshold power = `r soft_threshold_power`**
+# Identify Modules
 
 ```{r}
 net = blockwiseModules(expression_data, power = sft$powerEstimate,
@@ -223,9 +203,6 @@ module_size_lower = modules[length(modules)]
 colnames(modules) = c('Module', 'Module Size')
 datatable(modules)
 ```
-
-The results above indicates that there are **`r n_modules` gene modules**, labeled 1 through `r length(n_modules)` in order of descending size. The largest module has **`r module_size_upper` genes**, and the smallest module has **`r module_size_lower` genes**. The label 0 is reserved for genes outside of all modules.
-
 
 ## Dendrogram and module plot
 
@@ -333,6 +310,6 @@ colnames(gts) = c(paste("GS", names(trait_data), sep="."))
 ```{r}
 # Write out the gene information.
 output = cbind(Module = module_labels, gts, gtsp)
-write.csv(output, file = "wgcna_analysis.genes.csv", quote=FALSE, row.names=TRUE)
+write.csv(output, file = opt$gene_info_file, quote=FALSE, row.names=TRUE)
 
 ```

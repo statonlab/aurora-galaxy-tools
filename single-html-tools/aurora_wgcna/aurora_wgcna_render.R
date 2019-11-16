@@ -35,22 +35,32 @@ library(ggplot2)
 # Handle arguments from command line
 # ------------------------------------------------------------------
 
-# Import getopt specification matrix from a csv file
-opt = getopt(getopt_specification_matrix('getopt_specification.csv',
-                                         tool_dir=Sys.getenv('TOOL_INSTALL_DIR')))
-# Define environment variables for all input values. this is useful when we
-# want to use input values by other programming language in R markdown.
+# Get the tool arguments.
+spec = matrix(c(
+    'height_cut','h',2,'double',
+    'trait_data','t',1,'character',
+    'expression_data','e',1,'character',
+    'soft_threshold_power','p',2,'double',
+    'plot_genes','n',2,'integer',
+    'report_html', 'r', 1, 'character',
+    'genes_info_file', 'g', 1, 'character'
+  ),
+  byrow=TRUE, ncol=4)
+
+opt = getopt(spec)
+
+# Define environment variables for all input values. This will allow use
+# of the input arguments in the Rmarkdown template file.
 do.call(Sys.setenv, opt[-1])
 
 # ------------------------------------------------------------------
 # Render Rmd files
 # ------------------------------------------------------------------
 
-# We must first copy all rmarkdown files from tool install
-# directory to REPORT_FILES_PATH directory, and render rmarkdown files
-# in the REPORT_FILES_PATH directory.
-system(command = 'cp -r ${TOOL_INSTALL_DIR}/*.Rmd ${REPORT_FILES_PATH}')
+# Copy the Rmarkdown file to the working directory. The TOOL_INSTALL_DIR
+# environment variable is set in the <command? tag of the aurora_wgcna.xml file.
+tool_directory = Sys.getenv('TOOL_INSTALL_DIR')
+system(command = paste0('cp ', tool_directory, '/aurora_wgcna.Rmd ./'))
 
 # Next render the R markdown template file.
-render(input = paste0(Sys.getenv('REPORT_FILES_PATH'), '/aurora_wgcna.Rmd')
-       output = paste0(Sys.getenv('REPORT_FILES_PATH'), '/wgcna_report.html'))
+render(input = 'aurora_wgcna.Rmd',  output_file = opt$report_html)
