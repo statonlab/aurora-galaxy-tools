@@ -41,9 +41,9 @@ spec = matrix(c(
     'trait_data','t',1,'character',
     'expression_data','e',1,'character',
     'soft_threshold_power','p',2,'double',
-    'plot_genes','n',2,'integer',
     'report_html', 'r', 1, 'character',
-    'genes_info_file', 'g', 1, 'character'
+    'genes_info_file', 'g', 1, 'character',
+    'modules_info_file', 'm', 1, 'character'
   ),
   byrow=TRUE, ncol=4)
 

@@ -10,114 +10,86 @@ output:
 knitr::opts_chunk$set(error = TRUE, echo = FALSE)
 ```
 
-# Import data
+# Expression Data
 
-Each row represents a gene and each column represents a sample.
+The table below shows the first 100 rows of the Gene Expression Matrix (GEM) file that you provided.
 
 ```{r}
-
-expression_data = read.csv(opt$expression_data, header = TRUE, row.names = 1)
-table_data = head(expression_data, 100)
+gem = read.csv(opt$expression_data, header = TRUE, row.names = 1)
+table_data = head(gem, 100)
 datatable(table_data)
 ```
 
-
-Transpose expression data matrix so that each row represents a sample and each column represents a gene.
-
 ```{r}
-expression_data = as.data.frame(t(expression_data))
+gemt = as.data.frame(t(gem))
 ```
+## Low Quality Filter
+The next step is to check both genes and samples for missing entries and zero-variance genes. Samples and genes are removed if they have too many missing values and genes are removed if there they have zero variance.  The following cell indicates if WGCNA removed any genes or samples.
 
-# Checking data
-
-Checking data for excessive missing values and identification of outlier microarray samples.
 
 ```{r}
-gsg = goodSamplesGenes(expression_data, verbose = 3)
+gsg = goodSamplesGenes(gemt, verbose = 3)
+
 if (!gsg$allOK) {
-  # Optionally, print the gene and sample names that were removed:
-  if (sum(!gsg$goodGenes)>0)
-    printFlush(paste("Removing genes:", paste(names(expression_data)[!gsg$goodGenes], collapse = ", ")));
-  if (sum(!gsg$goodSamples)>0)
-    printFlush(paste("Removing samples:", paste(rownames(expression_data)[!gsg$goodSamples], collapse = ", ")));
+  if (sum(!gsg$goodGenes)>0) {
+    printFlush(paste("Removing genes:", paste(names(gemt)[!gsg$goodGenes], collapse = ", ")));
+  }
+  if (sum(!gsg$goodSamples)>0) {
+    printFlush(paste("Removing samples:", paste(rownames(gemt)[!gsg$goodSamples], collapse = ", ")));
   # Remove the offending genes and samples from the data:
-  expression_data = expression_data[gsg$goodSamples, gsg$goodGenes]
+  }
+  gemt = gemt[gsg$goodSamples, gsg$goodGenes]
 } else {
   print('all genes are OK!')
 }
 ```
 
-# Clustering samples
+## Outlier Removal
 
-If there are any outliers, choose a height cut that will remove the offending sample. Remember this number since you will need this number in further analysis.
+WGCNA performas hierarchical clustering of all samples. The following dendrogram shows the results of that clustering. Outliers will appear on their own in the dendrogram. The two plots below show the dendrogram before and after outlier removal.
 
 ```{r fig.align='center'}
-sampleTree = hclust(dist(expression_data), method = "average");
-plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="",
+sampleTree = hclust(dist(gemt), method = "average");
+plot(sampleTree, main = "Sample clustering prior to outlier removal", sub="", xlab="",
      cex.axis = 1, cex.main = 1, cex = 0.5)
 ```
 
-
-# Processing outliers {.tabset}
-
-## Before removing outliers
-
 ```{r}
-plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="",
-   cex.lab = 1.5, cex.axis = 1, cex.main = 1, cex = 0.5)
-
-if(!is.na(opt$height_cut)) {
-  # plot a line to show the cut
-  abline(h = opt$height_cut, col = "red")
+if (is.null(opt$height_cut)) {
+  clust = cutreeDynamic(sampleTree, method="tree", minClusterSize = 10)
+  keepSamples = (clust!=0)
+  gemt = gemt[keepSamples, ]
+} else {
   clust = cutreeStatic(sampleTree, cutHeight = opt$height_cut, minSize = 10)
   keepSamples = (clust==1)
+  gemt = gemt[keepSamples, ]
 }
-else {
-  # determine cluster under the line
-  clust = cutreeDynamic(sampleTree, method="tree"), minClusterSize = 10)
-  keepSamples = (clust!=0)
-}
-expression_data = expression_data[keepSamples, ]
+
+removed = length(rownames(gemt)) - length(keepSamples)
 ```
 
-## After removing outliers
+A total of XXXX samples were removed as outliers.
 
-```{r}
-sampleTree = hclust(dist(expression_data), method = "average");
-plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="",
+```{r fig.align='center'}
+sampleTree = hclust(dist(gemt), method = "average");
+plot(sampleTree, main = "Sample clustering after outlier removal", sub="", xlab="",
      cex.axis = 1, cex.main = 1, cex = 0.5)
 ```
 
+# Sample Annotations
 
-# Trait data {.tabeset}
-
-If trait data is provided, the first 100 rows from the data will be displayed here. A plot consisting of sample cluster dendrogram and trait heatmap will also be gerenated.
-
-## Trait data table
+The table below shows the list of sample annotations you provided.  Sample annotations can include categorical data related to experimental conditions, or numerical trait or phenotype data for each sample.
 
 ```{r}
 trait_data = data.frame()
-if ("TRAIT_DATA" != 'None') {
-  trait_data = read.csv(opt$trait_data, header = TRUE, row.names = 1)
-
-  # Form a data frame analogous to expression data that will hold the traits.
-  sample_names = rownames(expression_data)
-  trait_rows = match(sample_names, rownames(trait_data))
-  trait_data = trait_data[trait_rows, ]
-
-  datatable(trait_data, options = list(), class = "display",
-            callback = JS("return table;"), rownames(trait_data), colnames(trait_data), caption = NULL,
-            filter = c("none", "bottom", "top"), escape = TRUE,
-            style = "default", width = NULL, height = NULL, elementId = NULL,
-            fillContainer = getOption("DT.fillContainer", NULL),
-            autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
-            selection = c("multiple", "single", "none"), extensions = list(),
-            plugins = NULL, editable = FALSE)
-
-}
+trait_data = read.csv(opt$trait_data, header = TRUE, row.names = 1)
+sample_names = rownames(gemt)
+trait_rows = match(sample_names, rownames(trait_data))
+trait_data = trait_data[trait_rows, ]
+datatable(trait_data)
 ```
 
-## Dendrogram and heatmap
+The following dendrogram image now includes the sample annotations colored by category or numerical intensity, as appropriate. If groups of samples with similar expression also share similar annotations then the same colors will appear under the clustered samples.
 
 ```{r fig.align='center', fig.width=8, fig.height=9}
 if (nrow(trait_data) != 0) {
@@ -141,8 +113,9 @@ if (nrow(trait_data) != 0) {
 
   # Combine the colors in their original order as the trait_data data frame.
   traitColors = cbind(quantitative_colors, categorical_colors, ordinal_colors)
+  print(colnames(traitColors))
+  print(colnames(trait_data))
   traitColors = traitColors[,colnames(trait_data)]
-
   plotDendroAndColors(sampleTree, traitColors,
                       groupLabels = names(trait_data),
                       main = "Sample dendrogram and trait heatmap",
@@ -151,15 +124,29 @@ if (nrow(trait_data) != 0) {
 ```
 
 
-# The thresholding power
+# Network Module Discovery
+
+The first step in network module discovery is calculating similarity of gene expression. This isperformed by comparing the expression of every gene with every other gene using a correlation test. However, the WGCNA authors suggest that raising the GEM to a power that best approximates scale-free behavior improves the quality of the final modules. However, the power to which the data should be raised must be determined.  This is determined using the `pickSoftThreshold` function of WGCNA whichiterates through a series of power values (usually between 1 to 20) and testing how well the data appears scale-free. The following table shows the results of those tests.  The meaning of the table headers is:
+
+- Power: The power tested
+- SFT.R.sq: This is the scale free index, or the R.squared value of the undelrying regression model. It indicates how well the power-raised data appears scale free. The higher the value the more scale-free.
+- slope: The slope of the regression line used to calculate SFT.R.sq
+- trunacted.R.sq: The adjusted R.squared measure from the truncated exponential model used to calculate SFT.R.sq
+- mean.k:  The mean degree (degree is a measure of how connected a gene is to every other gene. The higher the number the more connected.)
+- median.k: The median degree
+- max.k: The largest degree.
 
 ```{r}
 powers = c(1:10, seq(12, 20, 2))
-sft = pickSoftThreshold(expression_data, powerVector = powers, verbose = 5)
+sft = pickSoftThreshold(gemt, powerVector = powers, verbose = 5)
 ```
+
+The following plots show how the scale-free index and mean connectivity change as the power is adjusted. The ideal power value for the network should be the value where there is a diminishing change in the scale-free index and mean connectivity.
 
 ```{r fig.align='center'}
 par(mfrow=c(1,2))
+
+th = sft$fitIndices$SFT.R.sq[which(sft$fitIndices$Power == sft$powerEstimate)]
 
 # Scale-free topology fit index as a function of the soft-thresholding power.
 plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
@@ -168,34 +155,36 @@ plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
      main = paste("Scale independence"), cex.lab = 0.5);
 text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
      labels=powers,cex=0.5,col="red");
+abline(h=th,col="blue")
 
 # Mean connectivity as a function of the soft-thresholding power.
 plot(sft$fitIndices[,1], sft$fitIndices[,5],
      xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",
      main = paste("Mean connectivity"), cex.lab = 0.5)
 text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=0.5,col="red")
+abline(h=th,col="blue")
 par(mfrow=c(1,1))
 ```
-
-
-# Identify Modules
+Using the values in the table above, WGCNA is able to predict the ideal power. This selection is indicated in the following cell and is shown as a blue line on the plots above. If you believe that the power was incorrectly chosen, you can re-run this workflow with the same input files and provide the desired power.
 
 ```{r}
-net = blockwiseModules(expression_data, power = sft$powerEstimate,
+print(sft$powerEstimate)
+```
+
+Now that a power has been identified, modules can be discovered.  Here, the `blockwiseModule` function of WGCNA is called. The output of that function call is shown below.
+
+```{r}
+net = blockwiseModules(gemt, power = sft$powerEstimate,
                       TOMType = "unsigned", minModuleSize = 30,
                       reassignThreshold = 0, mergeCutHeight = 0.25,
                       numericLabels = TRUE, pamRespectsDendro = FALSE,
                       verbose = 3)
 ```
-
-
-# Gene modules {.tabset}
-
-## Idenfity gene modules
+The following table shows the list of modules that were discovered and their size (i.e. number of genes).
 
 ```{r}
 module_labels = labels2colors(net$colors)
-module_labels = paste("ME", module_colors, sep="")
+module_labels = paste("ME", module_labels, sep="")
 modules = as.data.frame(table(module_labels))
 n_modules = length(modules) - 1
 module_size_upper = modules[2]
@@ -204,7 +193,22 @@ colnames(modules) = c('Module', 'Module Size')
 datatable(modules)
 ```
 
-## Dendrogram and module plot
+Modules consist of a set of genes that have highly similar expression patterns.  Therefore, the similarity of genes within a module can be summarized using an "eigengene" vector. This vector is analgous to the first principal component in a PCA analysis. Once each module's eigengene is calculated, they can be compared and displayed in dendrogram to identify which modules are most similar to each other. This is visible in the following plot.
+
+```{r fig.align='center'}
+module_eigengenes = moduleEigengenes(gemt, module_labels)$eigengenes
+plotEigengeneNetworks(module_eigengenes, "Eigengene dendrogram",
+                      plotHeatmaps = FALSE)
+```
+
+Alternatively, we can use a heatmap to explore similarity of each module.
+```{r fig.align='center', fig.width=9, fig.height=9}
+plotEigengeneNetworks(module_eigengenes, "Eigengene adjacency heatmap",
+                      marHeatmap = c(2, 3, 2, 2),
+                      plotDendrograms = FALSE, xLabelsAngle = 90)
+```
+
+Finally, we can examine gene similarity within the context of our modules.  The following dendrogram clusters geens by their similarit of expressionand the modules to which each gene belongs is shown the graph.  When similar genes appear in the same module, the same colors will be visible in "blocks" under the dendrogram. The presence of blocks of color indicate that genes in modules tend to have similar expression.
 
 ```{r}
 # Plot the dendrogram and the module colors underneath
@@ -213,26 +217,23 @@ plotDendroAndColors(net$dendrograms[[1]], net$colors[net$blockGenes[[1]]],
                     addGuide = TRUE, guideHang = 0.05)
 ```
 
+# Network Construction
 
-# Gene module correlation
-
-We can calculate eigengenes and use them as representative profiles to quantify similarity of found gene modules.
-
-```{r}
-n_genes = ncol(expression_data)
-n_samples = nrow(expression_data)
-```
+Next, WGCNA will construct a topological overlap matrix (TOM) which serves as the actual network. Using a TOM rather than simple correlation only similarity matrix helps reduce false edges in the network.  This is performed uinsg the `TOMsimilarityFromExpr` function of the WGCNA tool.  The output from that function is shown below.
 
 ```{r}
-TOM = TOMsimilarityFromExpr(expression_data, power = sft$powerEstimate)
+n_genes = ncol(gemt)
+n_samples = nrow(gemt)
+
+TOM = TOMsimilarityFromExpr(gemt, power = sft$powerEstimate)
 diss_tom = 1-TOM
 set.seed(123)
-select_genes = sample(n_genes, size = 1000)
+select_genes = sample(n_genes, size = 3000)
 select_diss_tom = diss_tom[select_genes, select_genes]
 
 # calculate gene tree on selected genes
 select_gene_tree = hclust(as.dist(select_diss_tom), method = 'average')
-select_module_colors = module_colors[select_genes]
+select_module_colors = gsub('ME', '', module_labels[select_genes])
 
 # transform diss_tom with a power to make moderately strong connections more visiable in the heatmap.
 plot_diss_tom = select_diss_tom^7
@@ -241,35 +242,24 @@ diag(plot_diss_tom) = NA
 ```
 
 
-```{r fig.align='center'}
+
+The TOM is an `n` x `n` matrix where `n` is the number of genes. We can visualize the TOM using a heatmap, with genes ordere by their similarity.  The heatmap is shown below. However, only a random subset of genes was selected for display as a heatmap for a large number of genes can be prohibitive to produce.  Keep in mind that the dendrogram shown is for the set of genes used to draw the heatmap rather than the full gene set.
+
+```{r fig.align='center', fig.width=9, fig.height=9}
 TOMplot(plot_diss_tom, select_gene_tree, select_module_colors, main = "Network heatmap")
 ```
 
+The TOM serves as an adjacency matrix. The agjacency matrix is the model for a gene co-expression network! In a traditional network approach the adjacency matrix is thresholded such that the similarity value between two genes is set to zero if it falls below a set threshold. However, WGCNA does not threshold the adjacency matrix. Hence the word "weighted" in the WGCNA name.  This approach is referred to as soft-thresholding. But in reality, no thresholding actually occurs.  The weight of the relationship between two genes is what matters.
 
-# Eigengene visualization {.tabset}
 
-## Eigengene dendrogram
+# Module-Condition Association.
+Now that modules have been identified, we can explore if any of the modules show an assocation with any of the sample annotations provided earlier. This is performed by correlating the eigengenes of each module with the annotation data. The following heatmap shows the relationship between each annotation feature and each module.  Modules with a signficant posstive assocation have a correlation value near 1. Modules with a significant negative assocaition have a correlation value near -1.  Modules with no correlation have a value near 0.
 
-```{r fig.align='center'}
-module_eigengenes = moduleEigengenes(expression_data, module_colors)$eigengenes
-plotEigengeneNetworks(module_eigengenes, "Eigengene dendrogram",
-                      plotHeatmaps = FALSE)
-```
-
-## Eigengene adjacency heatmap
-
-```{r fig.align='center'}
-plotEigengeneNetworks(module_eigengenes, "Eigengene adjacency heatmap",
-                      marHeatmap = c(2, 3, 2, 2),
-                      plotDendrograms = FALSE, xLabelsAngle = 90)
-```
-
-# Labeled Heatmap
+```{r fig.align='center', fig.width=9, fig.height=9}
 MEs = orderMEs(module_eigengenes)
 moduleTraitCor = cor(MEs, trait_data, use = "p");
 moduleTraitPvalue = corPvalueStudent(moduleTraitCor, n_samples);
 
-```{r fig.align='center'}
 textMatrix = paste(signif(moduleTraitCor, 2), "\n(", signif(moduleTraitPvalue, 1), ")", sep = "");
 dim(textMatrix) = dim(moduleTraitCor)
 par(mar = c(6, 8.5, 3, 3));
@@ -289,27 +279,28 @@ labeledHeatmap(Matrix = moduleTraitCor,
 ```
 
 ```{r}
+output = cbind(moduleTraitCor, moduleTraitPvalue)
+write.csv(output, file = opt$modules_info_file, quote=FALSE, row.names=TRUE)
+```
+
+Genes themselves can also have assocation with sample annotations. This is calculated via a traditional correlation test as well.  This analysis has generated a file named `wgcna_analysis.genes.txt` which provides the list of genes, the modules they belong to and the assocaition of each gene to the sample annotation features.
+
+```{r}
 # names (colors) of the modules
 modNames = substring(names(MEs), 3)
-geneModuleMembership = as.data.frame(cor(expression_data, MEs, use = "p"));
+geneModuleMembership = as.data.frame(cor(gemt, MEs, use = "p"));
 MMPvalue = as.data.frame(corPvalueStudent(as.matrix(geneModuleMembership), n_samples));
 names(geneModuleMembership) = paste("MM", modNames, sep="");
 names(MMPvalue) = paste("p.MM", modNames, sep="");
 
 # Calculate the gene trait significance as a Pearson's R and p-value.
-xdata =  as.data.frame(trait_data[[x]]);
-gts = as.data.frame(cor(expression_data, trait_data, use = "p"));
+gts = as.data.frame(cor(gemt, trait_data, use = "p"));
 gtsp = as.data.frame(corPvalueStudent(as.matrix(gts), n_samples));
 colnames(gtsp) = c(paste("p", names(trait_data), sep="."))
 colnames(gts) = c(paste("GS", names(trait_data), sep="."))
 
-```
-
-# Write out the output file
-
-```{r}
 # Write out the gene information.
 output = cbind(Module = module_labels, gts, gtsp)
-write.csv(output, file = opt$gene_info_file, quote=FALSE, row.names=TRUE)
+write.csv(output, file = opt$genes_info_file, quote=FALSE, row.names=TRUE)
 
 ```

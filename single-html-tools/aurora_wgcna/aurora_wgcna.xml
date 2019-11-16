@@ -30,18 +30,23 @@
         export TOOL_INSTALL_DIR='${__tool_directory__}' &&
 
         Rscript '${__tool_directory__}/aurora_wgcna_render.R'
-            -h $height_cut
+            #if $height_cut
+              -h $height_cut
+            #end if
+            #if $soft_threshold_power
+              -p $soft_threshold_power
+            #end if
             -e $expression_data
             -t $trait_data
-            -p $soft_threshold_power
-            -n $plot_genes
             -r $report_html
             -g $genes_info_file
+            -m $modules_info_file
         ]]>
     </command>
     <inputs>
         <param
           type="float"
+          value=""
           name="height_cut"
           optional="true"
           label="Height"
@@ -60,45 +65,42 @@
           name="trait_data"
           format="csv"
           optional="false"
-          label="Trait data"
-          help="If trait data is provided, a plot consisting of sample clustering and trait heatmap will be generated. This field is optional. "
+          label="Sample Annotation data"
+          help="The sample annotation data is an n x m matrix where n is the samples and m are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix should be stored in a comma-separated (CSV) file. It must have a header."
         />
         <param
           type="integer"
+          value=""
           name="soft_threshold_power"
           optional="true"
           label="Soft threshold power"
           help="Refer to the scale independence plot from 'WGCNA: construct network' and choose an optimal soft threshold power. An optimal power will be calculated automatically if no value is provided."
-        />
-        <param
-          type="integer"
-          name="plot_genes"
-          value="400"
-          min="1"
-          label="Number of genes"
-          optional="false"
-          help="The number of genes that will be used. It is possible to speed up the plotting by providing a subset of genes. However, the gene dendrogram may ofter look different from dendrogram of all genes."
         />
     </inputs>
     <outputs>
         <data
           name="report_html"
           format="html"
-          label="wgcna_analysis.report.html"
+          label="wgcna_analysis_report"
         />
         <data
           name="genes_info_file"
           format="csv"
-          label="wgcna_analysis.genes.csv"
+          label="wgcna_analysis_genes"
+        />
+        <data
+          name="modules_info_file"
+          format="csv"
+          label="wgcna_analysis_modules"
         />
     </outputs>
     <tests>
         <test>
           <param name='expression_data' value="LiverFemale3600.gem.csv"/>
           <param name='trait_data' value="ClinicalTraits.csv"/>
-          <param name='plot_genes' value="100"/>
-          <output name="wgcna_analysis.genes.csv" file="wgcna_analysis.genes.csv"/>
-          <output name="wgcna_analysis.report.html" file="wgcna_analysis.report.html"/>
+          <output name="genes_info_file" file="wgcna_analysis_genes.csv"/>
+          <output name="report_html" file="wgcna_analysis_report.html"/>
+          <output name="modules_info_file" file="wgcna_analysis_report.csv"/>
         </test>
     </tests>
     <help><![CDATA[
