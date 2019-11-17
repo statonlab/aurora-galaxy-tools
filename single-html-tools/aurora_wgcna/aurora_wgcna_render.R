@@ -37,13 +37,28 @@ library(ggplot2)
 
 # Get the tool arguments.
 spec = matrix(c(
-    'height_cut','h',2,'double',
-    'trait_data','t',1,'character',
-    'expression_data','e',1,'character',
-    'soft_threshold_power','p',2,'double',
-    'report_html', 'r', 1, 'character',
-    'genes_info_file', 'g', 1, 'character',
-    'modules_info_file', 'm', 1, 'character'
+    # Input Files
+    'trait_data',                  't', 2, 'character',
+    'expression_data',             'e', 1, 'character',
+  
+    # Input Arguments
+    'missing_value',               'i', 1, 'character',
+    'sname_col',                   'c', 2, 'integer',
+    'min_cluster_size',            's', 1, 'integer',
+    'height_cut',                  'h', 2, 'double',
+    'power',                       'p', 2, 'double',
+    'block_size',                  'b', 1, 'integer',
+    'hard_threshold',              'j', 1, 'integer',
+    
+    # Output Files
+    'gene_module_file',            'k', 1, 'character',
+    'network_edges_file',          'w', 1, 'character',
+    'gene_association_file',       'g', 2, 'character',
+    'module_association_file',     'm', 2, 'character',
+    'module_association_report',   'q', 2, 'character',
+    'network_construction_report', 'r', 1, 'character',
+    'r_data',                      'a', 1, 'character',
+    'render_log_file',             'l', 1, 'character'
   ),
   byrow=TRUE, ncol=4)
 
@@ -62,5 +77,18 @@ do.call(Sys.setenv, opt[-1])
 tool_directory = Sys.getenv('TOOL_INSTALL_DIR')
 system(command = paste0('cp ', tool_directory, '/aurora_wgcna.Rmd ./'))
 
+# We don't want the Rmarkdown STDOUT to show up in Galaxy, so save it to a file.
+zz = file(opt$render_log_file)
+sink(zz)
+sink(zz, type = 'message')
+
 # Next render the R markdown template file.
-render(input = 'aurora_wgcna.Rmd',  output_file = opt$report_html)
+render(input = 'aurora_wgcna.Rmd',  output_file = opt$network_construction_report)
+
+# If the trait data was provided then we'll continue the 
+# analysis.
+if (!is.null(opt$trait_data)) {
+  render(input = 'aurora_wgcna_trait.Rmd',  output_file = opt$module_association_report)
+}
+
+sink()

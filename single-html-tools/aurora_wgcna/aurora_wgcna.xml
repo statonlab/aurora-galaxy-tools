@@ -30,28 +30,31 @@
         export TOOL_INSTALL_DIR='${__tool_directory__}' &&
 
         Rscript '${__tool_directory__}/aurora_wgcna_render.R'
+            -e $expression_data
+            -s $min_cluster_size
+            -b $block_size
+            -j $hard_threshold
+            #if $trait_data
+              -t $trait_data
+              -c $sname_col
+            #end if
             #if $height_cut
               -h $height_cut
             #end if
-            #if $soft_threshold_power
-              -p $soft_threshold_power
+            #if $power
+              -p $power
             #end if
-            -e $expression_data
-            -t $trait_data
-            -r $report_html
-            -g $genes_info_file
-            -m $modules_info_file
+            -l $render_log_file
+            -a $r_data
+            -k $gene_module_file
+            -w $network_edges_file
+            -g $gene_association_file
+            -m $module_association_file
+            -q $module_association_report
+            -r $network_construction_report
         ]]>
     </command>
     <inputs>
-        <param
-          type="float"
-          value=""
-          name="height_cut"
-          optional="true"
-          label="Height"
-          help="Refer to the sample clustering plot from WGCNA: preprocessing and choose a height cut that will remove outliers. If there is not outlier, leave this field blank."
-        />
         <param
           type="data"
           name="expression_data"
@@ -61,46 +64,129 @@
           help="Each row represents a gene and each column represents a sample."
         />
         <param
+          type="float"
+          value=""
+          name="height_cut"
+          optional="true"
+          label="Outlier Dendrogram Cut Height"
+          help="When checking for outliers, WGCNA performs hierarchical clustering. The resulting dendrogram can be cut at the given height to remove outliers. If no value is provided a cut height will automatically be determined. Try running this tool first without providing a value. Return and set a value if the results are not adequate."
+        />
+        <param
+          type="integer"
+          value=""
+          name="power"
+          optional="true"
+          label="Power"
+          help="Prior to network construction, WGCNA recommends that the gene expression data is raised to a power. The exact power that should be used will be automatically determined. Try running this tool first without providing a value. Return and set a value if the results are not adequate."
+        />
+        <param
+          type="integer"
+          value="30"
+          name="min_cluster_size"
+          optional="false"
+          label="Minimum Module Size"
+          help="The minimum module size. Modules smaller than this will not be included in the network."
+        />
+        <param
+          type="integer"
+          value="5000"
+          min="1000"
+          max="10000"
+          name="block_size"
+          optional="false"
+          label="Block Size"
+          help="Constructing a network can use an extreme amount of memory if the number of genes is high. The block size enables WGCNA to divide the data into blocks of genes with similar expression reducing the amount of memory used. The block size indicates the maximum number of genes that can be used in a block. The total number of blocks used will be the total genes divided by this number (plus 1 for any remainder)."
+        />
+        <param
+          type="float"
+          value="0.5"
+          name="hard_threshold"
+          optional="false"
+          label="Hard Threshold"
+          min="0"
+          max="1"
+          help="While WGCNA uses a soft thresholding approach for finding modules and constructing gene similarity, when exporting the network for display as a graph a hard threshold is still required. For WGCNA, the threhshold is applied to the Euclidian distance between all genes. But, there is no set prescribed method to decide on a proper hard threshold value. Set a threshold now, then you can apply filters later (such as in Cytoscape) to remove low weighted edges if desired."
+        />
+        <param
           type="data"
           name="trait_data"
           format="csv"
-          optional="false"
+          optional="true" 
           label="Sample Annotation data"
           help="The sample annotation data is an n x m matrix where n is the samples and m are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix should be stored in a comma-separated (CSV) file. It must have a header."
         />
         <param
           type="integer"
-          value=""
-          name="soft_threshold_power"
+          value="1"
+          name="sname_col"
           optional="true"
-          label="Soft threshold power"
-          help="Refer to the scale independence plot from 'WGCNA: construct network' and choose an optimal soft threshold power. An optimal power will be calculated automatically if no value is provided."
+          label="Sample Name Column Number"
+          help="The number of the column (starting from 1) in the sample annotation data file where the sample name column is found."
         />
     </inputs>
     <outputs>
         <data
-          name="report_html"
+          name="network_construction_report"
           format="html"
-          label="wgcna_analysis_report"
+          label="network_construction_report.html"
         />
         <data
-          name="genes_info_file"
+          name="gene_module_file"
           format="csv"
-          label="wgcna_analysis_genes"
+          label="gene_module_file.csv"
         />
         <data
-          name="modules_info_file"
+          name="network_edges_file"
+          format="tabular"
+          label="network_edges.txt"
+        />
+        <data
+          name="module_association_report"
+          format="html"
+          label="module_association_report.html">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
+          name="gene_association_file"
           format="csv"
-          label="wgcna_analysis_modules"
+          label="gene_association.csv">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
+          name="module_association_file"
+          format="csv"
+          label="module_association.csv">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
+          name="render_log_file"
+          format="txt"
+          label="render_log_file"
+          hidden="true"
+        />
+        <data
+          name="r_data"
+          format="rdata"
+          label="aurora_wgcna.RData"
+          hidden="true"
         />
     </outputs>
     <tests>
+      <test>
+          <param name='expression_data' value="LiverFemale3600.gem.csv"/>
+          <output name="gene_module_file" file="gene_module.csv"/>
+          <output name="network_edges_file" file="network_edges.txt"/>
+          <output name="network_construction_report" file="network_construction_report.html"/>
+        </test>
         <test>
           <param name='expression_data' value="LiverFemale3600.gem.csv"/>
           <param name='trait_data' value="ClinicalTraits.csv"/>
-          <output name="genes_info_file" file="wgcna_analysis_genes.csv"/>
-          <output name="report_html" file="wgcna_analysis_report.html"/>
-          <output name="modules_info_file" file="wgcna_analysis_report.csv"/>
+          <output name="gene_module_file" file="gene_module.csv"/>
+          <output name="network_edges_file" file="network_edges.txt"/>
+          <output name="gene_association_file" file="gene_association_file.csv"/>
+          <output name="module_association_file" file="module_association_file.csv"/>
+          <output name="module_association_report" file="module_association_report.html"/>
+          <output name="network_construction_report" file="network_construction_report.html"/>
         </test>
     </tests>
     <help><![CDATA[

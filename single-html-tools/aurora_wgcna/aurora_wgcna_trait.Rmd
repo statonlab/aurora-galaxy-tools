@@ -1,0 +1,113 @@
+---
+title: 'WGCNA: Module-Trait Association Report.'
+output:
+    html_document:
+      number_sections: false
+      toc: true
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+```
+```{r}
+# Load the data from the previous step.
+load(file=opt$r_data)
+```
+# Sample Annotations
+
+The table below shows the list of sample annotations you provided.  Sample annotations can include categorical data related to experimental conditions, or numerical trait or phenotype data for each sample.
+
+```{r}
+trait_data = data.frame()
+trait_data = read.csv(opt$trait_data, header = TRUE, row.names = opt$sname_col)
+sample_names = rownames(gemt)
+trait_rows = match(sample_names, rownames(trait_data))
+trait_data = trait_data[trait_rows, ]
+datatable(trait_data)
+```
+# Module-Condition Association.
+Now that we have sample annotations, we can explore if any of the network modules are asociated with these features. First, is an empirical exploration by viewing again the sample dendrogram but with sample annotations added and colored by category or numerical intensity, as appropriate. If groups of samples with similar expression also share similar annotations then the same colors will appear "in blocks" under the clustered samples.  This view does not indicate associations but can help visualize when some modules might be associated.
+
+```{r fig.align='center', fig.width=8, fig.height=9}
+
+# Determine the column types within the trait annotation data.
+trait_types = sapply(trait_data, class)
+
+# Set the colors for the quantitative data.
+quantitative_fields = which(trait_types == "numeric")
+quantitative_colors = numbers2colors(trait_data[,quantitative_fields], signed = FALSE)
+colnames(quantitative_colors) = colnames(trait_data[,quantitative_fields])
+
+# Set the colors for the categorical data.
+categorical_fields = which(trait_types == "factor")
+categorical_colors = labels2colors(trait_data[,categorical_fields])
+colnames(categorical_colors) = colnames(trait_data[,categorical_fields])
+
+# Set the colors for the ordinal data.
+ordinal_fields = which(trait_types == "integer")
+ordinal_colors = numbers2colors(trait_data[,ordinal_fields], signed = FALSE)
+colnames(ordinal_colors) = colnames(trait_data[,ordinal_fields])
+
+# Combine the colors in their original order as the trait_data data frame.
+traitColors = cbind(quantitative_colors, categorical_colors, ordinal_colors)
+traitColors = traitColors[,colnames(trait_data)]
+
+
+plotDendroAndColors(sampleTree, traitColors,
+                    groupLabels = names(trait_data),
+                    main = "Sample Dendrogram and Annotation Heatmap",
+                    cex.dendroLabels = 0.5)
+
+```
+
+To statistically identify the associations, correlation tests are performed of the eigengenes of each module with the annotation data. The following heatmap shows the results between each annotation feature and each module.  Modules with a signficant positive assocation have a correlation value near 1. Modules with a significant negative association have a correlation value near -1.  Modules with no correlation have a value near 0.
+
+```{r fig.align='center', fig.width=20, fig.height=15}
+MEs = orderMEs(MEs)
+moduleTraitCor = cor(MEs, trait_data, use = "p");
+moduleTraitPvalue = corPvalueStudent(moduleTraitCor, n_samples);
+
+textMatrix = paste(signif(moduleTraitCor, 2), "\n(", signif(moduleTraitPvalue, 1), ")", sep = "");
+dim(textMatrix) = dim(moduleTraitCor)
+par(mar = c(6, 8.5, 3, 3));
+
+# Display the correlation values within a heatmap plot
+labeledHeatmap(Matrix = moduleTraitCor,
+  xLabels = names(trait_data),
+  yLabels = names(MEs),
+  ySymbols = names(MEs),
+  colorLabels = FALSE,
+  colors = blueWhiteRed(50),
+  textMatrix = textMatrix,
+  setStdMargins = FALSE,
+  cex.text = 0.5,
+  zlim = c(-1,1),
+  main = paste("Module-trait relationships"))
+```
+
+```{r}
+output = cbind(moduleTraitCor, moduleTraitPvalue)
+write.csv(output, file = opt$module_association_file, quote=FALSE, row.names=TRUE)
+```
+A file has been generated named `wgcna_analysis_modules.csv` which conatins the list of modules, and their correlation values as well as p-values indicating the strength of the associations.
+```{r}
+# names (colors) of the modules
+modNames = substring(names(MEs), 3)
+geneModuleMembership = as.data.frame(cor(gemt, MEs, use = "p"));
+MMPvalue = as.data.frame(corPvalueStudent(as.matrix(geneModuleMembership), n_samples));
+names(geneModuleMembership) = paste("MM", modNames, sep="");
+names(MMPvalue) = paste("p.MM", modNames, sep="");
+
+# Calculate the gene trait significance as a Pearson's R and p-value.
+gts = as.data.frame(cor(gemt, trait_data, use = "p"));
+gtsp = as.data.frame(corPvalueStudent(as.matrix(gts), n_samples));
+colnames(gtsp) = c(paste("p", names(trait_data), sep="."))
+colnames(gts) = c(paste("GS", names(trait_data), sep="."))
+
+# Write out the gene information.
+output = cbind(Module = module_labels, gts, gtsp)
+write.csv(output, file = opt$gene_association_file, quote=FALSE, row.names=TRUE)
+
+```
+Genes themselves can also have assocation with sample annotations. This is calculated via a traditional correlation test as well.  Another file has been generated named `wgcna_analysis_genes.csv` which provides the list of genes, the modules they belong to and the assocaition of each gene to the sample annotation features.
+
