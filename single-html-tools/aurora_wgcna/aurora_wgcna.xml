@@ -61,7 +61,7 @@
           format="csv"
           optional="false"
           label="Gene expression data"
-          help="Each row represents a gene and each column represents a sample."
+          help="The gene expression data is an n x m matrix where n rows are the genes, m columns are the samples and the elements represent gene expression levels (derived either from Microarray or RNA-Seq).  The matrix should be stored in a comma-separated (CSV) file and it must have a header. The gene names must appear as the first column of data in the file."
         />
         <param
           type="float"
