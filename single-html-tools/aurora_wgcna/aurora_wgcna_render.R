@@ -71,11 +71,8 @@ do.call(Sys.setenv, opt[-1])
 # ------------------------------------------------------------------
 # Render Rmd files
 # ------------------------------------------------------------------
-
-# Copy the Rmarkdown file to the working directory. The TOOL_INSTALL_DIR
-# environment variable is set in the <command? tag of the aurora_wgcna.xml file.
 tool_directory = Sys.getenv('TOOL_INSTALL_DIR')
-system(command = paste0('cp ', tool_directory, '/aurora_wgcna.Rmd ./'))
+
 
 # We don't want the Rmarkdown STDOUT to show up in Galaxy, so save it to a file.
 zz = file(opt$render_log_file)
@@ -83,11 +80,13 @@ sink(zz)
 sink(zz, type = 'message')
 
 # Next render the R markdown template file.
+system(command = paste0('cp ', tool_directory, '/aurora_wgcna.Rmd ./'))
 render(input = 'aurora_wgcna.Rmd',  output_file = opt$network_construction_report)
 
 # If the trait data was provided then we'll continue the 
 # analysis.
 if (!is.null(opt$trait_data)) {
+  system(command = paste0('cp ', tool_directory, '/aurora_wgcna_trait.Rmd ./'))
   render(input = 'aurora_wgcna_trait.Rmd',  output_file = opt$module_association_report)
 }
 

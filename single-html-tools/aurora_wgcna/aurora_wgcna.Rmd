@@ -211,7 +211,7 @@ colnames(output) = c('Gene', 'Module')
 write.csv(output, file = opt$gene_module_file, quote=FALSE, row.names=FALSE)
 ```
 
-A file has been generated named `gene_module_file.csv` which contains the list of modules, and their correlation values as well as *p*-values indicating the strength of the associations.
+A file has been generated named `gene_module_file.csv` which contains the list of genes and the modules they belong to.
 
 The TOM serves as both a simialrity matrix and an adjacency matrix. The adjacency matrix is typically identical to a similarity matrix but with values above a set threshold set to 1 and values below set to 0.  This is known as hard thresholding.  However, WGCNA does not set values above a threshold to zero but leaves the values as they are, hence the word "weighted" in the WGCNA name. Additionally, it does not use a threshold at all, so no elements are set to 0. This approach is called "soft thresholding", because the pairwise weights of all genes contributed to discover of modules.  The name "soft thresholding" may be a misnomer, however, because no thresholding in the traditional sense actually occurs.
 

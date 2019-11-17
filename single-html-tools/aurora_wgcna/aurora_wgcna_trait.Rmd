@@ -13,7 +13,7 @@ knitr::opts_chunk$set(error = TRUE, echo = FALSE)
 # Load the data from the previous step.
 load(file=opt$r_data)
 ```
-# Sample Annotations
+# Sample Annotation Data
 
 The table below shows the list of sample annotations you provided.  Sample annotations can include categorical data related to experimental conditions, or numerical trait or phenotype data for each sample.
 
@@ -50,8 +50,6 @@ colnames(ordinal_colors) = colnames(trait_data[,ordinal_fields])
 
 # Combine the colors in their original order as the trait_data data frame.
 traitColors = cbind(quantitative_colors, categorical_colors, ordinal_colors)
-traitColors = traitColors[,colnames(trait_data)]
-
 
 plotDendroAndColors(sampleTree, traitColors,
                     groupLabels = names(trait_data),
@@ -62,7 +60,7 @@ plotDendroAndColors(sampleTree, traitColors,
 
 To statistically identify the associations, correlation tests are performed of the eigengenes of each module with the annotation data. The following heatmap shows the results between each annotation feature and each module.  Modules with a signficant positive assocation have a correlation value near 1. Modules with a significant negative association have a correlation value near -1.  Modules with no correlation have a value near 0.
 
-```{r fig.align='center', fig.width=20, fig.height=15}
+```{r fig.align='center', fig.width=15, fig.height=15}
 MEs = orderMEs(MEs)
 moduleTraitCor = cor(MEs, trait_data, use = "p");
 moduleTraitPvalue = corPvalueStudent(moduleTraitCor, n_samples);
@@ -89,7 +87,7 @@ labeledHeatmap(Matrix = moduleTraitCor,
 output = cbind(moduleTraitCor, moduleTraitPvalue)
 write.csv(output, file = opt$module_association_file, quote=FALSE, row.names=TRUE)
 ```
-A file has been generated named `wgcna_analysis_modules.csv` which conatins the list of modules, and their correlation values as well as p-values indicating the strength of the associations.
+A file has been generated named `module_association.csv` which conatins the list of modules, and their correlation values as well as p-values indicating the strength of the associations.
 ```{r}
 # names (colors) of the modules
 modNames = substring(names(MEs), 3)
@@ -109,5 +107,5 @@ output = cbind(Module = module_labels, gts, gtsp)
 write.csv(output, file = opt$gene_association_file, quote=FALSE, row.names=TRUE)
 
 ```
-Genes themselves can also have assocation with sample annotations. This is calculated via a traditional correlation test as well.  Another file has been generated named `wgcna_analysis_genes.csv` which provides the list of genes, the modules they belong to and the assocaition of each gene to the sample annotation features.
+Genes themselves can also have assocation with sample annotations. This is calculated via a traditional correlation test as well.  Another file has been generated named `gene_association.csv` which provides the list of genes, the modules they belong to and the assocaition of each gene to the sample annotation features.
 
