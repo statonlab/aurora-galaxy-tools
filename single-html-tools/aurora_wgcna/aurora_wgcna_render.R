@@ -40,7 +40,7 @@ spec = matrix(c(
     # Input Files
     'trait_data',                  't', 2, 'character',
     'expression_data',             'e', 1, 'character',
-  
+
     # Input Arguments
     'missing_value',               'i', 1, 'character',
     'sname_col',                   'c', 2, 'integer',
@@ -49,7 +49,7 @@ spec = matrix(c(
     'power',                       'p', 2, 'double',
     'block_size',                  'b', 1, 'integer',
     'hard_threshold',              'j', 1, 'integer',
-    
+
     # Output Files
     'gene_module_file',            'k', 1, 'character',
     'network_edges_file',          'w', 1, 'character',
@@ -83,7 +83,7 @@ sink(zz, type = 'message')
 system(command = paste0('cp ', tool_directory, '/aurora_wgcna.Rmd ./'))
 render(input = 'aurora_wgcna.Rmd',  output_file = opt$network_construction_report)
 
-# If the trait data was provided then we'll continue the 
+# If the trait data was provided then we'll continue the
 # analysis.
 if (!is.null(opt$trait_data)) {
   system(command = paste0('cp ', tool_directory, '/aurora_wgcna_trait.Rmd ./'))

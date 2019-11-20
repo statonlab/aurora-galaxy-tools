@@ -7,7 +7,7 @@ output:
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+knitr::opts_chunk$set(error = FALSE, echo = TRUE)
 ```
 ```{r}
 # Load the data from the previous step.
@@ -108,4 +108,3 @@ write.csv(output, file = opt$gene_association_file, quote=FALSE, row.names=TRUE)
 
 ```
 Genes themselves can also have assocation with sample annotations. This is calculated via a traditional correlation test as well.  Another file has been generated named `gene_association.csv` which provides the list of genes, the modules they belong to and the assocaition of each gene to the sample annotation features.
-

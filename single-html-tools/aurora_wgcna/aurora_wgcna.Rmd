@@ -7,7 +7,7 @@ output:
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+knitr::opts_chunk$set(error = FALSE, echo = FALSE)
 ```
 
 # Expression Data
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(error = TRUE, echo = FALSE)
 The table below shows the first 100 rows of the Gene Expression Matrix (GEM) file that you provided.
 
 ```{r}
-gem = read.csv(opt$expression_data, header = TRUE, row.names = 1)
+gem = read.csv(opt$expression_data, header = TRUE, row.names = 1, na.strings = opt$missing_value)
 table_data = head(gem, 100)
 datatable(table_data)
 ```
@@ -132,7 +132,7 @@ if (!is.null(opt$power)) {
 }
 ```
 
-Now that a power has been identified, modules can be discovered.  Here, the `blockwiseModule` function of WGCNA is called. The dataset is divided into blocks of 1000 genes each in order to keep memory usage low. The output of that function call is shown below.
+Now that a power has been identified, modules can be discovered.  Here, the `blockwiseModule` function of WGCNA is called. The dataset is divided into blocks of genes in order to keep memory usage low. The output of that function call is shown below. The number of blocks is dependent on the block size you provided.
 
 ```{r}
 net = blockwiseModules(gemt, power = power, maxBlockSize = opt$block_size,
@@ -192,12 +192,12 @@ for (i in blocks) {
   load(net$TOMFiles[i])
   TOM_size = length(which(net$blocks == i))
   TOM = as.matrix(TOM, nrow=TOM_size, ncol=TOM_size)
-  
+
   # Calculate the dissimilarity and raise it to apower to make it more visible on the plot.
   dissTOM = 1-TOM
   plotTOM = dissTOM^7
   diag(plotTOM) = NA
-  
+
   # Now plot the heatmap
   geneTree = net$dendrograms[[i]]
   colors = sub('ME','', module_labels[which(net$blocks == i)])
@@ -215,7 +215,7 @@ A file has been generated named `gene_module_file.csv` which contains the list o
 
 The TOM serves as both a simialrity matrix and an adjacency matrix. The adjacency matrix is typically identical to a similarity matrix but with values above a set threshold set to 1 and values below set to 0.  This is known as hard thresholding.  However, WGCNA does not set values above a threshold to zero but leaves the values as they are, hence the word "weighted" in the WGCNA name. Additionally, it does not use a threshold at all, so no elements are set to 0. This approach is called "soft thresholding", because the pairwise weights of all genes contributed to discover of modules.  The name "soft thresholding" may be a misnomer, however, because no thresholding in the traditional sense actually occurs.
 
-Unfortunately, this "soft thresholding" approach can make creation of a graph representation of the network difficult. If we exported the TOM as a connected graph it would result in a fully complete graph and would be difficult to interpret. Therefore, we must still set a hard-threshold if we want to visualize connectivity in graph form.  Setting a hard threshold, if too high can result in genes being excluded from the graph and a threshold that is too low can result in too many false edges in the graph. 
+Unfortunately, this "soft thresholding" approach can make creation of a graph representation of the network difficult. If we exported the TOM as a connected graph it would result in a fully complete graph and would be difficult to interpret. Therefore, we must still set a hard-threshold if we want to visualize connectivity in graph form.  Setting a hard threshold, if too high can result in genes being excluded from the graph and a threshold that is too low can result in too many false edges in the graph.
 
 ```{r}
 edges = data.frame(fromNode= c(), toNode=c(), weight=c(), direction=c(), fromAltName=c(), toAltName=c())
@@ -244,4 +244,3 @@ Using the hard threshold parameter provided, a file has been generated named `ne
 # provides a trait file.
 save.image(file=opt$r_data)
 ```
-

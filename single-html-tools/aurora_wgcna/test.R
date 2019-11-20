@@ -2,7 +2,7 @@ opt = list(
   # Input Files
   'expression_data' = 'test-data/LiverFemale3600.gem.csv',
   'trait_data' = 'test-data/ClinicalTraits.csv',
-  
+
   # Input Arguments
   'cut_height' = NULL,
   'power' = NULL,
@@ -10,7 +10,8 @@ opt = list(
   'sname_col' = 1,
   'block_size' = 5000,
   'hard_threshold' = 0.5,
-  
+  'missing_value' = 'NA'
+
   # Output Files
   'r_data' = 'wgcna_analysis.RData',
   'gene_module_file' = 'gene_module.csv',

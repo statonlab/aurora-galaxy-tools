@@ -52,6 +52,7 @@
             -m $module_association_file
             -q $module_association_report
             -r $network_construction_report
+            -i $missing_value
         ]]>
     </command>
     <inputs>
@@ -62,6 +63,14 @@
           optional="false"
           label="Gene expression data"
           help="The gene expression data is an n x m matrix where n rows are the genes, m columns are the samples and the elements represent gene expression levels (derived either from Microarray or RNA-Seq).  The matrix should be stored in a comma-separated (CSV) file and it must have a header. The gene names must appear as the first column of data in the file."
+        />
+        <param
+          type="text"
+          value="NA"
+          name="missing_value"
+          optional="false"
+          label="Missing Value Identifier"
+          help="Within the gene expression data some genes may have missing values. If so, please indicate the text that is used to identify a missing value. Some common examples include: NA, O.O, O, -Inf. Any expression level that exactly matches the value provided will be considered a missing value."
         />
         <param
           type="float"
@@ -111,7 +120,7 @@
           type="data"
           name="trait_data"
           format="csv"
-          optional="true" 
+          optional="true"
           label="Sample Annotation data"
           help="The sample annotation data is an n x m matrix where n is the samples and m are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix should be stored in a comma-separated (CSV) file. It must have a header."
         />
