@@ -30,6 +30,8 @@ library(WGCNA)
 library(DT)
 library(htmltools)
 library(ggplot2)
+library(reshape2)
+library(caret)
 
 # ------------------------------------------------------------------
 # Handle arguments from command line
@@ -48,7 +50,9 @@ spec = matrix(c(
     'height_cut',                  'h', 2, 'double',
     'power',                       'p', 2, 'double',
     'block_size',                  'b', 1, 'integer',
-    'hard_threshold',              'j', 1, 'integer',
+    'hard_threshold',              'j', 1, 'double',
+    'one_hot_cols',                'y', 2, 'character',
+    'ignore_cols',                 'x', 2, 'character',
 
     # Output Files
     'gene_module_file',            'k', 1, 'character',
@@ -64,6 +68,17 @@ spec = matrix(c(
 
 opt = getopt(spec)
 
+# We have to have values for the one_hot_cols and ignore_cols but the
+# fact these are optional means that we might not get a value for them and the
+# getopt function will then leave them out.  So, we need to make sure they are
+# there.
+if (!"one_hot_cols" %in% names(opt)) {
+  opt[["one_hot_cols"]] <- ''
+}
+if (!"ignore_cols" %in% names(opt)) {
+  opt[["ignore_cols"]] <- ''
+}
+
 # Define environment variables for all input values. This will allow use
 # of the input arguments in the Rmarkdown template file.
 do.call(Sys.setenv, opt[-1])
@@ -78,6 +93,9 @@ tool_directory = Sys.getenv('TOOL_INSTALL_DIR')
 zz = file(opt$render_log_file)
 sink(zz)
 sink(zz, type = 'message')
+
+# Print the options
+print(opt)
 
 # Next render the R markdown template file.
 system(command = paste0('cp ', tool_directory, '/aurora_wgcna.Rmd ./'))

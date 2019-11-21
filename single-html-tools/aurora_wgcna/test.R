@@ -11,6 +11,8 @@ opt = list(
   'block_size' = 5000,
   'hard_threshold' = 0.5,
   'missing_value' = 'NA'
+  'one_hot_cols' = '',
+  'ignore_cols' = 'Number,Mouse_ID,Strain,DOB,parents,Western_Diet,Sac_Date',
 
   # Output Files
   'r_data' = 'wgcna_analysis.RData',

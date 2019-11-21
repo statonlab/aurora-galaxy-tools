@@ -7,7 +7,7 @@ output:
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(error = FALSE, echo = FALSE)
+knitr::opts_chunk$set(error = TRUE, echo = FALSE)
 ```
 
 # Expression Data
@@ -31,13 +31,6 @@ The next step is to check the data for low quality samples or genes. These have 
 gsg = goodSamplesGenes(gemt, verbose = 3)
 
 if (!gsg$allOK) {
-  if (sum(!gsg$goodGenes)>0) {
-    printFlush(paste("Removing genes:", paste(names(gemt)[!gsg$goodGenes], collapse = ", ")));
-  }
-  if (sum(!gsg$goodSamples)>0) {
-    printFlush(paste("Removing samples:", paste(rownames(gemt)[!gsg$goodSamples], collapse = ", ")));
-  # Remove the offending genes and samples from the data:
-  }
   gemt = gemt[gsg$goodSamples, gsg$goodGenes]
 } else {
   print('all genes are OK!')
@@ -68,8 +61,11 @@ if (is.null(opt$height_cut)) {
 n_genes = ncol(gemt)
 n_samples = nrow(gemt)
 removed = length(which(keepSamples == FALSE))
-print(paste("A total of", removed, "sample(s) was/were removed"))
-
+if (removed == 1) {
+  print(paste("A total of", removed, "sample was removed"))
+} else {
+  print(paste("A total of", removed, "samples were removed"))
+}
 ```
 
 ```{r fig.align='center'}
@@ -178,13 +174,16 @@ We can examine gene similarity within the context of our modules.  The following
 ```{r}
 # Plot the dendrogram and the module colors underneath
 for (i in blocks) {
-  plotDendroAndColors(net$dendrograms[[i]], net$colors[net$blockGenes[[i]]],
+  options(repr.plot.width=15, repr.plot.height=10)
+  colors = module_labels[net$blockGenes[[i]]]
+  colors = sub('ME','', colors)
+  plotDendroAndColors(net$dendrograms[[i]], colors,
                       "Module colors", dendroLabels = FALSE, hang = 0.03,
                       addGuide = TRUE, guideHang = 0.05, main=paste('Cluster Dendgrogram, Block', i))
 }
 ```
 
-The network is housed in a *n* x *n* similarity matrix known as the the Topological Overlap Matrix (TOM), where *n* is the number of genes and the value in each cell indicates the measure of similarity in terms of correlation of expression and interconnectedness. The following heat maps organizes the genes using the dendrograms from above and the color intensity indicates genes that tend to be more similar.  Genes with similar expression and in modules will cluster along the diagonal.
+The network is housed in a *n* x *n* similarity matrix known as the the Topological Overlap Matrix (TOM), where *n* is the number of genes and the value in each cell indicates the measure of similarity in terms of correlation of expression and interconnectedness. The following heat maps shows the TOM.  Note, that the dendrograms in the TOM heat map may from what is shown above. This is because a subset of genes were selected to draw the heat maps in order to save on computational time.
 
 ```{r}
 for (i in blocks) {
@@ -192,16 +191,23 @@ for (i in blocks) {
   load(net$TOMFiles[i])
   TOM_size = length(which(net$blocks == i))
   TOM = as.matrix(TOM, nrow=TOM_size, ncol=TOM_size)
-
-  # Calculate the dissimilarity and raise it to apower to make it more visible on the plot.
   dissTOM = 1-TOM
-  plotTOM = dissTOM^7
-  diag(plotTOM) = NA
 
-  # Now plot the heatmap
-  geneTree = net$dendrograms[[i]]
-  colors = sub('ME','', module_labels[which(net$blocks == i)])
-  TOMplot(plotTOM, geneTree, colors, main = paste("Network Heatmap, Block", i))
+  # For reproducibility, we set the random seed
+  set.seed(10);
+  select = sample(dim(TOM)[1], size = 1000);
+  selectColors = module_labels[net$blockGenes[[i]][select]]
+  selectTOM = dissTOM[select, select];
+
+  # There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
+  selectTree = hclust(as.dist(selectTOM), method = "average")
+
+  # Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing
+  # the color palette; setting the diagonal to NA also improves the clarity of the plot
+  plotDiss = selectTOM^7;
+  diag(plotDiss) = NA;
+  colors = sub('ME','', selectColors)
+  TOMplot(plotDiss, selectTree, colors, main = "Network heatmap plot, selected genes")
 }
 ```
 

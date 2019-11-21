@@ -7,8 +7,11 @@
         <requirement type="package" version="1.20.3">r-getopt</requirement>
         <requirement type="package" version="1.12">r-rmarkdown</requirement>
         <requirement type="package" version="1.8.4">r-plyr</requirement>
-        <requirement type="package" version="0.4">r-dt</requirement>
+        <requirement type="package" version="0.10">r-dt</requirement>
         <requirement type="package" version="0.4.0">r-htmltools</requirement>
+        <requirement type="package" version="3.2.1">r-ggplot2</requirement>
+        <requirement type="package" version="1.4.3">r-reshape2</requirement>
+        <requirement type="package" version="6.0_83">r-caret</requirement>
         <requirement type="package" version="1.68">r-wgcna</requirement>
     </requirements>
     <stdio>
@@ -34,9 +37,15 @@
             -s $min_cluster_size
             -b $block_size
             -j $hard_threshold
-            #if $trait_data
-              -t $trait_data
-              -c $sname_col
+            #if $trait_info.trait_data
+              -t $trait_info.trait_data
+              -c $trait_info.sname_col
+              #if $trait_info.one_hot_cols
+                -y $trait_info.one_hot_cols
+              #end if
+              #if $trait_info.ignore_cols
+                -x $trait_info.ignore_cols
+              #end if
             #end if
             #if $height_cut
               -h $height_cut
@@ -116,22 +125,40 @@
           max="1"
           help="While WGCNA uses a soft thresholding approach for finding modules and constructing gene similarity, when exporting the network for display as a graph a hard threshold is still required. For WGCNA, the threhshold is applied to the Euclidian distance between all genes. But, there is no set prescribed method to decide on a proper hard threshold value. Set a threshold now, then you can apply filters later (such as in Cytoscape) to remove low weighted edges if desired."
         />
-        <param
-          type="data"
-          name="trait_data"
-          format="csv"
-          optional="true"
-          label="Sample Annotation data"
-          help="The sample annotation data is an n x m matrix where n is the samples and m are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix should be stored in a comma-separated (CSV) file. It must have a header."
-        />
-        <param
-          type="integer"
-          value="1"
-          name="sname_col"
-          optional="true"
-          label="Sample Name Column Number"
-          help="The number of the column (starting from 1) in the sample annotation data file where the sample name column is found."
-        />
+        <section name="trait_info" title="Trait/Phenotype" expanded="true">
+          <param
+            type="data"
+            name="trait_data"
+            format="csv"
+            optional="true"
+            label="Trait/Phenotype Data Matrix"
+            help="The trait/phenotype data is an n x m matrix where n is the samples and m are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix should be stored in a comma-separated (CSV) file. It must have a header."
+          />
+          <param
+            type="integer"
+            value="1"
+            name="sname_col"
+            optional="true"
+            label="Sample Name Column"
+            help="The number of the column (starting from 1) in the sample annotation data file where the sample name column is found."
+          />
+          <param
+            type="text"
+            value=""
+            name="one_hot_cols"
+            optional="true"
+            label="Categorical Columns"
+            help="Categorical columns in the sample daa matrix must be '1-hot encoded'. This means that each categorical column is expanded into new columns (one for each category) and the values for the new columns are set to 1 if the sample has the category and 0 if not. This value should be a comma-separated list of column names with no spaces between column names. Please make sure the column headers only have alphanumeric characters and underscores. If you do not specify categorical column names then they will be converted to factors and treated as ordinal data."
+          />
+          <param
+            type="text"
+            value=""
+            name="ignore_cols"
+            optional="true"
+            label="Columns to Ignore"
+            help="The names of columns in the sample data matrix that should be ignored. This value should be a comma-separated list of column names with no spaces between column names. Please make sure the column headers only have alphanumeric characters and underscores."
+          />
+        </section>
     </inputs>
     <outputs>
         <data
@@ -171,7 +198,7 @@
           name="render_log_file"
           format="txt"
           label="render_log_file"
-          hidden="true"
+          hidden="false"
         />
         <data
           name="r_data"
