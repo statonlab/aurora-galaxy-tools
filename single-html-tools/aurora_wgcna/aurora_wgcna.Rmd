@@ -1,23 +1,100 @@
 ---
-title: 'WGCNA: Gene Co-Expression Network Construction Report'
+title: 'Aurora Galaxy WGCNA Tool: Gene Co-Expression Network Construction & Analysis'
 output:
-    html_document:
+    pdf_document:
       number_sections: false
-      toc: true
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(error = TRUE, echo = FALSE)
+knitr::opts_chunk$set(error = FALSE, echo = FALSE)
 ```
+
+```{r}
+# Make a directory for saving the figures.
+dir.create('figures', showWarnings = FALSE)
+```
+
+# Introduction
+This report contains step-by-step results from use of the [Aurora Galaxy](https://github.com/statonlab/aurora-galaxy-tools) Weighted Gene Co-expression Network Analysis [WGCNA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-559) tool. This tool wraps the WGCNA R package into a ready-to-use Rmarkdown file.  It performs module discovery and network construction using a dataset and optional trait data matrix provided.  
+
+If you provided trait data, a second report will be available with results comparing the trait values to the identified modules.
+
+This report was generated on:
+```{r}
+format(Sys.time(), "%a %b %d %X %Y")
+```
+
+
+## About the Input Data
+### Gene Expression Matrix (GEM)
+The gene expression data is an *n* x *m* matrix where *n* rows are the genes, *m* columns are the samples and the elements represent gene expression levels (derived either from Microarray or RNA-Seq). The matrix was provided in a file meething these rules:
+- Housed in a comma-separated (CSV) file.
+- The rows represent the gene expression levels
+- The first column of each row is the gene, transcript or probe name.
+- The header contains only the sample names and therefore is one value less than the remaining rows of the file.
+
+### Trait/Phenotype Matrix
+The trait/phenotype data is an *n* x *m* matrix where *n* is the samples and *m* are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix is stored in a comma-separated (CSV) file and has a header.
+
+## Parameters provided by the user.
+The following describes the input arguments provided to this tool:
+```{r}
+
+if (!is.null(opt$height_cut)) {
+  print('The cut height for outlier removal of the sample dendrogram:')
+  print(opt$cut_height)
+}
+
+if (!is.null(opt$power)) {
+  print('The power to which the gene expression data is raised:')
+  print(opt$power)
+}
+print('The minimal size for a module:')
+print(opt$min_cluster_size)
+
+print('The block size for dividing the GEM to reduce memory requirements:')
+print(opt$block_size)
+
+print('The hard threshold when generating the graph file:')
+print(opt$hard_threshold)
+
+print('The character string used to identify missing values in the GEM:')
+print(opt$missing_value1)
+
+if (!is.null(opt$trait_data)) {
+  print('The column in the trait data that contains the sample name:')
+  print(opt$sname_col)
+  
+  print('The character string used to identify missing values in the trait data:')
+  print(opt$missing_value2)
+  
+  print('Columns in the trait data that should be treated as categorical:')
+  print(opt$one_hot_cols)
+  
+  print('Columns in the trait data that should be ignored:')
+  print(opt$ignore_cols)
+}
+```
+
+## If Errors Occur
+Please note, that if any of the R code encountered problems, error messages will appear in the report below. If an error occurs anywhere in the report, results should be thrown out.  Errors are usually caused by improperly formatted input data or improper input arguments.  Use the following checklist to find and correct potential errors:
+
+- Do the formats for the input datasets match the requirements listed above.
+- Do the values set for missing values match the values in the input files, and is the missing value used consistently within the input files (i.e you don't have more than one such as 0.0 and 0, or NA and 0.0)
+- If trait data was provided, check that the column specified for the sample name is correct.
+- The block size should not exceed 10,000 and should not be lower than 1,000.
+- Ensure that the sample names and all headers in the trait/phenotype data only contain alpha-numeric and underscore characters. 
+
 
 # Expression Data
 
-The table below shows the first 100 rows of the Gene Expression Matrix (GEM) file that you provided.
+The content below shows the first 10 rows and 6 columns of the Gene Expression Matrix (GEM) file that was provided.
 
 ```{r}
-gem = read.csv(opt$expression_data, header = TRUE, row.names = 1, na.strings = opt$missing_value)
-table_data = head(gem, 100)
-datatable(table_data)
+gem = read.csv(opt$expression_data, header = TRUE, row.names = 1, na.strings = opt$missing_value1)
+#table_data = head(gem, 100)
+#datatable(table_data)
+gem[1:10,1:6]
 ```
 
 ```{r}
@@ -38,12 +115,19 @@ if (!gsg$allOK) {
 ```
 
 
-Hierarchical clustering can be used to explore the similarity of expression across the samples of the GEM. The following dendrogram shows the results of that clustering. Outliers typically appear on their own in the dendrogram. If you did not specify a height to trim outlier samples, then the `cutreeDynamic` function is used to automatically find outliers, and then they are removed.  If you did not specify a cut height and you do not approve of the automatically detected height, you can re-run this tool with a desired cut height. The two plots below show the dendrogram before and after outlier removal.
+Hierarchical clustering can be used to explore the similarity of expression across the samples of the GEM. The following dendrogram shows the results of that clustering. Outliers typically appear on their own in the dendrogram. If a height was not specified to trim outlier samples, then the `cutreeDynamic` function is used to automatically find outliers, and then they are removed.  If you do not approve of the automatically detected height, you can re-run this tool with a desired cut height. The two plots below show the dendrogram before and after outlier removal.
 
 ```{r fig.align='center'}
 sampleTree = hclust(dist(gemt), method = "average");
-plot(sampleTree, main = "Sample clustering prior to outlier removal", sub="", xlab="",
-     cex.axis = 1, cex.main = 1, cex = 0.5)
+
+plotSampleDendro <- function() {
+  plot(sampleTree, main = "Sample Clustering Prior to Outlier Removal", sub="", xlab="",
+       cex.axis = 1, cex.main = 1, cex = 0.5)
+}
+png('figures/01-sample_dendrogram.png', width=6 ,height=5, units="in", res=300)
+plotSampleDendro()
+invisible(dev.off())
+plotSampleDendro()
 ```
 
 ```{r}
@@ -66,12 +150,23 @@ if (removed == 1) {
 } else {
   print(paste("A total of", removed, "samples were removed"))
 }
+
+# Write out the filtered GEM
+write.csv(t(gemt), opt$filtered_GEM, quote=FALSE)
 ```
+A file named `filtered_GEM.csv` has been created. This file is a comma-separated file containing the original gene expression data but with outlier samples removed. If no outliers were detected this file will be identical to the original.
 
 ```{r fig.align='center'}
 sampleTree = hclust(dist(gemt), method = "average");
-plot(sampleTree, main = "Sample clustering after outlier removal", sub="", xlab="",
-     cex.axis = 1, cex.main = 1, cex = 0.5)
+
+plotFilteredSampleDendro <- function() {
+  plot(sampleTree, main = "Sample Clustering After Outlier Removal", sub="", xlab="",
+       cex.axis = 1, cex.main = 1, cex = 0.5)
+}
+png('figures/02-filtered-sample_dendrogram.png', width=6 ,height=5, units="in", res=300)
+plotFilteredSampleDendro()
+invisible(dev.off())
+plotFilteredSampleDendro()
 ```
 
 # Network Module Discovery
@@ -95,25 +190,31 @@ The following plots show how the scale-free index and mean connectivity change a
 
 ```{r fig.align='center'}
 par(mfrow=c(1,2))
-
 th = sft$fitIndices$SFT.R.sq[which(sft$fitIndices$Power == sft$powerEstimate)]
 
-# Scale-free topology fit index as a function of the soft-thresholding power.
-plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-     xlab="Soft Threshold (power)",
-     ylab="Scale Free Topology Model Fit,signed R^2", type="n",
-     main = paste("Scale independence"), cex.lab = 0.5);
-text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-     labels=powers,cex=0.5,col="red");
-abline(h=th, col="blue")
+plotPower <- function() {
+  # Scale-free topology fit index as a function of the soft-thresholding power.
+  plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+       xlab="Soft Threshold (power)",
+       ylab="Scale Free Topology Model Fit,signed R^2", type="n",
+       main = paste("Scale Independence"), cex.lab = 0.5);
+  text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+       labels=powers,cex=0.5,col="red");
+  #abline(h=th, col="blue")
+  
+  # Mean connectivity as a function of the soft-thresholding power.
+  plot(sft$fitIndices[,1], sft$fitIndices[,5],
+       xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",
+       main = paste("Mean Connectivity"), cex.lab = 0.5)
+  text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=0.5,col="red")
+  #abline(h=th, col="blue")
+  par(mfrow=c(1,1))
+}
 
-# Mean connectivity as a function of the soft-thresholding power.
-plot(sft$fitIndices[,1], sft$fitIndices[,5],
-     xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",
-     main = paste("Mean connectivity"), cex.lab = 0.5)
-text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=0.5,col="red")
-abline(h=th, col="blue")
-par(mfrow=c(1,1))
+png('figures/03-power_thresholding.png', width=6 ,height=5, units="in", res=300)
+plotPower()
+invisible(dev.off())
+plotPower()
 ```
 Using the values in the table above, WGCNA is able to predict the ideal power. This selection is indicated in the following cell and is shown as a blue line on the plots above. If you believe that the power was incorrectly chosen, you can re-run this tool with the same input files and provide the desired power.
 
@@ -135,7 +236,7 @@ net = blockwiseModules(gemt, power = power, maxBlockSize = opt$block_size,
                       TOMType = "unsigned", minModuleSize = opt$min_cluster_size,
                       reassignThreshold = 0, mergeCutHeight = 0.25,
                       numericLabels = TRUE, pamRespectsDendro = FALSE,
-                      verbose = 3, saveTOMs = TRUE,
+                      verbose = 1, saveTOMs = TRUE,
                       saveTOMFileBase = "TOM")
 blocks = sort(unique(net$blocks))
 ```
@@ -151,7 +252,8 @@ n_modules = length(modules) - 1
 module_size_upper = modules[2]
 module_size_lower = modules[length(modules)]
 colnames(modules) = c('Module', 'Module Size')
-datatable(modules)
+#datatable(modules)
+modules
 ```
 
 Modules consist of a set of genes that have highly similar expression patterns.  Therefore, the similarity of genes within a module can be summarized using an "eigengene" vector. This vector is analgous to the first principal component in a PCA analysis. Once each module's eigengene is calculated, they can be compared and displayed in dendrogram to identify which modules are most similar to each other. This is visible in the following plot.
@@ -159,14 +261,24 @@ Modules consist of a set of genes that have highly similar expression patterns. 
 ```{r fig.align='center'}
 MEs = net$MEs
 colnames(MEs) = module_labels2num[colnames(MEs),]$label
+
+png('figures/04-module_dendrogram.png', width=6 ,height=5, units="in", res=300)
+plotEigengeneNetworks(MEs, "Module Eigengene Dendrogram", plotHeatmaps = FALSE)
+dev.off()
 plotEigengeneNetworks(MEs, "Module Eigengene Dendrogram", plotHeatmaps = FALSE)
 ```
 
 Alternatively, we can use a heatmap to explore similarity of each module.
 ```{r fig.align='center'}
-plotEigengeneNetworks(MEs, "Eigengene adjacency heatmap",
-                      marHeatmap = c(2, 3, 2, 2),
-                      plotDendrograms = FALSE)
+plotModuleHeatmap <- function() {
+  plotEigengeneNetworks(MEs, "Module Eigengene Heatmap",
+                        marHeatmap = c(2, 3, 2, 2),
+                        plotDendrograms = FALSE)
+}
+png('figures/05-module_eigengene_heatmap.png', width=4 ,height=4, units="in", res=300)
+plotModuleHeatmap()
+invisible(dev.off())
+plotModuleHeatmap()
 ```
 
 We can examine gene similarity within the context of our modules.  The following dendrogram clusters genes by their similarity of expression and the modules to which each gene belongs is shown under the graph.  When similar genes appear in the same module, the same colors will be visible in "blocks" under the dendrogram. The presence of blocks of color indicate that genes in modules tend to have similar expression.
@@ -177,13 +289,21 @@ for (i in blocks) {
   options(repr.plot.width=15, repr.plot.height=10)
   colors = module_labels[net$blockGenes[[i]]]
   colors = sub('ME','', colors)
-  plotDendroAndColors(net$dendrograms[[i]], colors,
-                      "Module colors", dendroLabels = FALSE, hang = 0.03,
-                      addGuide = TRUE, guideHang = 0.05, main=paste('Cluster Dendgrogram, Block', i))
+  plotClusterDendro <- function() {
+    plotDendroAndColors(net$dendrograms[[i]], colors,
+                        "Module colors", dendroLabels = FALSE, hang = 0.03,
+                        addGuide = TRUE, guideHang = 0.05, 
+                        main=paste('Cluster Dendgrogram, Block', i))
+  }
+  png(paste0('figures/06-cluster_dendrogram_block_', i, '.png'), width=6 ,height=4, units="in", res=300)
+  plotClusterDendro();
+  invisible(dev.off())
+  plotClusterDendro();
 }
+
 ```
 
-The network is housed in a *n* x *n* similarity matrix known as the the Topological Overlap Matrix (TOM), where *n* is the number of genes and the value in each cell indicates the measure of similarity in terms of correlation of expression and interconnectedness. The following heat maps shows the TOM.  Note, that the dendrograms in the TOM heat map may from what is shown above. This is because a subset of genes were selected to draw the heat maps in order to save on computational time.
+The network is housed in a *n* x *n* similarity matrix known as the the Topological Overlap Matrix (TOM), where *n* is the number of genes and the value in each cell indicates the measure of similarity in terms of correlation of expression and interconnectedness. The following heat maps shows the TOM.  Note, that the dendrograms in the TOM heat map may differ from what is shown above. This is because a subset of genes were selected to draw the heat maps in order to save on computational time.
 
 ```{r}
 for (i in blocks) {
@@ -207,7 +327,11 @@ for (i in blocks) {
   plotDiss = selectTOM^7;
   diag(plotDiss) = NA;
   colors = sub('ME','', selectColors)
-  TOMplot(plotDiss, selectTree, colors, main = "Network heatmap plot, selected genes")
+  
+  png(paste0('figures/06-TOM_heatmap_block_', i, '.png'), width=6 ,height=6, units="in", res=300)
+  TOMplot(plotDiss, selectTree, colors, main = paste('TOM Heatmap, Block', i))
+  dev.off()
+  TOMplot(plotDiss, selectTree, colors, main = paste('TOM Heatmap, Block', i))
 }
 ```
 

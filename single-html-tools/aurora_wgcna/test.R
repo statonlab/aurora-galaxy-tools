@@ -10,14 +10,17 @@ opt = list(
   'sname_col' = 1,
   'block_size' = 5000,
   'hard_threshold' = 0.5,
-  'missing_value' = 'NA'
+  'missing_value1' = 'NA',
+  'missing_value2' = 'NA',
   'one_hot_cols' = '',
-  'ignore_cols' = 'Number,Mouse_ID,Strain,DOB,parents,Western_Diet,Sac_Date',
+  'ignore_cols' = 'Number,Mouse_ID,Strain,DOB,parents,Western_Diet,Sac_Date,Note,comments',
 
   # Output Files
   'r_data' = 'wgcna_analysis.RData',
   'gene_module_file' = 'gene_module.csv',
   'network_edges_file' = 'network_edges.txt',
   'gene_association_file' = 'gene_association_file.csv',
-  'module_association_file' = 'module_association_file.csv'
+  'module_association_file' = 'module_association_file.csv',
+  'updated_trait_matrix' = 'updated_trait_matrix.csv',
+  'filtered_GEM' = 'filtered_GEM.csv'
 )

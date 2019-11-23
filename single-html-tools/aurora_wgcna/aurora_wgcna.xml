@@ -1,4 +1,4 @@
-<tool id="aurora_wgcna" name="WGCNA" version="1.0.0">
+<tool id="aurora_wgcna" name="Aurora Galaxy WGCNA" version="1.0.0">
     <description>
         Identify gene co-expression network modules using WGCNA.
     </description>
@@ -40,6 +40,11 @@
             #if $trait_info.trait_data
               -t $trait_info.trait_data
               -c $trait_info.sname_col
+              #if $trait_info.missing_value2
+                -o "$trait_info.missing_value2"
+              #else 
+                -o "NA"
+              #end if
               #if $trait_info.one_hot_cols
                 -y $trait_info.one_hot_cols
               #end if
@@ -61,7 +66,9 @@
             -m $module_association_file
             -q $module_association_report
             -r $network_construction_report
-            -i $missing_value
+            -z $updated_trait_matrix
+            -d $filtered_GEM
+            -i $missing_value1
         ]]>
     </command>
     <inputs>
@@ -76,10 +83,10 @@
         <param
           type="text"
           value="NA"
-          name="missing_value"
+          name="missing_value1"
           optional="false"
           label="Missing Value Identifier"
-          help="Within the gene expression data some genes may have missing values. If so, please indicate the text that is used to identify a missing value. Some common examples include: NA, O.O, O, -Inf. Any expression level that exactly matches the value provided will be considered a missing value."
+          help="Within the gene expression data some genes may have missing values. If so, please indicate the text that is used to identify a missing value. Some common examples include: NA, 0.0, 0, -Inf. Any expression level that exactly matches the value provided will be considered a missing value."
         />
         <param
           type="float"
@@ -135,6 +142,14 @@
             help="The trait/phenotype data is an n x m matrix where n is the samples and m are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix should be stored in a comma-separated (CSV) file. It must have a header."
           />
           <param
+            type="text"
+            value="NA"
+            name="missing_value2"
+            optional="true"
+            label="Missing Value Identifier"
+            help="Within the trait data some columns may have missing values. If so, please indicate the text that is used to identify a missing value. Some common examples include: NA, 0.0, 0, -Inf. Any value that exactly matches the value provided will be considered a missing value."
+          />
+          <param
             type="integer"
             value="1"
             name="sname_col"
@@ -163,9 +178,14 @@
     <outputs>
         <data
           name="network_construction_report"
-          format="html"
-          label="network_construction_report.html"
+          format="pdf"
+          label="network_construction_report.pdf"
         />
+        <data
+          name="filtered_GEM"
+          format="csv"
+          label="filtered_GEM.csv">
+        </data>
         <data
           name="gene_module_file"
           format="csv"
@@ -178,8 +198,8 @@
         />
         <data
           name="module_association_report"
-          format="html"
-          label="module_association_report.html">
+          format="pdf"
+          label="module_association_report.pdf">
           <filter>trait_data != None</filter>
         </data>
         <data
@@ -195,6 +215,12 @@
           <filter>trait_data != None</filter>
         </data>
         <data
+          name="updated_trait_matrix"
+          format="csv"
+          label="updated_trait_matrix.csv">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
           name="render_log_file"
           format="txt"
           label="render_log_file"
@@ -206,6 +232,12 @@
           label="aurora_wgcna.RData"
           hidden="true"
         />
+        <collection name="figures" type="list" label="Figures">
+          <discover_datasets 
+            pattern="__designation_and_ext__" 
+            directory="figures" 
+            visible="false" />
+        </collection>
     </outputs>
     <tests>
       <test>

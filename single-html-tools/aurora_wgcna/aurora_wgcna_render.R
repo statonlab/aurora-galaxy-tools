@@ -11,27 +11,21 @@ options(show.error.messages=FALSE, error=function() {
 # We need  to not crash galaxy with an UTF8 error on German LC settings.
 loc = Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
 
-# suppress warning
 options(warn = -1)
-
-options(stringsAsFactors=FALSE, useFancyQuotes=FALSE)
-
 args = commandArgs(trailingOnly=TRUE)
 
 suppressPackageStartupMessages({
+  library(rmarkdown)
   library(getopt)
-  library(tools)
   library(WGCNA)
+  library(caret)
+  library(ggplot2)
+  library(reshape2)
+  # Uncomment for HTML-based reports.
+  #library(DT)  
+  #library(htmltools)
 })
 
-# Load libraries
-library(rmarkdown)
-library(WGCNA)
-library(DT)
-library(htmltools)
-library(ggplot2)
-library(reshape2)
-library(caret)
 
 # ------------------------------------------------------------------
 # Handle arguments from command line
@@ -44,7 +38,8 @@ spec = matrix(c(
     'expression_data',             'e', 1, 'character',
 
     # Input Arguments
-    'missing_value',               'i', 1, 'character',
+    'missing_value1',              'i', 1, 'character',
+    'missing_value2',              'o', 2, 'character',
     'sname_col',                   'c', 2, 'integer',
     'min_cluster_size',            's', 1, 'integer',
     'height_cut',                  'h', 2, 'double',
@@ -61,8 +56,10 @@ spec = matrix(c(
     'module_association_file',     'm', 2, 'character',
     'module_association_report',   'q', 2, 'character',
     'network_construction_report', 'r', 1, 'character',
+    'updated_trait_matrix',        'z', 2, 'character',
     'r_data',                      'a', 1, 'character',
-    'render_log_file',             'l', 1, 'character'
+    'render_log_file',             'l', 1, 'character',
+    'filtered_GEM',                'd', 1, 'character'
   ),
   byrow=TRUE, ncol=4)
 
