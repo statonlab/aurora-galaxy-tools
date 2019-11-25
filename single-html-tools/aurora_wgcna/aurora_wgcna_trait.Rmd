@@ -1,0 +1,237 @@
+---
+title: 'Aurora Galaxy WGCNA Tool: Gene Co-Expression Network Construction & Analysis. Part 2'
+output:
+    pdf_document:
+      number_sections: false
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(error = FALSE, echo = FALSE)
+```
+```{r}
+# Load the data from the previous step.
+load(file=opt$r_data)
+```
+# Introduction
+This report is part two of step-by-step results from use of the [Aurora Galaxy](https://github.com/statonlab/aurora-galaxy-tools) Weighted Gene Co-expression Network Analysis [WGCNA](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-559) tool. It is generated when trait or phenotype data is provided.
+
+This report was generated on:
+```{r}
+format(Sys.time(), "%a %b %d %X %Y")
+```
+
+# Trait/Phenotype Data
+
+The contents below show the first 10 rows and 6 columns of trait/phenotype data provided. However, any columns that were indicated should be removed, were removed and any categorical columns specified were converte to a one-hot enconding (e.g. 0 when present 1 when not present). The updated trait/phenotype data matrix has been saved into a comma-separated file named `updated_trait_matrix.csv`.
+
+```{r}
+# Load the trait data file.
+trait_data = data.frame()
+trait_data = read.csv(opt$trait_data, header = TRUE, row.names = opt$sname_col, na.strings = opt$missing_value2)
+sample_names = rownames(gemt)
+trait_rows = match(sample_names, rownames(trait_data))
+trait_data = trait_data[trait_rows, ]
+
+# Determine the column types within the trait annotation data.
+trait_types = sapply(trait_data, class)
+
+# If the type is character we should convert it to a factor manually.
+character_fields = colnames(trait_data)[which(trait_types == "character")]
+if (length(character_fields) > 0) {
+  for (field in character_fields) {
+    trait_data[[field]] = as.factor(trait_data[[field]])
+  }
+}
+
+# Remove ignored columns.
+ignore_cols = strsplit(opt$ignore_cols, ',')[[1]]
+if (length(ignore_cols) > 0) {
+  print('You chose to ignore the following fields:')
+  print(ignore_cols)
+  trait_data = trait_data[, colnames(trait_data)[!(colnames(trait_data) %in% ignore_cols)]]
+}
+
+# Make sure we don't one-hot-encoude any columns that were also ignored.
+one_hot_cols = strsplit(opt$one_hot_cols, ',')[[1]]
+one_hot_cols = one_hot_cols[which(!(one_hot_cols %in% ignore_cols))]
+
+# Change any categorical fields to 1 hot encoding as requested by the caller.
+if (length(one_hot_cols) > 0) {
+  print('You chose to treat the following fields as categorical:')
+  print(one_hot_cols)
+
+  # Make sure we have enough levels for 1-hot encoding. We must have at least two.
+  hkeep = c()
+  hignore = c()
+  for (field in one_hot_cols[[i]]) {
+    
+    # Make sure the field is categorical. If it came in as integer it must be switched.
+    if (trait_types[[field]] == "integer") {
+      trait_data[[field]] = as.factor(trait_data[[field]])
+    }
+    if (trait_types[[field]] == "numeric") {
+      print('The following quantitative field will be treated as numeric instead.')
+      print(field)
+      next
+    }
+    
+    # Now make sure we have enough factors.
+    if (nlevels(trait_data[[field]]) > 1) {
+      hkeep[length(hkeep)+1] = field
+    } else {
+      hignore[length(hignore)+1] = field
+    }
+  }
+  
+  if (length(hignore) > 0) {
+    print('These fields were ignored due to too few factors:')
+    print(hignore)
+  }
+  
+  # Perform the 1-hot encoding for specified and valid fields.
+  if (length(hkeep) > 0) {
+    print('These fields were be 1-hot encoded:')
+    print(hkeep)
+    
+    swap_cols = colnames(trait_data)[(colnames(trait_data) %in% hkeep)]
+    temp = as.data.frame(trait_data[, swap_cols])
+    colnames(temp) = swap_cols
+    temp = apply(temp, 2, make.names)
+    dmy <- dummyVars(" ~ .", data = temp)
+    encoded <- data.frame(predict(dmy, newdata = temp))
+    encoded =  sapply(encoded, as.integer)
+  
+    # Make a new trait_data table with these new 1-hot fields.
+    keep_cols = colnames(trait_data)[!(colnames(trait_data) %in% one_hot_cols[[1]])]
+    keep = as.data.frame(trait_data[, keep_cols])
+    colnames(keep) = keep_cols
+  
+    # Make a new trait_data object that has the columns to keep and the new 1-hot columns.
+    trait_data = cbind(keep, encoded)
+  }
+}
+
+# Write the new trait data file.
+write.csv(trait_data, file=opt$updated_trait_matrix, quote=FALSE)
+
+#datatable(trait_data)
+trait_data[1:10,1:6]
+```
+# Module-Condition Association
+
+Now that we have trait/phenotype data, we can explore if any of the network modules are asociated with these features. First, is an empirical exploration by viewing again the sample dendrogram but with traits added and colored by category or numerical intensity, as appropriate. If groups of samples with similar expression also share similar annotations then the same colors will appear "in blocks" under the clustered samples.  This view does not indicate associations but can help visualize when some modules might be associated.
+
+```{r}
+# Determine the column types within the trait annotation data.
+trait_types = sapply(trait_data, class)
+
+# So that we can merge colors together with a cbind, create a
+# data frame with an empty column
+trait_colors = data.frame(empty = rep(1:dim(trait_data)[1]))
+
+# Set the colors for the quantitative data.
+quantitative_fields = colnames(trait_data)[which(trait_types == "numeric")]
+if (length(quantitative_fields) > 0) {
+    qdata = as.data.frame(trait_data[,quantitative_fields])
+    quantitative_colors = numbers2colors(qdata, signed = FALSE)
+    colnames(quantitative_colors) = quantitative_fields
+    trait_colors = cbind(trait_colors, quantitative_colors)
+}
+
+# Set the colors for the categorical data but only if the column
+# has more than one factor. For columns with more than one factor
+# we should dump that column.
+categorical_fields = colnames(trait_data)[which(trait_types == "factor")]
+if (length(categorical_fields) > 0) {
+    cdata = as.data.frame(trait_data[,categorical_fields])
+    categorical_colors = labels2colors(cdata)
+    colnames(categorical_colors) = categorical_fields
+    trait_colors = cbind(trait_colors, categorical_colors)
+}
+
+# Set the colors for the ordinal data.
+ordinal_fields = colnames(trait_data)[which(trait_types == "integer")]
+if (length(ordinal_fields) > 0) {
+    odata = as.data.frame(trait_data[,ordinal_fields])
+    ordinal_colors = numbers2colors(odata, signed = FALSE)
+    colnames(ordinal_colors) = ordinal_fields
+    trait_colors = cbind(trait_colors, ordinal_colors)
+}
+
+# Reorder the colors to match the same order of columns in the trait_data df.
+trait_order = colnames(trait_data)[colnames(trait_data) %in% colnames(trait_colors)]
+trait_colors = trait_colors[,trait_order]
+trait_data = trait_data[,trait_order]
+plotSampleDendroTraits <- function() {
+  plotDendroAndColors(sampleTree, trait_colors,
+                      groupLabels = names(trait_data),
+                      main = "Sample Dendrogram and Annotation Heatmap",
+                      cex.dendroLabels = 0.5)
+}
+
+png('figures/07-sample_trait_dendrogram.png', width=6 ,height=10, units="in", res=300)
+plotSampleDendroTraits()
+invisible(dev.off())
+plotSampleDendroTraits()
+```
+
+To statistically identify the associations, correlation tests are performed of the eigengenes of each module with the annotation data. The following heatmap shows the results between each annotation feature and each module.  Modules with a signficant positive assocation have a correlation value near 1. Modules with a significant negative association have a correlation value near -1.  Modules with no correlation have a value near 0.
+
+```{r fig.align='center', fig.width=15, fig.height=15}
+MEs = orderMEs(MEs)
+moduleTraitCor = cor(MEs, trait_data, use = "p");
+moduleTraitPvalue = corPvalueStudent(moduleTraitCor, n_samples);
+
+plotModuleTraitHeatmap <- function() {
+  # The WGCNA labeledHeatmap function is too overloaded with detail, we'll create a simpler plot.
+  plotData = melt(moduleTraitCor)
+  # We want to makes sure the order is the same as in the
+  # labeledHeatmap function (example above)
+  plotData$Var1 = factor(plotData$Var1, levels = rev(colnames(MEs)), ordered=TRUE)
+  # Now use ggplot2 to make a nicer image.
+  p <- ggplot(plotData, aes(Var2, Var1, fill=value)) +
+    geom_tile() + xlab('Experimental Conditions') + ylab('WGCNA Modules') +
+    scale_fill_gradient2(low = "#0072B2", high = "#D55E00",
+                         mid = "white", midpoint = 0,
+                         limit = c(-1,1), name="PCC") +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust=1, vjust=1, size=15),
+          axis.text.y = element_text(angle = 0, hjust=1, vjust=0.5, size=15),
+          legend.text=element_text(size=15),
+          panel.border = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          axis.line = element_blank())
+  print(p)
+}
+png('figures/08-module_trait_dendrogram.png', width=12 ,height=12, units="in", res=300)
+plotModuleTraitHeatmap()
+invisible(dev.off())
+plotModuleTraitHeatmap()
+```
+
+```{r}
+output = cbind(moduleTraitCor, moduleTraitPvalue)
+write.csv(output, file = opt$module_association_file, quote=FALSE, row.names=TRUE)
+```
+A file has been generated named `module_association.csv` which conatins the list of modules, and their correlation values as well as p-values indicating the strength of the associations.
+```{r}
+# names (colors) of the modules
+modNames = substring(names(MEs), 3)
+geneModuleMembership = as.data.frame(cor(gemt, MEs, use = "p"));
+MMPvalue = as.data.frame(corPvalueStudent(as.matrix(geneModuleMembership), n_samples));
+names(geneModuleMembership) = paste("MM", modNames, sep="");
+names(MMPvalue) = paste("p.MM", modNames, sep="");
+
+# Calculate the gene trait significance as a Pearson's R and p-value.
+gts = as.data.frame(cor(gemt, trait_data, use = "p"));
+gtsp = as.data.frame(corPvalueStudent(as.matrix(gts), n_samples));
+colnames(gtsp) = c(paste("p", names(trait_data), sep="."))
+colnames(gts) = c(paste("GS", names(trait_data), sep="."))
+
+# Write out the gene information.
+output = cbind(Module = module_labels, gts, gtsp)
+write.csv(output, file = opt$gene_association_file, quote=FALSE, row.names=TRUE)
+
+```
+Genes themselves can also have assocation with traits. This is calculated via a traditional correlation test as well.  Another file has been generated named `gene_association.csv` which provides the list of genes, the modules they belong to and the assocaition of each gene to the trait features.

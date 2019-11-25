@@ -1,0 +1,306 @@
+<tool id="aurora_wgcna" name="Aurora Galaxy WGCNA" version="1.0.0">
+    <description>
+        Identify gene co-expression network modules using WGCNA.
+    </description>
+    <requirements>
+        <requirement type="package" version="2.7.3">pandoc</requirement>
+        <requirement type="package" version="1.20.3">r-getopt</requirement>
+        <requirement type="package" version="1.12">r-rmarkdown</requirement>
+        <requirement type="package" version="1.8.4">r-plyr</requirement>
+        <requirement type="package" version="0.10">r-dt</requirement>
+        <requirement type="package" version="0.4.0">r-htmltools</requirement>
+        <requirement type="package" version="3.2.1">r-ggplot2</requirement>
+        <requirement type="package" version="1.4.3">r-reshape2</requirement>
+        <requirement type="package" version="6.0_83">r-caret</requirement>
+        <requirement type="package" version="1.68">r-wgcna</requirement>
+    </requirements>
+    <stdio>
+        <regex match="Execution halted"
+               source="both"
+               level="fatal"
+               description="Execution halted." />
+        <regex match="Error in"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+        <regex match="Fatal error"
+               source="both"
+               level="fatal"
+               description="An undefined error occured, please check your intput carefully and contact your administrator." />
+    </stdio>
+    <command>
+        <![CDATA[
+        export TOOL_INSTALL_DIR='${__tool_directory__}' &&
+
+        Rscript '${__tool_directory__}/aurora_wgcna_render.R'
+            -e $expression_data
+            -s $min_cluster_size
+            -b $block_size
+            -j $hard_threshold
+            #if $trait_info.trait_data
+              -t $trait_info.trait_data
+              -c $trait_info.sname_col
+              #if $trait_info.missing_value2
+                -o "$trait_info.missing_value2"
+              #else 
+                -o "NA"
+              #end if
+              #if $trait_info.one_hot_cols
+                -y $trait_info.one_hot_cols
+              #end if
+              #if $trait_info.ignore_cols
+                -x $trait_info.ignore_cols
+              #end if
+            #end if
+            #if $height_cut
+              -h $height_cut
+            #end if
+            #if $power
+              -p $power
+            #end if
+            -l $render_log_file
+            -a $r_data
+            -k $gene_module_file
+            -w $network_edges_file
+            -g $gene_association_file
+            -m $module_association_file
+            -q $module_association_report
+            -r $network_construction_report
+            -z $updated_trait_matrix
+            -d $filtered_GEM
+            -i $missing_value1
+        ]]>
+    </command>
+    <inputs>
+        <param
+          type="data"
+          name="expression_data"
+          format="csv"
+          optional="false"
+          label="Gene expression data"
+          help="The gene expression data is an n x m matrix where n rows are the genes, m columns are the samples and the elements represent gene expression levels (derived either from Microarray or RNA-Seq).  The matrix should be stored in a comma-separated (CSV) file and it must have a header. The gene names must appear as the first column of data in the file."
+        />
+        <param
+          type="text"
+          value="NA"
+          name="missing_value1"
+          optional="false"
+          label="Missing Value Identifier"
+          help="Within the gene expression data some genes may have missing values. If so, please indicate the text that is used to identify a missing value. Some common examples include: NA, 0.0, 0, -Inf. Any expression level that exactly matches the value provided will be considered a missing value."
+        />
+        <param
+          type="float"
+          value=""
+          name="height_cut"
+          optional="true"
+          label="Outlier Dendrogram Cut Height"
+          help="When checking for outliers, WGCNA performs hierarchical clustering. The resulting dendrogram can be cut at the given height to remove outliers. If no value is provided a cut height will automatically be determined. Try running this tool first without providing a value. Return and set a value if the results are not adequate."
+        />
+        <param
+          type="integer"
+          value=""
+          name="power"
+          optional="true"
+          label="Power"
+          help="Prior to network construction, WGCNA recommends that the gene expression data is raised to a power. The exact power that should be used will be automatically determined. Try running this tool first without providing a value. Return and set a value if the results are not adequate."
+        />
+        <param
+          type="integer"
+          value="30"
+          name="min_cluster_size"
+          optional="false"
+          label="Minimum Module Size"
+          help="The minimum module size. Modules smaller than this will not be included in the network."
+        />
+        <param
+          type="integer"
+          value="5000"
+          min="1000"
+          max="10000"
+          name="block_size"
+          optional="false"
+          label="Block Size"
+          help="Constructing a network can use an extreme amount of memory if the number of genes is high. The block size enables WGCNA to divide the data into blocks of genes with similar expression reducing the amount of memory used. The block size indicates the maximum number of genes that can be used in a block. The total number of blocks used will be the total genes divided by this number (plus 1 for any remainder)."
+        />
+        <param
+          type="float"
+          value="0.2"
+          name="hard_threshold"
+          optional="false"
+          label="Hard Threshold"
+          min="0"
+          max="1"
+          help="While WGCNA uses a soft thresholding approach for finding modules and constructing gene similarity, when exporting the network for display as a graph a hard threshold is still required. For WGCNA, the threhshold is applied to the Euclidian distance between all genes. But, there is no set prescribed method to decide on a proper hard threshold value. Set a threshold now, then you can apply filters later (such as in Cytoscape) to remove low weighted edges if desired."
+        />
+        <section name="trait_info" title="Trait/Phenotype" expanded="true">
+          <param
+            type="data"
+            name="trait_data"
+            format="csv"
+            optional="true"
+            label="Trait/Phenotype Data Matrix"
+            help="The trait/phenotype data is an n x m matrix where n is the samples and m are the features such as experimental condition, biosample properties, traits or phenotype values.  The matrix should be stored in a comma-separated (CSV) file. It must have a header."
+          />
+          <param
+            type="text"
+            value="NA"
+            name="missing_value2"
+            optional="true"
+            label="Missing Value Identifier"
+            help="Within the trait data some columns may have missing values. If so, please indicate the text that is used to identify a missing value. Some common examples include: NA, 0.0, 0, -Inf. Any value that exactly matches the value provided will be considered a missing value."
+          />
+          <param
+            type="integer"
+            value="1"
+            name="sname_col"
+            optional="true"
+            label="Sample Name Column"
+            help="The number of the column (starting from 1) in the sample annotation data file where the sample name column is found."
+          />
+          <param
+            type="text"
+            value=""
+            name="one_hot_cols"
+            optional="true"
+            label="Categorical Columns"
+            help="Categorical columns in the sample daa matrix must be '1-hot encoded'. This means that each categorical column is expanded into new columns (one for each category) and the values for the new columns are set to 1 if the sample has the category and 0 if not. This value should be a comma-separated list of column names with no spaces between column names. Please make sure the column headers only have alphanumeric characters and underscores. If you do not specify categorical column names then they will be converted to factors and treated as ordinal data."
+          />
+          <param
+            type="text"
+            value=""
+            name="ignore_cols"
+            optional="true"
+            label="Columns to Ignore"
+            help="The names of columns in the sample data matrix that should be ignored. This value should be a comma-separated list of column names with no spaces between column names. Please make sure the column headers only have alphanumeric characters and underscores."
+          />
+        </section>
+    </inputs>
+    <outputs>
+        <data
+          name="network_construction_report"
+          format="pdf"
+          label="network_construction_report.pdf"
+        />
+        <data
+          name="filtered_GEM"
+          format="csv"
+          label="filtered_GEM.csv">
+        </data>
+        <data
+          name="gene_module_file"
+          format="csv"
+          label="gene_module_file.csv"
+        />
+        <data
+          name="network_edges_file"
+          format="tabular"
+          label="network_edges.txt"
+        />
+        <data
+          name="module_association_report"
+          format="pdf"
+          label="module_association_report.pdf">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
+          name="gene_association_file"
+          format="csv"
+          label="gene_association.csv">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
+          name="module_association_file"
+          format="csv"
+          label="module_association.csv">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
+          name="updated_trait_matrix"
+          format="csv"
+          label="updated_trait_matrix.csv">
+          <filter>trait_data != None</filter>
+        </data>
+        <data
+          name="render_log_file"
+          format="txt"
+          label="render_log_file"
+          hidden="false"
+        />
+        <data
+          name="r_data"
+          format="rdata"
+          label="aurora_wgcna.RData"
+          hidden="true"
+        />
+        <collection name="figures" type="list" label="Figures">
+          <discover_datasets 
+            pattern="__designation_and_ext__" 
+            directory="figures" 
+            visible="false" />
+        </collection>
+    </outputs>
+    <tests>
+      <test>
+          <param name='expression_data' value="LiverFemale3600.gem.csv"/>
+          <output name="gene_module_file" file="gene_module.csv"/>
+          <output name="network_edges_file" file="network_edges.txt"/>
+          <output name="network_construction_report" file="network_construction_report.html"/>
+        </test>
+        <test>
+          <param name='expression_data' value="LiverFemale3600.gem.csv"/>
+          <param name='trait_data' value="ClinicalTraits.csv"/>
+          <output name="gene_module_file" file="gene_module.csv"/>
+          <output name="network_edges_file" file="network_edges.txt"/>
+          <output name="gene_association_file" file="gene_association_file.csv"/>
+          <output name="module_association_file" file="module_association_file.csv"/>
+          <output name="module_association_report" file="module_association_report.html"/>
+          <output name="network_construction_report" file="network_construction_report.html"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+      This tool is a wrapper for the WGCNA R library.  Please see the online
+      WGCNA tutorial for further details.
+      ]]>
+    </help>
+    <citations>
+        <citation type="bibtex">
+            @article{langfelder2008wgcna,
+            title={WGCNA: an R package for weighted correlation network analysis},
+            author={Langfelder, Peter and Horvath, Steve},
+            journal={BMC bioinformatics},
+            volume={9},
+            number={1},
+            pages={559},
+            year={2008},
+            publisher={BioMed Central}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{allaire2016rmarkdown,
+            title={rmarkdown: Dynamic Documents for R, 2016},
+            author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+            journal={R package version 0.9},
+            volume={6},
+            year={2016}
+            }
+        </citation>
+        <citation type="bibtex">
+            @book{xie2015dynamic,
+            title={Dynamic Documents with R and knitr},
+            author={Xie, Yihui},
+            volume={29},
+            year={2015},
+            publisher={CRC Press}
+            }
+        </citation>
+        <citation  type="bibtex">
+            @misc{dt2016,
+            title = {DT: A Wrapper of the JavaScript Library 'DataTables'},
+            author = {Yihui Xie},
+            year = {2016},
+            note = {R package version 0.2},
+            url = {https://CRAN.R-project.org/package=DT},
+            }
+        </citation>
+    </citations>
+</tool>
