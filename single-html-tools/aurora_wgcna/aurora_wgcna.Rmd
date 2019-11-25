@@ -336,8 +336,9 @@ for (i in blocks) {
 ```
 
 ```{r}
-output = cbind(colnames(gemt), module_labels)
-colnames(output) = c('Gene', 'Module')
+module_colors = sub('ME','', module_labels)
+output = cbind(colnames(gemt), module_labels, module_colors)
+colnames(output) = c('Gene', 'Module', 'Color')
 write.csv(output, file = opt$gene_module_file, quote=FALSE, row.names=FALSE)
 ```
 

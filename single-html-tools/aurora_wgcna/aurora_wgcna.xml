@@ -124,7 +124,7 @@
         />
         <param
           type="float"
-          value="0.5"
+          value="0.2"
           name="hard_threshold"
           optional="false"
           label="Hard Threshold"
